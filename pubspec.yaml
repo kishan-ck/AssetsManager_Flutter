@@ -63,10 +63,9 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: DM Sans
+    - family: DMSans
       fonts:
-        - asset: assets/font/DMSans-Italic-VariableFont_opsz,wght.ttf
-
-    - family: DM Sans
-      fonts:
-        - asset: assets/font/DMSans-VariableFont_opsz,wght.ttf
+        - asset: assets/font/DMSans-Bold.ttf
+        - asset: assets/font/DMSans-Medium.ttf
+        - asset: assets/font/DMSans-Regular.ttf
+        - asset: assets/font/DMSans-SemiBold.ttf

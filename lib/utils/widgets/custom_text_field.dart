@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable
+import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
@@ -90,21 +91,22 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width ?? Get.width,
-      height: height,
+      height: height ?? 50,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         boxShadow: [
           isShadow == true
               ? BoxShadow(
             color: AppColor.blackColor.withOpacity(0.1),
-            blurRadius: 10.0,
-            spreadRadius: 1.0,
+            blurRadius: 20.0,
+            spreadRadius: 0,
+            offset: const Offset(0,5)
           )
               : const BoxShadow(color: Colors.transparent),
         ],
       ),
       padding: EdgeInsets.symmetric(
-          horizontal: horizontalPadding ?? 5, vertical: verticalPadding ?? 0),
+          horizontal: horizontalPadding ?? 0, vertical: verticalPadding ?? 0),
       child: TextFormField(
         controller: controller,
         keyboardType: textInputType,
@@ -112,7 +114,7 @@ class CustomTextField extends StatelessWidget {
         textAlign: textAlign ?? TextAlign.left,
         obscureText: obscureText,
         obscuringCharacter: "*",
-        cursorColor: cursorColor ?? AppColor.blueColor,
+        cursorColor: cursorColor ?? AppColor.secondPrimaryColor,
         minLines: isExpand == true ? null : minLines ?? 1,
         maxLines: isExpand == true ? null : maxLines,
         expands: isExpand,
@@ -142,8 +144,6 @@ class CustomTextField extends StatelessWidget {
           return null;
         },
         decoration: InputDecoration(
-
-
             border: InputBorder.none,
             errorStyle: const TextStyle(
                 color: AppColor.redColor,
@@ -154,7 +154,7 @@ class CustomTextField extends StatelessWidget {
             focusedBorder: isBorderEnable == true
                 ? OutlineInputBorder(
                 borderSide: BorderSide(
-                    color: underLineFocusColor ?? AppColor.blueColor),
+                    color: underLineFocusColor ?? AppColor.secondPrimaryColor),
                 borderRadius:
                 isUnderLineBorderRadius ?? BorderRadius.circular(10))
                 : null,
@@ -162,7 +162,7 @@ class CustomTextField extends StatelessWidget {
                 ? OutlineInputBorder(
                 borderSide: BorderSide(
                     color: underLineEnabledColor ??
-                        AppColor.blackColor),
+                        AppColor.transparentColor),
                 borderRadius:
                 isUnderLineBorderRadius ?? BorderRadius.circular(10))
                 : null,
@@ -193,13 +193,11 @@ class CustomTextField extends StatelessWidget {
             fillColor: fillColor ?? AppColor.whiteColor,
             prefixIcon: prefixIcn,
             suffixIcon: suffixIcn,
-            hintStyle: hintStyle ??
-                const TextStyle(
-                    color: AppColor.greyColor,
-                    fontSize: 15,
-                    overflow: TextOverflow.ellipsis),
+            hintStyle: hintStyle ?? AppTextStyle.regularSubTitleText.copyWith(color: AppColor.greyColor,
+                overflow: TextOverflow.ellipsis),
             labelStyle: labelStyle ??
-                const TextStyle(color: AppColor.greyColor, fontSize: 15)),
+                AppTextStyle.regularSubTitleText.copyWith(color: AppColor.greyColor,
+                    overflow: TextOverflow.ellipsis)),
       ),
     );
   }

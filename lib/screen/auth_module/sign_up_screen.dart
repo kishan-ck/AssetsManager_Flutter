@@ -4,23 +4,22 @@ import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/login_controller.dart';
-import 'package:assetsmanagement/screen/auth_module/sign_up_screen.dart';
-import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:assetsmanagement/controller/sign_up_controller.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: Get.find<LoginController>(),
+      init: Get.find<SignUpController>(),
       builder: (controller) {
         return Scaffold(
-          resizeToAvoidBottomInset: false,
+            resizeToAvoidBottomInset: false,
             body: Stack(
               alignment: Alignment.center,
               children: [
@@ -31,7 +30,7 @@ class LoginScreen extends StatelessWidget {
                   height: double.infinity,
                   width: double.infinity,
                   alignment: Alignment.topCenter,
-                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 46),
+                  padding: const EdgeInsets.symmetric(horizontal: 25, ).copyWith(top: 46),
                   decoration: BoxDecoration(
                     gradient:  RadialGradient(
                       radius: 1.5,
@@ -51,29 +50,45 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             Text('Assets Management', style: AppTextStyle.splashTitleText.copyWith(fontSize: 36),textAlign: TextAlign.center),
                             size.heightSpace(13),
-                            Text('Login', style: AppTextStyle.regularHeadingText,textAlign: TextAlign.center),
+                            Text('Create Account', style: AppTextStyle.regularHeadingText,textAlign: TextAlign.center),
                             size.heightSpace(10),
-                            Text('Please sign in to continue', style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
+                            Text('Please fill the input below here', style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
                             size.heightSpace(60),
                           ],
                         ),
                         Text('Email', style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
                         CustomTextField(
-                        controller: controller.emailTextController,
+                          controller: controller.emailSignUpTextController,
                           hintText: "Enter your email",
+                        ),
+                        size.heightSpace(15),
+                        Text('Name', style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
+                        CustomTextField(
+                          controller: controller.nameSignUpTextController,
+                          hintText: "Enter your name",
+                        ),
+                        size.heightSpace(15),
+                        Text('Phone No', style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
+                        CustomTextField(
+                          controller: controller.emailSignUpTextController,
+                          hintText: "Enter your phone no",
                         ),
                         size.heightSpace(15),
                         Text('Password', style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
                         CustomTextField(
-                        controller: controller.passwordTextController,
+                          controller: controller.passwordSignUpTextController,
                           hintText: "Enter your password",
                         ),
                         size.heightSpace(15),
+                        Text('Confirm Password', style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
+                        CustomTextField(
+                          controller: controller.passwordSignUpTextController,
+                          hintText: "Confirm your password",
+                        ),
+                        size.heightSpace(15),
                         AppButton(
-                            buttonText: "Login",
-                            onPressed: (){
-                              Get.offAll(() => const BottomNavigationBarScreen());
-                            },
+                            buttonText: "Sign Up",
+                            onPressed: (){},
                             isBorder: false
                         ),
                         size.heightSpace(15),
@@ -112,10 +127,10 @@ class LoginScreen extends StatelessWidget {
                               child: Container(
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: AppColor.greyColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(5)
+                                    border: Border.all(
+                                      color: AppColor.greyColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5)
                                 ),
                                 child: Image.asset(AppImagePath.facebookIcon, width: size.width(24), height: size.height(24)),
                               ),
@@ -150,20 +165,19 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        size.heightSpace(130),
+                        size.heightSpace(70),
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: RichText(
                             text: TextSpan(
-                              text: "Don't have an account ? ",
+                              text: "Already have an account ? ",
                               style: AppTextStyle.regularSubTitleText,
                               children:  <TextSpan>[
-                                TextSpan(text: 'Sign up', style: AppTextStyle.regularSubTitleText.copyWith(color: AppColor.secondPrimaryColor,fontWeight: FontWeight.bold),recognizer: TapGestureRecognizer()..onTap = () => Get.to(()=> const SignUpScreen()))
-                              ],
+                                TextSpan(text: 'Sign in', style: AppTextStyle.regularSubTitleText.copyWith(color: AppColor.secondPrimaryColor,fontWeight: FontWeight.bold),recognizer: TapGestureRecognizer()..onTap = () => Get.back())                            ],
                             ),
                           ),
                         ),
-                        size.heightSpace(20),
+                        size.heightSpace(30),
                       ],
                     ),
                   ),

@@ -38,4 +38,5 @@ class AppTextStyle {
       fontWeight: FontWeight.w400,
       fontSize: size.height(18),
       color: AppColor.blackColor);
+
 }

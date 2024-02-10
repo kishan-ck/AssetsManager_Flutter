@@ -20,32 +20,26 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
         padding: EdgeInsets.symmetric(
             vertical: verticalPadding ?? size.height(12),
             horizontal: horizontalPadding ?? 0),
-        backgroundColor: isBorder == true ? AppColor.whiteColor : AppColor.blueColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: borderRadius ?? BorderRadius.circular(10),
-          side: isBorder == true?
-          const BorderSide(
-            color: AppColor.blueColor,
-            width: 2
-          ) : const BorderSide(
-            color: Colors.transparent
-          )
-        ),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+          gradient: const LinearGradient(
+          colors: [AppColor.primaryColor, AppColor.secondPrimaryColor]),
+            borderRadius: borderRadius ?? BorderRadius.circular(10),
       ),
-      onPressed: onPressed,
-      child: Center(
           child: Text(
             buttonText,
             style: textStyle ?? TextStyle(
-                color: isBorder == true ? AppColor.blueColor: AppColor.whiteColor,
+                color: AppColor.whiteColor,
                 fontSize: size.height(20),
                 fontWeight: FontWeight.w800),
-          )),
+          ),
+      ),
     );
   }
 }

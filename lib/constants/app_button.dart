@@ -31,6 +31,13 @@ class AppButton extends StatelessWidget {
           gradient: const LinearGradient(
           colors: [AppColor.primaryColor, AppColor.secondPrimaryColor]),
             borderRadius: borderRadius ?? BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    color: AppColor.secondPrimaryColor.withOpacity(0.1),
+                    blurRadius: 12,
+                    spreadRadius: 0,
+                    offset: const Offset(3, 5))
+              ]
       ),
           child: Text(
             buttonText,

@@ -4,6 +4,7 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
+import 'package:assetsmanagement/controller/add_assets_controller.dart';
 import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,7 +22,6 @@ class BottomNavigationBarScreen extends StatelessWidget {
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               color: AppColor.whiteColor,
-
             ),
             height: size.height(80),
             padding: EdgeInsets.all(2),
@@ -32,6 +32,8 @@ class BottomNavigationBarScreen extends StatelessWidget {
                     onTap: () {
                       controller.selectedIndex = 0;
                       controller.update();
+                      Get.find<AddAssetsController>().startAnimation = false;
+                      Get.find<AddAssetsController>().update();
                     },
                     child: Container(
                         padding: EdgeInsets.all(10),
@@ -57,6 +59,11 @@ class BottomNavigationBarScreen extends StatelessWidget {
                     onTap: () {
                       controller.selectedIndex = 1;
                       controller.update();
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                          Get.find<AddAssetsController>().startAnimation = true;
+                          Get.find<AddAssetsController>().update();
+                      });
+
                     },
                     child: Image.asset(
                       AppImagePath.addAssetIcon,
@@ -68,6 +75,8 @@ class BottomNavigationBarScreen extends StatelessWidget {
                     onTap: () {
                       controller.selectedIndex = 2;
                       controller.update();
+                      Get.find<AddAssetsController>().startAnimation = false;
+                      Get.find<AddAssetsController>().update();
                     },
                     child: Container(
                         padding: EdgeInsets.all(10),

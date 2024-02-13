@@ -47,7 +47,8 @@ dependencies:
   expandable_text: ^2.3.0
   shared_preferences: ^2.2.1
   permission_handler: ^11.1.0
-  syncfusion_flutter_charts: ^24.1.45
+  syncfusion_flutter_charts: ^24.2.5
+  fl_chart: ^0.66.2
 
 dev_dependencies:
   flutter_test:

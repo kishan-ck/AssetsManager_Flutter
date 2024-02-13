@@ -7,6 +7,7 @@ import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
 import 'package:assetsmanagement/controller/login_controller.dart';
 import 'package:assetsmanagement/screen/auth_module/sign_up_screen.dart';
 import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:assetsmanagement/screen/main_screens/asset_market_screen/asset_market_screen.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -112,6 +113,7 @@ class LoginScreen extends StatelessWidget {
                                 if (controller.formKey.currentState!.validate()) {
                                   controller.login();
                                 }
+                                // Get.to(()=> const AssetMarketScreen());
                               },
                               isBorder: false
                           ),

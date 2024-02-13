@@ -10,6 +10,8 @@ import 'package:assetsmanagement/models/auth/error_model.dart';
 import 'package:assetsmanagement/models/auth/login_model.dart';
 import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:assetsmanagement/utils/storage/shared_preferences.dart';
+import 'package:dots_indicator/dots_indicator.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

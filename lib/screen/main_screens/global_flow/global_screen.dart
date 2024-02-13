@@ -157,7 +157,7 @@ class GlobalScreen extends StatelessWidget {
                       height: 100,
                       child: controller.horizontalList(controller.categoryData.length)),
                 ],
-              ).paddingAll(23),
+              ).paddingAll(15),
             );
           }
         ),

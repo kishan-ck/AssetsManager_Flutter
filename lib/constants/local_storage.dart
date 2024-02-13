@@ -8,5 +8,7 @@ class StorageKey {
 
   // Auth Login Data
   static const String token = "token";
+  static const String authData = "authData";
+  static const String userId = "userId";
   static const String isLogin = "Is-Login";
 }

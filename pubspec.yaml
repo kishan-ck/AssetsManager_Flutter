@@ -40,6 +40,7 @@ dependencies:
   get_storage: ^2.1.1
   flutter_svg: ^2.0.9
   dynamicutils: ^1.0.1
+  dotted_border: ^2.1.0
   dots_indicator: ^3.0.0
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2

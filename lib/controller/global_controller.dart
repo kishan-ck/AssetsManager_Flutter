@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 class GlobalController extends GetxController {
   TextEditingController globalSearchTextController = TextEditingController();
+  TextEditingController searchSubCategoryTextController = TextEditingController();
   int currentIndex = 0;
   int selectedIndex = 0;
 
@@ -37,6 +38,15 @@ class GlobalController extends GetxController {
     "Vacant",
     "Urban",
     "Rural"
+  ];
+  List categoryDataColor = [
+    AppColor.primaryColor,
+    AppColor.secondPrimaryColor,
+    AppColor.lightGreenColor,
+    AppColor.lightRedColor,
+    AppColor.primaryColor,
+    AppColor.secondPrimaryColor,
+    AppColor.lightGreenColor,
   ];
 
   ListView horizontalList(int n) {

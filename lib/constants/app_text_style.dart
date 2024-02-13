@@ -34,6 +34,11 @@ class AppTextStyle {
       fontSize: size.height(20),
       color: AppColor.blackColor);
 
+  static TextStyle appbarTitleText = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: size.height(24),
+      color: AppColor.blackColor);
+
   static TextStyle largeText = TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: size.height(18),

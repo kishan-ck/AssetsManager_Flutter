@@ -7,9 +7,16 @@ class AppImagePath {
   static const cryptoBg = "assets/images/crypto_bg.png";
   static const collectablesBg = "assets/images/collectables_bg.png";
   static const realEstateBg = "assets/images/real_estate_bg.png";
+  static const profileImage = "assets/images/user_profile.png";
+  static const myAssetBgImage = "assets/images/my_asset_bg.png";
+  static const myAssetImage = "assets/images/asset_image.png";
 
   static const collectablesIcon = "assets/icon/collectables.png";
+  static const growthIcon = "assets/icon/grow.png";
+  static const loseIcon = "assets/icon/lose.png";
   static const cryptoIcon = "assets/icon/crypto.png";
+  static const locationIcon = "assets/icon/distance.png";
+  static const dropdownIcon = "assets/icon/dropdown.png";
   static const editIcon = "assets/icon/edit.png";
   static const searchIcon = "assets/icon/search.png";
   static const newsIcon = "assets/icon/news.png";
@@ -24,4 +31,9 @@ class AppImagePath {
   static const settingIcon = "assets/icon/setting.png";
   static const addAssetIcon = "assets/icon/add_asset.png";
   static const notificationsIcon = "assets/icon/notifications.png";
+  static const notificationIcon = "assets/icon/setting_notification.png";
+  static const languageIcon = "assets/icon/setting_language.png";
+  static const infoIcon = "assets/icon/setting_info.png";
+  static const shieldIcon = "assets/icon/setting_shield.png";
+  static const logoutIcon = "assets/icon/setting_logout.png";
 }

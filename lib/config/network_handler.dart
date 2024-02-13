@@ -16,11 +16,11 @@ class HttpHandler {
 
   // Retrieve the headers for the HTTP request
   static Future<Map<String, String>> getHeaders() async {
-    token = (await getDataFromLocalStorage(
+    token = await getDataFromLocalStorage(
         dataType: StorageKey.stringType,
         prefKey: StorageKey.token) ??
-        "");
-    if (token != "null" || token != "") {
+        "";
+    if (token != "null" && token != "") {
       print("Token -- '$token'");
       return {
         // 'Content-type': 'application/json',
@@ -77,7 +77,7 @@ class HttpHandler {
       headers: header,
       body: data ?? {},
     );
-    print("Post Response Code -- '${response.statusCode}'");
+    print("Post Response Code -- '${response.statusCode.toString()}'");
     print("Post Response -- '${response.body}'");
     if (response.statusCode == 200 || response.statusCode == 201) {
       return {

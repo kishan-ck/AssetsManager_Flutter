@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class CustomTextField extends StatelessWidget {
   TextEditingController? controller;
   TextStyle? hintStyle;
-  EdgeInsetsGeometry contentPadding;
+  EdgeInsetsGeometry? contentPadding;
   TextStyle? inputTextStyle;
   TextStyle? labelStyle;
   String? hintText;
@@ -49,7 +49,7 @@ class CustomTextField extends StatelessWidget {
     super.key,
     this.controller,
     this.inputTextColor,
-    this.contentPadding = const EdgeInsets.only(top: 0, bottom: 10, left: 10),
+    this.contentPadding = const EdgeInsets.only(top: 0, bottom: 10, left: 15),
     this.hintText,
     this.isShadow = true,
     this.isBorderEnable = true,
@@ -97,10 +97,10 @@ class CustomTextField extends StatelessWidget {
         boxShadow: [
           isShadow == true
               ? BoxShadow(
-            color: AppColor.blackColor.withOpacity(0.1),
-            blurRadius: 20.0,
+            color: AppColor.blackColor.withOpacity(0.05),
+            blurRadius: 10.0,
             spreadRadius: 0,
-            offset: const Offset(0,5)
+            offset: const Offset(0,1)
           )
               : const BoxShadow(color: Colors.transparent),
         ],

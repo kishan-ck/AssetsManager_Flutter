@@ -2,6 +2,7 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
+import 'package:assetsmanagement/screen/main_screens/add_asset_flow/assets_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,37 +34,27 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
-      body: SafeArea(
-        child: GetBuilder(
-            init: Get.find<AddAssetsController>(),
-            builder: (controller) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: (){
-
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.arrow_back,size: size.height(24)),
-                        size.widthSpace(9.05),
-                        Text("Back",style: AppTextStyle.regularSubTitleText,),
-                      ],
-                    ),
-                  ),
-                  size.heightSpace(15),
-                  Text("Select Category",style: AppTextStyle.regularHeadingText.copyWith(fontSize: 30),),
-                  Text("You can select any category in which you are interested",style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center,),
-                  size.heightSpace(14),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: controller.categoryData.length,
-                    padding: const EdgeInsets.only(bottom: 20),
-                    separatorBuilder: (BuildContext context, int index) => SizedBox(height: size.height(20),),
-                    itemBuilder: (BuildContext context, int index) {
-                      return AnimatedContainer(
+      body: GetBuilder(
+          init: Get.find<AddAssetsController>(),
+          builder: (controller) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                size.heightSpace(35),
+                Text("Select Category",style: AppTextStyle.regularHeadingText.copyWith(fontSize: 30),),
+                Text("You can select any category in which you are interested",style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center,),
+                size.heightSpace(20),
+                ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: controller.categoryData.length,
+                  padding: const EdgeInsets.only(bottom: 20),
+                  separatorBuilder: (BuildContext context, int index) => SizedBox(height: size.height(20),),
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: (){
+                        Get.to(()=> const AssetFormScreen());
+                      },
+                      child: AnimatedContainer(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -89,13 +80,15 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                             Text(controller.categoryData[index]["type"] ?? "",style: AppTextStyle.largeText.copyWith(fontSize: 24),),
                           ],
                         ),
-                      );
-                    },
-                  )
-                ],
-              ).paddingAll(23);
-            }
-        ),
+                      ),
+                    );
+                  },
+                ),
+                Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
+
+              ],
+            ).paddingAll(23);
+          }
       ),
     );
   }

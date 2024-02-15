@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void foodLocatorSnackBar({required String? message,bool isError = true}) {
+void commonSnackBar({required String? message,bool isError = true}) {
   if (message != null && message.isNotEmpty) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
       dismissDirection: DismissDirection.horizontal,

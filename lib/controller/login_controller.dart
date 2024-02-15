@@ -6,6 +6,7 @@ import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/local_storage.dart';
 import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
+import 'package:assetsmanagement/controller/global_controller.dart';
 import 'package:assetsmanagement/models/auth/error_model.dart';
 import 'package:assetsmanagement/models/auth/login_model.dart';
 import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
@@ -54,16 +55,22 @@ class LoginController extends GetxController {
             stringData: loginModel.data?.id ?? "",
             prefKey: StorageKey.userId);
 
+        await setDataToLocalStorage(
+            dataType: StorageKey.boolType,
+            boolData: true,
+            prefKey: StorageKey.isLogin);
+
         emailTextController.clear();
         passwordTextController.clear();
         Get.find<BottomNavigationBarController>().selectedIndex = 0;
         Get.find<BottomNavigationBarController>().update();
+        Get.find<GlobalController>().homeData();
         Get.offAll(() => const BottomNavigationBarScreen());
 
       } else {
         printData("Login Api Error==> ${value['error']}");
         ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
-        foodLocatorSnackBar(message: "${error.message}");
+        commonSnackBar(message: "${error.message}");
         return null;
       }
     });

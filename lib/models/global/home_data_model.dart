@@ -1,0 +1,130 @@
+class HomeDataModel {
+  final Data? data;
+
+  HomeDataModel({
+    this.data,
+  });
+
+  HomeDataModel.fromJson(Map<String, dynamic> json)
+      : data = (json['data'] as Map<String,dynamic>?) != null ? Data.fromJson(json['data'] as Map<String,dynamic>) : null;
+
+  Map<String, dynamic> toJson() => {
+    'data' : data?.toJson()
+  };
+}
+
+class Data {
+  final List<News>? news;
+  final List<Category>? category;
+
+  Data({
+    this.news,
+    this.category,
+  });
+
+  Data.fromJson(Map<String, dynamic> json)
+      : news = (json['News'] as List?)?.map((dynamic e) => News.fromJson(e as Map<String,dynamic>)).toList(),
+        category = (json['Category'] as List?)?.map((dynamic e) => Category.fromJson(e as Map<String,dynamic>)).toList();
+
+  Map<String, dynamic> toJson() => {
+    'News' : news?.map((e) => e.toJson()).toList(),
+    'Category' : category?.map((e) => e.toJson()).toList()
+  };
+}
+
+class News {
+  final String? id;
+  final String? title;
+  final String? content;
+  final String? readmore;
+  final String? image;
+  final int? v;
+
+  News({
+    this.id,
+    this.title,
+    this.content,
+    this.readmore,
+    this.image,
+    this.v,
+  });
+
+  News.fromJson(Map<String, dynamic> json)
+      : id = json['_id'] as String?,
+        title = json['title'] as String?,
+        content = json['content'] as String?,
+        readmore = json['readmore'] as String?,
+        image = json['image'] as String?,
+        v = json['__v'] as int?;
+
+  Map<String, dynamic> toJson() => {
+    '_id' : id,
+    'title' : title,
+    'content' : content,
+    'readmore' : readmore,
+    'image' : image,
+    '__v' : v
+  };
+}
+
+class Category {
+  final String? id;
+  final String? name;
+  final String? image;
+  final String? icon;
+  final int? v;
+  final List<Subcategory>? subcategory;
+
+  Category({
+    this.id,
+    this.name,
+    this.image,
+    this.icon,
+    this.v,
+    this.subcategory,
+  });
+
+  Category.fromJson(Map<String, dynamic> json)
+      : id = json['_id'] as String?,
+        name = json['name'] as String?,
+        image = json['image'] as String?,
+        icon = json['icon'] as String?,
+        v = json['__v'] as int?,
+        subcategory = (json['subcategory'] as List?)?.map((dynamic e) => Subcategory.fromJson(e as Map<String,dynamic>)).toList();
+
+  Map<String, dynamic> toJson() => {
+    '_id' : id,
+    'name' : name,
+    'image' : image,
+    'icon' : icon,
+    '__v' : v,
+    'subcategory' : subcategory?.map((e) => e.toJson()).toList()
+  };
+}
+
+class Subcategory {
+  final String? id;
+  final String? name;
+  final String? catId;
+  final int? v;
+
+  Subcategory({
+    this.id,
+    this.name,
+    this.catId,
+    this.v,
+  });
+
+  Subcategory.fromJson(Map<String, dynamic> json)
+      : id = json['_id'] as String?,
+        name = json['name'] as String?,
+        catId = json['cat_id'] as String?,
+        v = json['__v'] as int?;
+
+  Map<String, dynamic> toJson() => {
+    '_id' : id,
+    'name' : name,
+    'cat_id' : catId,
+    '__v' : v
+  };
+}

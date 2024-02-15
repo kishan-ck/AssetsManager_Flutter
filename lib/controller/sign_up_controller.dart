@@ -36,7 +36,7 @@ class SignUpController extends GetxController {
       "social_type": "3",
     }).then((value) async {
       if (value['error'] == null) {
-        printData("Login Api ==> ${value['body']}");
+        printData("register Api ==> ${value['body']}");
         // LoginModel loginModel = LoginModel.fromJson(json.decode(value['body']));
 
         // await setDataToLocalStorage(
@@ -62,9 +62,9 @@ class SignUpController extends GetxController {
         Get.offAll(() => const LoginScreen());
 
       } else {
-        printData("Login Api Error==> ${value['error']}");
+        printData("register Api Error==> ${value['error']}");
         ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
-        foodLocatorSnackBar(message: "${error.message}");
+        commonSnackBar(message: "${error.message}");
         return null;
       }
     });

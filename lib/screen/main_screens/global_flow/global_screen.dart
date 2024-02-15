@@ -78,7 +78,7 @@ class GlobalScreen extends StatelessWidget {
                     children: [
                       Image.asset(AppImagePath.newsIcon,height: size.height(24)),
                       size.widthSpace(9.05),
-                      Text("News",style: AppTextStyle.largeText,),
+                      Text("News",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
                     ],
                   ),
                   size.heightSpace(15),
@@ -113,7 +113,7 @@ class GlobalScreen extends StatelessWidget {
                     children: [
                       Image.asset(AppImagePath.landIcon,height: size.height(24)),
                       size.widthSpace(9.05),
-                      Text("Land Category",style: AppTextStyle.largeText,),
+                      Text("Land Category",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
                       const Spacer(),
                       GestureDetector(onTap: (){
                         Get.to(()=> const ViewAllCategoryScreen());
@@ -131,7 +131,7 @@ class GlobalScreen extends StatelessWidget {
                     children: [
                       Image.asset(AppImagePath.collectablesIcon,height: size.height(24)),
                       size.widthSpace(9.05),
-                      Text("Collectables Category",style: AppTextStyle.largeText,),
+                      Text("Collectables Category",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
                       const Spacer(),
                       Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
                     ],

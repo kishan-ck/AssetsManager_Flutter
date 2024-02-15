@@ -2,9 +2,11 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
+import 'package:assetsmanagement/constants/local_storage.dart';
 import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:assetsmanagement/screen/auth_module/login_screen.dart';
 import 'package:assetsmanagement/screen/main_screens/setting_flow/view_assets_flow/view_all_user_assets.dart';
+import 'package:assetsmanagement/utils/storage/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -160,7 +162,57 @@ class SettingScreen extends StatelessWidget {
                 size.heightSpace(40),
                 GestureDetector(
                   onTap: (){
-                    Get.offAll(()=> const LoginScreen());
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text(
+                            "Logout",
+                            textAlign: TextAlign.center,
+                          ),
+                          titleTextStyle: AppTextStyle
+                              .largeText
+                              .copyWith(
+                              color: AppColor
+                                  .primaryColor),
+                          content: const Text(
+                              "Are your sure you want to logout ?",
+                              textAlign: TextAlign.center),
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(
+                                  10)),
+                          backgroundColor:
+                          AppColor.whiteColor,
+                          actionsAlignment:
+                          MainAxisAlignment.spaceAround,
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: Text("Cancel",
+                                    style: AppTextStyle
+                                        .appbarTitleText)),
+                            TextButton(
+                                onPressed: () async {
+                                  Get.offAll(()=> const LoginScreen());
+                                  clearLocalStorage();
+                                  await setDataToLocalStorage(
+                                  dataType: StorageKey.boolType,
+                                  boolData: false,
+                                  prefKey: StorageKey.isLogin);
+                                },
+                                child: Text("Logout",
+                                    style: AppTextStyle
+                                        .appbarTitleText
+                                        .copyWith(
+                                        color: AppColor
+                                            .secondPrimaryColor)))
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

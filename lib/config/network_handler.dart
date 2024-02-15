@@ -86,7 +86,7 @@ class HttpHandler {
         'error': null,
       };
     } else if (response.statusCode == 402) {
-      foodLocatorSnackBar(message: "Session expired. Please Login again.");
+      commonSnackBar(message: "Session expired. Please Login again.");
       return {
         'body': response.body,
         'headers': response.headers,

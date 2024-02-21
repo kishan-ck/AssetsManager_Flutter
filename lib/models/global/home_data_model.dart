@@ -1,15 +1,23 @@
 class HomeDataModel {
+  final int? status;
   final Data? data;
+  final String? message;
 
   HomeDataModel({
+    this.status,
     this.data,
+    this.message,
   });
 
   HomeDataModel.fromJson(Map<String, dynamic> json)
-      : data = (json['data'] as Map<String,dynamic>?) != null ? Data.fromJson(json['data'] as Map<String,dynamic>) : null;
+      : status = json['status'] as int?,
+        data = (json['data'] as Map<String,dynamic>?) != null ? Data.fromJson(json['data'] as Map<String,dynamic>) : null,
+        message = json['message'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'data' : data?.toJson()
+    'status' : status,
+    'data' : data?.toJson(),
+    'message' : message
   };
 }
 

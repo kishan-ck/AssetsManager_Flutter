@@ -44,4 +44,13 @@ class AppTextStyle {
       fontSize: size.height(18),
       color: AppColor.blackColor);
 
+  static TextStyle mediumLargeText = TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: size.height(24),
+      color: AppColor.k9B9BA3);
+
+  static TextStyle mediumSmallText = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: size.height(12),
+      color: AppColor.k9B9BA3);
 }

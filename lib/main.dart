@@ -1,4 +1,5 @@
 import 'package:assetsmanagement/config/root_binding.dart';
+import 'package:assetsmanagement/screen/main_screens/global_flow/current_news.dart';
 import 'package:assetsmanagement/screen/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           fontFamily: "DMSans"),
       initialBinding: RootBinding(),
-      home: const SplashScreen(),
+      home: const SplashScreen()
     );
   }
 }

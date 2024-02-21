@@ -51,7 +51,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                   separatorBuilder: (BuildContext context, int index) => SizedBox(height: size.height(20),),
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.to(()=> const AssetFormScreen());
                       },
                       child: AnimatedContainer(

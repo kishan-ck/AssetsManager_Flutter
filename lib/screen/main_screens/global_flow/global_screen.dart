@@ -3,6 +3,7 @@ import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
+import 'package:assetsmanagement/screen/main_screens/global_flow/current_news.dart';
 import 'package:assetsmanagement/screen/main_screens/global_flow/view_all_category_screen.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -96,66 +97,102 @@ class GlobalScreen extends StatelessWidget {
                       },
                     ),
                     items: controller.items,
+                    // items: controller.homeDataModel.data?.news?.map((images) {
+                    //   return GestureDetector(
+                    //       onTap: () {
+                    //         String content = controller.homeDataModel.data?.news?[controller.selectedIndex].content ?? '';
+                    //         String title = controller.homeDataModel.data?.news?[controller.selectedIndex].title ?? '';
+                    //         Get.to(()=> CurrentNewsScreen(content: content, title: title,));
+                    //       },
+                    //       child: Image.network("$images"));
+                    // }).toList(),
                   ),
                   size.heightSpace(10),
                   Align(
                     alignment: Alignment.center,
                     child: DotsIndicator(
                       dotsCount: controller.items.length,
+                      // dotsCount: controller.homeDataModel.data?.news?.length ?? 0,
                       position: controller.currentIndex,
                       decorator: const DotsDecorator(activeColor: AppColor.primaryColor),
                     ),
                   ),
                   size.heightSpace(16),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset(AppImagePath.landIcon,height: size.height(24)),
-                      size.widthSpace(9.05),
-                      Text("Land Category",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
-                      const Spacer(),
-                      GestureDetector(onTap: (){
-                        Get.to(()=> const ViewAllCategoryScreen());
-                      },child: Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),)),
-                    ],
-                  ),
-                  size.heightSpace(15),
-                  SizedBox(
-                      height: 100,
-                      child: controller.horizontalList(controller.categoryData.length)),
-                  size.heightSpace(16),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset(AppImagePath.collectablesIcon,height: size.height(24)),
-                      size.widthSpace(9.05),
-                      Text("Collectables Category",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
-                      const Spacer(),
-                      Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
-                    ],
-                  ),
-                  size.heightSpace(15),
-                  SizedBox(
-                      height: 100,
-                      child: controller.horizontalList(controller.categoryData.length)),
-                  size.heightSpace(16),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset(AppImagePath.cryptoIcon,height: size.height(24)),
-                      size.widthSpace(9.05),
-                      Text("Cryptocurrencies Category",style: AppTextStyle.largeText,),
-                      const Spacer(),
-                      Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
-                    ],
-                  ),
-                  size.heightSpace(15),
-                  SizedBox(
-                      height: 100,
-                      child: controller.horizontalList(controller.categoryData.length)),
+                  ListView.builder(
+                    itemCount: controller.homeDataModel.data?.category?.length ?? 0,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Image.asset(AppImagePath.landIcon,height: size.height(24)),
+                            size.widthSpace(9.05),
+                            Text(controller.homeDataModel.data?.category?[index].name ?? "",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
+                            const Spacer(),
+                            GestureDetector(onTap: () {
+                              Get.to(()=> const ViewAllCategoryScreen());
+                            },child: Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),)),
+                          ],
+                        ),
+                        size.heightSpace(15),
+                        SizedBox(
+                            height: 100,
+                            child: controller.horizontalList(controller.homeDataModel.data?.category?[index].subcategory?.length ?? 0)),
+                      ],
+                    );
+                  },),
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     Image.asset(AppImagePath.landIcon,height: size.height(24)),
+                  //     size.widthSpace(9.05),
+                  //     Text("Land Category",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
+                  //     const Spacer(),
+                  //     GestureDetector(onTap: (){
+                  //       Get.to(()=> const ViewAllCategoryScreen());
+                  //     },child: Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),)),
+                  //   ],
+                  // ),
+                  // size.heightSpace(15),
+                  // SizedBox(
+                  //     height: 100,
+                  //     child: controller.horizontalList(controller.categoryData.length)),
+                  // size.heightSpace(16),
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     Image.asset(AppImagePath.collectablesIcon,height: size.height(24)),
+                  //     size.widthSpace(9.05),
+                  //     Text("Collectables Category",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
+                  //     const Spacer(),
+                  //     Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
+                  //   ],
+                  // ),
+                  // size.heightSpace(15),
+                  // SizedBox(
+                  //     height: 100,
+                  //     child: controller.horizontalList(controller.categoryData.length)),
+                  // size.heightSpace(16),
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     Image.asset(AppImagePath.cryptoIcon,height: size.height(24)),
+                  //     size.widthSpace(9.05),
+                  //     Text("Cryptocurrencies Category",style: AppTextStyle.largeText,),
+                  //     const Spacer(),
+                  //     Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
+                  //   ],
+                  // ),
+                  // size.heightSpace(15),
+                  // SizedBox(
+                  //     height: 100,
+                  //     child: controller.horizontalList(controller.categoryData.length)),
                 ],
               ).paddingAll(15),
             );

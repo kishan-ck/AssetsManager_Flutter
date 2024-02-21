@@ -102,7 +102,7 @@ class SignUpScreen extends StatelessWidget {
                           Text('Phone No', style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
                           CustomTextField(
                             textInputType: TextInputType.number,
-                            controller: controller.emailSignUpTextController,
+                            controller: controller.phoneSignUpTextController,
                             hintText: "Enter your phone no",
                             height: controller.isValidate ? 50 : 75,
                             isShadow: controller.isShadow,
@@ -145,7 +145,7 @@ class SignUpScreen extends StatelessWidget {
                           CustomTextField(
                             height: controller.isValidate ? 50 : 75,
                             isShadow: controller.isShadow,
-                            controller: controller.passwordSignUpTextController,
+                            controller: controller.confirmPasswordSignUpTextController,
                             hintText: "Confirm your password",
                             validator: (value) {
                               if (value!.trim().isEmpty) {

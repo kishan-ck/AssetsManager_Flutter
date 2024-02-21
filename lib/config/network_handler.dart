@@ -2,13 +2,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/local_storage.dart';
 import 'package:assetsmanagement/utils/storage/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import 'package:assetsmanagement/config/api_end_point.dart';
 import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:http/http.dart' as http;
+
+import '../constants/app_colors.dart';
 
 class HttpHandler {
   static String endPointUrl = APIEndPoints.baseUrl;

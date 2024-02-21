@@ -1,9 +1,8 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
-import 'package:assetsmanagement/screen/main_screens/global_flow/current_news.dart';
+import 'package:assetsmanagement/controller/login_controller.dart';
 import 'package:assetsmanagement/screen/main_screens/global_flow/view_all_category_screen.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -34,14 +33,14 @@ class GlobalScreen extends StatelessWidget {
                         children: [
                           RichText(
                             text: TextSpan(
-                              text: "Hello ",
+                              text: "hello".tr,
                               style: AppTextStyle.regularHeadingText,
                               children:  <TextSpan>[
-                                TextSpan(text: 'Arfaz!', style: AppTextStyle.regularHeadingText.copyWith(color: AppColor.secondPrimaryColor,fontWeight: FontWeight.bold)
+                                TextSpan(text: Get.find<LoginController>().loginModel?.data?.fullname ?? "", style: AppTextStyle.regularHeadingText.copyWith(color: AppColor.secondPrimaryColor,fontWeight: FontWeight.bold)
                                 )],
                             ),
                           ),
-                          Text("Here you can search global assets",style: AppTextStyle.regularSubTitleText,),
+                          Text("here_you_can_search_global_assets".tr,style: AppTextStyle.regularSubTitleText,),
                         ],
                       ),
                       Container(
@@ -60,7 +59,7 @@ class GlobalScreen extends StatelessWidget {
                     fillColor: AppColor.greyColor.withOpacity(0.1),
                     isUnderLineBorderRadius: BorderRadius.circular(100),
                     isShadow: false,
-                    hintText: "Search Category",
+                    hintText: "search_category".tr,
                     underLineFocusColor: AppColor.primaryColor,
                     suffixIcn: Container(
                       margin: const EdgeInsets.all(5),
@@ -79,7 +78,7 @@ class GlobalScreen extends StatelessWidget {
                     children: [
                       Image.asset(AppImagePath.newsIcon,height: size.height(24)),
                       size.widthSpace(9.05),
-                      Text("News",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
+                      Text("news".tr,style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
                     ],
                   ),
                   size.heightSpace(15),
@@ -119,7 +118,7 @@ class GlobalScreen extends StatelessWidget {
                   ),
                   size.heightSpace(16),
                   ListView.builder(
-                    itemCount: controller.homeDataModel.data?.category?.length ?? 0,
+                    itemCount: controller.homeDataModel?.data?.category?.length ?? 0,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                     return Column(
@@ -130,17 +129,17 @@ class GlobalScreen extends StatelessWidget {
                           children: [
                             Image.asset(AppImagePath.landIcon,height: size.height(24)),
                             size.widthSpace(9.05),
-                            Text(controller.homeDataModel.data?.category?[index].name ?? "",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
+                            Text(controller.homeDataModel?.data?.category?[index].name ?? "",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
                             const Spacer(),
                             GestureDetector(onTap: () {
                               Get.to(()=> const ViewAllCategoryScreen());
-                            },child: Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),)),
+                            },child: Text("view_all".tr,style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),)),
                           ],
                         ),
                         size.heightSpace(15),
                         SizedBox(
                             height: 100,
-                            child: controller.horizontalList(controller.homeDataModel.data?.category?[index].subcategory?.length ?? 0)),
+                            child: controller.horizontalList(controller.homeDataModel?.data?.category?[index].subcategory?.length ?? 0)),
                       ],
                     );
                   },),

@@ -1,5 +1,4 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
@@ -29,7 +28,7 @@ class ViewAllCategoryScreen extends StatelessWidget {
                       height: size.height(24),
                       width: size.width(24),
                       child: Icon(Icons.arrow_back,size: size.height(24),color: AppColor.blackColor,)),
-                  Text("Back",style: AppTextStyle.regularText,),
+                  Text("back".tr,style: AppTextStyle.regularText,),
                 ],
               ),
             ),
@@ -58,7 +57,7 @@ class ViewAllCategoryScreen extends StatelessWidget {
                   fillColor: AppColor.greyColor.withOpacity(0.1),
                   isUnderLineBorderRadius: BorderRadius.circular(100),
                   isShadow: false,
-                  hintText: "Search here...",
+                  hintText: "search_here...".tr,
                   underLineFocusColor: AppColor.primaryColor,
                   suffixIcn: Container(
                     margin: const EdgeInsets.all(5),

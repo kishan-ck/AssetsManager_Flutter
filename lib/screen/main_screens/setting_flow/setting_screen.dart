@@ -1,5 +1,4 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/constants/local_storage.dart';
@@ -90,7 +89,7 @@ class SettingScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "My Assets",
+                                "my_assets".tr,
                                 style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),
                               ),
                             ],
@@ -108,7 +107,7 @@ class SettingScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "My Categories",
+                                "my_categories".tr,
                                 style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),
                               ),
                             ],
@@ -127,7 +126,7 @@ class SettingScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30)
                           ),
                           child: Text(
-                            "View All",
+                            "view_all".tr,
                             style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor, fontWeight: FontWeight.bold,fontSize: 14),
                           ),
                         ),
@@ -166,8 +165,8 @@ class SettingScreen extends StatelessWidget {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: const Text(
-                            "Logout",
+                          title: Text(
+                            "logout".tr,
                             textAlign: TextAlign.center,
                           ),
                           titleTextStyle: AppTextStyle
@@ -196,7 +195,7 @@ class SettingScreen extends StatelessWidget {
                                         .appbarTitleText)),
                             TextButton(
                                 onPressed: () async {
-                                  Get.offAll(()=> const LoginScreen());
+                                  Get.offAll(()=> LoginScreen());
                                   clearLocalStorage();
                                   await setDataToLocalStorage(
                                   dataType: StorageKey.boolType,

@@ -1,9 +1,7 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/user_controller.dart';
-import 'package:assetsmanagement/screen/main_screens/setting_flow/view_assets_flow/view_all_user_assets.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
 import 'package:assetsmanagement/utils/widgets/home_expansiontile.dart';
 import 'package:assetsmanagement/utils/widgets/image_preview.dart';
@@ -35,14 +33,14 @@ class AssetDetailScreen extends StatelessWidget {
                           height: size.height(24),
                           width: size.width(24),
                           child: Icon(Icons.arrow_back,size: size.height(24),color: AppColor.blackColor,)),
-                      Text("Back",style: AppTextStyle.regularText,),
+                      Text("back".tr,style: AppTextStyle.regularText,),
                     ],
                   ),
                 ),
               ],
             ).paddingOnly(left: 15),
             centerTitle: true,
-            title: const Text("Asset Detail"),
+            title: Text("asset_detail".tr),
             titleTextStyle: AppTextStyle.appbarTitleText.copyWith(color: AppColor.blackColor),
             leadingWidth: 100,
             automaticallyImplyLeading: false,
@@ -194,7 +192,7 @@ class AssetDetailScreen extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                "Purchased",
+                                "purchased".tr.tr,
                                 style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),
                               ),
                               Text(
@@ -214,7 +212,7 @@ class AssetDetailScreen extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    "Current Market",
+                                    "current_market".tr,
                                     style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),
                                   ),
                                   size.widthSpace(7.5),
@@ -245,7 +243,7 @@ class AssetDetailScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30)
                           ),
                           child: Text(
-                            "Analyse",
+                            "analyse".tr,
                             style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor, fontWeight: FontWeight.bold,fontSize: 14),
                           ),
                         ),
@@ -288,27 +286,27 @@ class AssetDetailScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Name:",
+                          "name:".tr,
                           style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Location:",
+                          "location:".tr,
                           style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Category:",
+                          "category:".tr,
                           style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Sub Category:",
+                          "sub_category:".tr,
                           style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Quantity:",
+                          "quantity:".tr,
                           style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Description:",
+                          "description:".tr,
                           style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],

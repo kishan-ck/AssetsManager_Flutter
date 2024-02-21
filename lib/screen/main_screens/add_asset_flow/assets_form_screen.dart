@@ -1,6 +1,5 @@
 import 'package:assetsmanagement/constants/app_button.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
@@ -77,7 +76,7 @@ class AssetFormScreen extends StatelessWidget {
                             fillColor: AppColor.greyColor.withOpacity(0.1),
                             isUnderLineBorderRadius: BorderRadius.circular(100),
                             isShadow: false,
-                            hintText: "Asset Name",
+                            hintText: "asset_name".tr,
                             underLineFocusColor: AppColor.primaryColor,
                           ),
                         ),
@@ -88,7 +87,7 @@ class AssetFormScreen extends StatelessWidget {
                             fillColor: AppColor.greyColor.withOpacity(0.1),
                             isUnderLineBorderRadius: BorderRadius.circular(100),
                             isShadow: false,
-                            hintText: "Asset id",
+                            hintText: "asset_id".tr,
                             underLineFocusColor: AppColor.primaryColor,
                           ),
                         ),
@@ -100,7 +99,7 @@ class AssetFormScreen extends StatelessWidget {
                       fillColor: AppColor.greyColor.withOpacity(0.1),
                       isUnderLineBorderRadius: BorderRadius.circular(100),
                       isShadow: false,
-                      hintText: "Number of",
+                      hintText: "number_of".tr,
                       underLineFocusColor: AppColor.primaryColor,
                     ),
                     size.heightSpace(15),
@@ -109,7 +108,7 @@ class AssetFormScreen extends StatelessWidget {
                       fillColor: AppColor.greyColor.withOpacity(0.1),
                       isUnderLineBorderRadius: BorderRadius.circular(18),
                       isShadow: false,
-                      hintText: "Asset Description",
+                      hintText: "asset_description".tr,
                       isExpand: true,
                       height: size.height(120),
                       underLineFocusColor: AppColor.primaryColor,
@@ -117,7 +116,7 @@ class AssetFormScreen extends StatelessWidget {
                     size.heightSpace(15),
                     Row(
                       children: [
-                        Text("Is Asset solely owned ?",style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center,),
+                        Text("is_asset_solely_owned_?".tr,style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center,),
                         size.widthSpace(15),
                         Flexible(
                           child: DropDownButtonCommon(
@@ -137,7 +136,7 @@ class AssetFormScreen extends StatelessWidget {
                       fillColor: AppColor.greyColor.withOpacity(0.1),
                       isUnderLineBorderRadius: BorderRadius.circular(100),
                       isShadow: false,
-                      hintText: "% Owned",
+                      hintText: "%_owned".tr,
                       underLineFocusColor: AppColor.primaryColor,
                     ),
                     size.heightSpace(15),
@@ -162,7 +161,7 @@ class AssetFormScreen extends StatelessWidget {
                                 fillColor: AppColor.whiteColor,
                                 isUnderLineBorderRadius: BorderRadius.circular(100),
                                 isShadow: false,
-                                hintText: "Name",
+                                hintText: "name".tr,
                                 underLineFocusColor: AppColor.secondPrimaryColor,
                               ),
                             ),
@@ -173,7 +172,7 @@ class AssetFormScreen extends StatelessWidget {
                                 fillColor: AppColor.whiteColor,
                                 isUnderLineBorderRadius: BorderRadius.circular(100),
                                 isShadow: false,
-                                hintText: "% Owned",
+                                hintText: "%_owned".tr,
                                 underLineFocusColor: AppColor.secondPrimaryColor,
                               ),
                             ),
@@ -185,7 +184,7 @@ class AssetFormScreen extends StatelessWidget {
                           fillColor: AppColor.whiteColor,
                           isUnderLineBorderRadius: BorderRadius.circular(100),
                           isShadow: false,
-                          hintText: "Phone Number",
+                          hintText: "phone_no".tr,
                           underLineFocusColor: AppColor.secondPrimaryColor,
                         ),
                         size.heightSpace(15),
@@ -208,7 +207,7 @@ class AssetFormScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(15),
                         child: Center(
                           child: Text(
-                            "+ Add Partners",
+                            "add_partners".tr,
                             style: AppTextStyle.regularSubTitleText.copyWith(color: AppColor.secondPrimaryColor),
                           ),
                         ),
@@ -216,7 +215,7 @@ class AssetFormScreen extends StatelessWidget {
                     ),
                     size.heightSpace(15),
                     AppButton(
-                        buttonText: "Save",
+                        buttonText: "save".tr,
                         onPressed: (){
                           Get.find<BottomNavigationBarController>().selectedIndex = 0;
                           Get.find<BottomNavigationBarController>().update();

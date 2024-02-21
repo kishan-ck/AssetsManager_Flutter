@@ -22,7 +22,7 @@ class SplashController extends GetxController{
         Get.find<GlobalController>().homeData();
         Get.offAll(() => const BottomNavigationBarScreen());
       } else{
-        Get.offAll(() => const LoginScreen());
+        Get.offAll(() => LoginScreen());
       }
     });
   }

@@ -21,7 +21,7 @@ class GlobalController extends GetxController {
   int selectedIndex = 0;
   
   bool isLoading = false;
-  late HomeDataModel homeDataModel;
+  HomeDataModel? homeDataModel;
 
   final items = [
     Image.asset(

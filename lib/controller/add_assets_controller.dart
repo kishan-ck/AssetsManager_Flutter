@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:assetsmanagement/config/api_end_point.dart';
 import 'package:assetsmanagement/config/network_handler.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
+import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/constants/local_storage.dart';

@@ -1,5 +1,4 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
 import 'package:assetsmanagement/screen/main_screens/add_asset_flow/assets_form_screen.dart';
@@ -41,8 +40,8 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 size.heightSpace(35),
-                Text("Select Category",style: AppTextStyle.regularHeadingText.copyWith(fontSize: 30),),
-                Text("You can select any category in which you are interested",style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center,),
+                Text("select_category".tr,style: AppTextStyle.regularHeadingText.copyWith(fontSize: 30),),
+                Text("you_can_select_any_category_in_which_you_are_interested".tr,style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center,),
                 size.heightSpace(20),
                 ListView.separated(
                   shrinkWrap: true,
@@ -84,7 +83,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                     );
                   },
                 ),
-                Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
+                Text("view_all".tr,style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
 
               ],
             ).paddingAll(23);

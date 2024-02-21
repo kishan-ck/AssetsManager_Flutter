@@ -1,5 +1,4 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +32,7 @@ class CurrentNewsScreen extends StatelessWidget {
                         color: AppColor.blackColor,
                       )),
                   Text(
-                    "Back",
+                    "back".tr,
                     style: AppTextStyle.regularText,
                   ),
                 ],
@@ -42,7 +41,7 @@ class CurrentNewsScreen extends StatelessWidget {
           ],
         ).paddingOnly(left: 15),
         centerTitle: true,
-        title: const Text("Current News"),
+        title: Text("current_news".tr),
         titleTextStyle:
             AppTextStyle.appbarTitleText.copyWith(color: AppColor.blackColor),
         leadingWidth: 100,
@@ -79,7 +78,7 @@ class CurrentNewsScreen extends StatelessWidget {
             ),
             size.heightSpace(25),
             Text(
-              "Read more at:",
+              "read_more_at:".tr,
               style: AppTextStyle.mediumSmallText.copyWith(color: AppColor.blackColor),
             ),
           ],

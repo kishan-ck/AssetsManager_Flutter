@@ -1,4 +1,5 @@
 import 'package:dynamicutils/Size/dynamicutils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AppColor {
@@ -13,7 +14,7 @@ class AppColor {
   static const Color blackColor = Colors.black;
   static const Color blueColor = Colors.blue;
   static const Color k9B9BA3 = Color(0XFF9B9BA3);
-
+  static const Color indicatorBlackColor = Colors.black38;
 }
 
 
@@ -22,3 +23,11 @@ String emailValidationRegExp =
 String passwordValidationRegExp =
     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*\d)(?=.*[@$!%*?&_+*#^/]).{6,}$';
 String nameValidationRegExp = r'^[a-zA-Z ]+$';
+
+DynamicSize size = DynamicSize(849, 393);
+
+printData(String msg) {
+  if (kDebugMode) {
+    print(msg);
+  }
+}

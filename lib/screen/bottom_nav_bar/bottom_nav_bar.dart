@@ -1,13 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
 import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class BottomNavigationBarScreen extends StatelessWidget {
@@ -50,7 +48,7 @@ class BottomNavigationBarScreen extends StatelessWidget {
                               width: size.width(24),
                             ),
                             size.heightSpace(5),
-                            Text("Global", style: controller.selectedIndex == 0
+                            Text("global".tr, style: controller.selectedIndex == 0
                                 ? AppTextStyle.regularSubTitleText.copyWith(color: AppColor.secondPrimaryColor, fontSize: 14, fontWeight: FontWeight.w600) : AppTextStyle.regularSubTitleText.copyWith(color: AppColor.greyColor, fontSize: 12),)
                           ],
                         ))
@@ -93,7 +91,7 @@ class BottomNavigationBarScreen extends StatelessWidget {
                               width: size.width(26),
                             ),
                             size.heightSpace(5),
-                            Text("Setting", style: controller.selectedIndex == 2
+                            Text("setting".tr, style: controller.selectedIndex == 2
                                 ? AppTextStyle.regularSubTitleText.copyWith(color: AppColor.secondPrimaryColor, fontSize: 14, fontWeight: FontWeight.w600) : AppTextStyle.regularSubTitleText.copyWith(color: AppColor.greyColor, fontSize: 12),)
                           ],
                         ))

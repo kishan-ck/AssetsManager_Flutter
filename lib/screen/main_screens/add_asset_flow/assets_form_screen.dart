@@ -249,6 +249,55 @@ class AssetFormScreen extends StatelessWidget {
                                     controller.update();
                                   },
                                 ),
+                            ),
+                          ],
+                        ),
+                        size.heightSpace(15),
+                        CustomTextField(
+                          controller: controller.assetLocationTextController,
+                          fillColor: AppColor.greyColor.withOpacity(0.1),
+                          isUnderLineBorderRadius: BorderRadius.circular(100),
+                          isShadow: false,
+                          hintText: "location".tr,
+                          underLineFocusColor: AppColor.primaryColor,
+                        ),
+                        size.heightSpace(15),
+                        CustomTextField(
+                          controller: controller.assetQuantityTextController,
+                          fillColor: AppColor.greyColor.withOpacity(0.1),
+                          isUnderLineBorderRadius: BorderRadius.circular(100),
+                          isShadow: false,
+                          hintText: "number_of".tr,
+                          underLineFocusColor: AppColor.primaryColor,
+                        ),
+                        size.heightSpace(15),
+                        CustomTextField(
+                          controller: controller.assetDescriptionTextController,
+                          fillColor: AppColor.greyColor.withOpacity(0.1),
+                          isUnderLineBorderRadius: BorderRadius.circular(18),
+                          isShadow: false,
+                          hintText: "asset_description".tr,
+                          isExpand: true,
+                          height: size.height(120),
+                          underLineFocusColor: AppColor.primaryColor,
+                        ),
+                        size.heightSpace(15),
+                        Row(
+                          children: [
+                            Text(
+                              "is_asset_solely_owned_?".tr,
+                              style: AppTextStyle.regularSubTitleText,
+                              textAlign: TextAlign.center,
+                            ),
+                            size.widthSpace(15),
+                            Flexible(
+                              child: DropDownButtonStringCommon(
+                                value: controller.isSolelyOwned,
+                                dropDownItems: controller.solelyOwnedList,
+                                onChanged: (value) {
+                                  controller.isSolelyOwned = value ?? "";
+                                  controller.update();
+                                },
                               ),
                             ],
                           ),

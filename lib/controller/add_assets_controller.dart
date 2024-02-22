@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
-
 import 'package:assetsmanagement/config/api_end_point.dart';
 import 'package:assetsmanagement/config/network_handler.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
@@ -24,8 +22,11 @@ class AddAssetsController extends GetxController {
   String title = "Partner - 1";
   List<File>? path;
   List<dynamic> uploadedImageString = [];
+
   AddAssetsModel? addAssetsModel;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  AssetModel? assetModel;
+
   TextEditingController assetNameTextController = TextEditingController();
   TextEditingController assetIdTextController = TextEditingController();
   TextEditingController assetQuantityTextController = TextEditingController();
@@ -35,6 +36,7 @@ class AddAssetsController extends GetxController {
   TextEditingController partnerNameTextController = TextEditingController();
   TextEditingController partnerOwnedTextController = TextEditingController();
   TextEditingController partnerPhoneTextController = TextEditingController();
+  TextEditingController assetLocationTextController = TextEditingController();
 
   c.ExpansionTileController partnerExpansionTileController =
       c.ExpansionTileController();
@@ -88,12 +90,13 @@ class AddAssetsController extends GetxController {
         .then((value) async {
       if (value['error'] == null) {
         printData("getAssetData Api ==> ${value['body']}");
-        AssetModel assetModel = AssetModel.fromJson(json.decode(value['body']));
-
-        await setDataToLocalStorage(
-            dataType: StorageKey.stringType,
-            stringData: jsonEncode(jsonDecode(value["body"])),
-            prefKey: StorageKey.assetData);
+        assetModel = AssetModel.fromJson(json.decode(value['body']));
+        // await setDataToLocalStorage(
+        //     dataType: StorageKey.stringType,
+        //     stringData: jsonEncode(jsonDecode(value["body"])),
+        //     prefKey: StorageKey.assetData);
+        isLoading = false;
+        update();
       } else {
         printData("getAssetData Api Error==> ${value['error']}");
         ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
@@ -101,7 +104,6 @@ class AddAssetsController extends GetxController {
         return null;
       }
     });
-
     isLoading = false;
     update();
   }

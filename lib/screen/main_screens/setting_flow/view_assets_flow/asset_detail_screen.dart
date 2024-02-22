@@ -192,7 +192,7 @@ class AssetDetailScreen extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                "purchased".tr.tr,
+                                "purchased".tr,
                                 style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),
                               ),
                               Text(

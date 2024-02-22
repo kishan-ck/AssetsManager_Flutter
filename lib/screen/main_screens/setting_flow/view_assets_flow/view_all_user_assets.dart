@@ -1,17 +1,10 @@
-import 'package:assetsmanagement/constants/app_button.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
-import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
 import 'package:assetsmanagement/controller/user_controller.dart';
-import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:assetsmanagement/screen/main_screens/setting_flow/view_assets_flow/asset_detail_screen.dart';
-import 'package:assetsmanagement/utils/widgets/common_dropdown_button.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
-import 'package:assetsmanagement/utils/widgets/home_expansiontile.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,7 +30,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                       height: size.height(24),
                       width: size.width(24),
                       child: Icon(Icons.arrow_back,size: size.height(24),color: AppColor.blackColor,)),
-                  Text("Back",style: AppTextStyle.regularText,),
+                  Text("back".tr,style: AppTextStyle.regularText,),
                 ],
               ),
             ),
@@ -108,7 +101,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('${controller.userCategoryData[index]['type']}',style: AppTextStyle.regularText.copyWith(color:  AppColor.whiteColor),),
+                                  Text(Get.find<AddAssetsController>().assetModel?.data?[index].name ?? "",style: AppTextStyle.regularText.copyWith(color:  AppColor.whiteColor),),
                                   Text('${controller.userCategoryData[index]['Quantity']}',style: AppTextStyle.regularText.copyWith(color:  AppColor.whiteColor,fontSize: 18,fontWeight: FontWeight.bold),),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,7 +112,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                       Text(controller.userCategoryData[index]['location'],style: AppTextStyle.regularText.copyWith(color:  AppColor.whiteColor,fontSize: size.height(10)),),
                                     ],
                                   ),
-                                  Align(alignment: Alignment.bottomRight,child: Text(controller.userCategoryData[index]['isSolelyOwned'] ? "Sole Owned" : "Co-Owned",style: AppTextStyle.regularText.copyWith(color:  AppColor.whiteColor),)),
+                                  Align(alignment: Alignment.bottomRight,child: Text(Get.find<AddAssetsController>().assetModel?.data?[index].isAssetSolelyOwned == true ? "Sole Owned" : "Co-Owned",style: AppTextStyle.regularText.copyWith(color:  AppColor.whiteColor),)),
                                 ],
                               ).paddingSymmetric(horizontal: 15),
                             ),

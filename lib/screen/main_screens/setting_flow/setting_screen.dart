@@ -3,11 +3,13 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/constants/local_storage.dart';
+import 'package:assetsmanagement/controller/add_assets_controller.dart';
 import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:assetsmanagement/screen/auth_module/login_screen.dart';
 import 'package:assetsmanagement/screen/main_screens/setting_flow/view_assets_flow/view_all_user_assets.dart';
 import 'package:assetsmanagement/utils/storage/shared_preferences.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
+import 'package:assetsmanagement/utils/widgets/app_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,30 +18,27 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GetBuilder(
-          init: Get.find<SettingController>(),
-          builder: (controller) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                size.heightSpace(25),
-                CircleAvatar(
-                  backgroundColor: AppColor.redColor,
-                  radius: 70,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(105),
-                      child: Image.asset(
-                        AppImagePath.profileImage,
-                      )),
-                ),
-                size.heightSpace(15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Stack(
+      children: [
+        Scaffold(
+          body: GetBuilder(
+              init: Get.find<SettingController>(),
+              builder: (controller) {
+                return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    size.heightSpace(25),
+                    CircleAvatar(
+                      backgroundColor: AppColor.redColor,
+                      radius: 70,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(105),
+                          child: Image.asset(AppImagePath.profileImage,)),
+                    ),
+                    size.heightSpace(15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           "Arfaz Chhapawala",
@@ -92,44 +91,73 @@ class SettingScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Column(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
-                                "50",
-                                style: TextStyle(
-                                    color: AppColor.whiteColor,
-                                    fontSize: size.height(50),
-                                    fontWeight: FontWeight.bold),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "50",
+                                    style: TextStyle(
+                                        color: AppColor.whiteColor,
+                                        fontSize: size.height(50),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "my_assets".tr,
+                                    style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),
+                                  ),
+                                ],
                               ),
                               Text(
                                 "my_assets".tr,
                                 style: AppTextStyle.largeText
                                     .copyWith(color: AppColor.whiteColor),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "50",
+                                    style: TextStyle(
+                                        color: AppColor.whiteColor,
+                                        fontSize: size.height(50),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "my_categories".tr,
+                                    style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "50",
-                                style: TextStyle(
-                                    color: AppColor.whiteColor,
-                                    fontSize: size.height(50),
-                                    fontWeight: FontWeight.bold),
+                          size.heightSpace(10),
+                          GestureDetector(
+                            onTap: () async {
+                              await Get.find<AddAssetsController>().getAssetData();
+                              Get.to(()=> const ViewAllUserAssetsScreen());
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: size.height(5), horizontal: size.width(15)),
+                              decoration: BoxDecoration(
+                                color: AppColor.blackColor,
+                                borderRadius: BorderRadius.circular(30)
                               ),
                               Text(
                                 "my_categories".tr,
                                 style: AppTextStyle.largeText
                                     .copyWith(color: AppColor.whiteColor),
                               ),
-                            ],
+                            ),
                           ),
                         ],
                       ),

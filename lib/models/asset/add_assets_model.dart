@@ -25,7 +25,7 @@ class Data {
   final String? description;
   final String? assetId;
   final int? numberOfMeasurement;
-  final int? measurementType;
+  final String? measurementType;
   final bool? isAssetSolelyOwned;
   final int? percentOwned;
   final String? userId;
@@ -56,7 +56,7 @@ class Data {
         description = json['description'] as String?,
         assetId = json['assetId'] as String?,
         numberOfMeasurement = json['numberOfMeasurement'] as int?,
-        measurementType = json['measurementType'] as int?,
+        measurementType = json['measurementType'] as String?,
         isAssetSolelyOwned = json['isAssetSolelyOwned'] as bool?,
         percentOwned = json['percentOwned'] as int?,
         userId = json['userId'] as String?,

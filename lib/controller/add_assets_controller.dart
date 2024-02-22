@@ -16,7 +16,6 @@ import 'package:assetsmanagement/utils/widgets/custometile.dart' as c;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class AddAssetsController extends GetxController {
   String selectedSubCategoryController = "Metal3";
@@ -26,7 +25,7 @@ class AddAssetsController extends GetxController {
   List<File>? path;
   List<dynamic> uploadedImageString = [];
   AddAssetsModel? addAssetsModel;
-
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController assetNameTextController = TextEditingController();
   TextEditingController assetIdTextController = TextEditingController();
   TextEditingController assetQuantityTextController = TextEditingController();
@@ -43,6 +42,7 @@ class AddAssetsController extends GetxController {
   bool startAnimation = false;
   bool isExpanseChange = false;
   bool isLoading = false;
+  bool isValidate = false;
 
   List<String> subCategoryDropDownItems = [
     "Residential Land",
@@ -202,22 +202,33 @@ class AddAssetsController extends GetxController {
     update();
     final userId = await getDataFromLocalStorage(
         dataType: StorageKey.stringType, prefKey: StorageKey.userId);
-    await HttpHandler.postHttpMethod(url: APIEndPoints.createAsset, data: {
-      "name": assetNameTextController.text.trim(),
-      "description": assetDescriptionTextController.text.trim(),
-      "assetId": assetIdTextController.text.trim(),
-      "numberOfMeasurement": assetQuantityTextController.text.trim(),
-      "measurementType": 2,
-      "isAssetSolelyOwned": isSolelyOwned == "Yes" ? true : false,
-      "percentOwned": int.parse(assetOwnedTextController.text.trim()),
-      "userId": userId.toString(),
-      "subCategoryId": subCatId.toString(),
-      "partner": [],
-      "images": uploadedImageString
-    }).then((value) {
+    await HttpHandler.postHttpMethod(
+        url: APIEndPoints.createAsset,
+        isEncoded: true,
+        data: {
+          "name": assetNameTextController.text.trim(),
+          "description": assetDescriptionTextController.text.trim(),
+          "assetId": assetIdTextController.text.trim(),
+          "numberOfMeasurement": assetQuantityTextController.text.trim(),
+          "measurementType": 2,
+          "isAssetSolelyOwned": isSolelyOwned == "Yes" ? true : false,
+          "percentOwned": int.parse(assetOwnedTextController.text.trim()),
+          "userId": userId.toString(),
+          "subCategoryId": subCatId.toString(),
+          "partner": [],
+          "images": uploadedImageString
+        }).then((value) {
       if (value['error'] == null) {
         addAssetsModel = AddAssetsModel.fromJson(json.decode(value['body']));
+        assetNameTextController.clear();
+        assetDescriptionTextController.clear();
+        assetIdTextController.clear();
+        assetQuantityTextController.clear();
+        assetOwnedTextController.clear();
+        subCatId = "";
+        uploadedImageString.clear();
         update();
+        commonSnackBar(message: "Assets Added Successfully", isError: false);
         printData("addAssets Api ==> ${value['body']}");
         printData("addAssets addAssetsModel Api ==> $addAssetsModel");
       } else {

@@ -70,6 +70,8 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
+                              controller.path?.clear();
+                              controller.update();
                               Get.to(() => AssetFormScreen(
                                   category: Get.find<GlobalController>()
                                       .homeDataModel!

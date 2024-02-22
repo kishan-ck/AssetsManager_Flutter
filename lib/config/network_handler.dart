@@ -23,7 +23,7 @@ class HttpHandler {
     if (token != "null" && token != "") {
       print("Token -- '$token'");
       return {
-        // 'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
         // 'Accept': '*/*',
         'Authorization': 'Bearer $token',
       };
@@ -64,10 +64,10 @@ class HttpHandler {
   }
 
   // Perform an HTTP POST request
-  static Future<Map<String, dynamic>> postHttpMethod({
-    @required String? url,
-    Map<String, dynamic>? data,
-  }) async {
+  static Future<Map<String, dynamic>> postHttpMethod(
+      {@required String? url,
+      Map<String, dynamic>? data,
+      bool isEncoded = false}) async {
     var header = await getHeaders();
     print("Post URL -- '$endPointUrl$url'");
     print("Post Data -- '${jsonEncode(data)}'");
@@ -75,7 +75,7 @@ class HttpHandler {
     http.Response response = await http.post(
       Uri.parse("$endPointUrl$url"),
       headers: header,
-      body: data ?? {},
+      body: isEncoded ? jsonEncode(data) : data ?? {},
     );
     print("Post Response Code -- '${response.statusCode.toString()}'");
     print("Post Response -- '${response.body}'");

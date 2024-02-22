@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:ffi';
+import 'dart:io';
 
 import 'package:assetsmanagement/config/api_end_point.dart';
 import 'package:assetsmanagement/config/network_handler.dart';
@@ -6,30 +8,37 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/constants/local_storage.dart';
+import 'package:assetsmanagement/models/asset/add_assets_model.dart';
 import 'package:assetsmanagement/models/asset/asset_model.dart';
 import 'package:assetsmanagement/models/auth/error_model.dart';
 import 'package:assetsmanagement/utils/storage/shared_preferences.dart';
 import 'package:assetsmanagement/utils/widgets/custometile.dart' as c;
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
-class AddAssetsController extends GetxController{
-
-  String selectedSubCategoryController = "Residential Land";
+class AddAssetsController extends GetxController {
+  String selectedSubCategoryController = "Metal3";
+  String subCatId = "";
   String isSolelyOwned = "No";
   String title = "Partner - 1";
+  List<File>? path;
+  List<dynamic> uploadedImageString = [];
+  AddAssetsModel? addAssetsModel;
 
   TextEditingController assetNameTextController = TextEditingController();
   TextEditingController assetIdTextController = TextEditingController();
   TextEditingController assetQuantityTextController = TextEditingController();
   TextEditingController assetOwnedTextController = TextEditingController();
-  TextEditingController assetDescriptionTextController = TextEditingController();
+  TextEditingController assetDescriptionTextController =
+      TextEditingController();
   TextEditingController partnerNameTextController = TextEditingController();
   TextEditingController partnerOwnedTextController = TextEditingController();
   TextEditingController partnerPhoneTextController = TextEditingController();
 
-  c.ExpansionTileController partnerExpansionTileController = c.ExpansionTileController();
-
+  c.ExpansionTileController partnerExpansionTileController =
+      c.ExpansionTileController();
 
   bool startAnimation = false;
   bool isExpanseChange = false;
@@ -42,88 +51,41 @@ class AddAssetsController extends GetxController{
     "Industrial Land",
     "Vacant Land",
     "Urban Land",
-   "Rural Land",
+    "Rural Land",
   ];
 
-  List<String> solelyOwnedList = [
-    "Yes",
-    "No"
-  ];
+  List<String> solelyOwnedList = ["Yes", "No"];
 
   List categoryData = [
+    {"type": "Land", "icon": AppImagePath.landIcon, "bg": AppImagePath.landBg},
     {
-     "type": "Land",
-      "icon": AppImagePath.landIcon,
-     "bg": AppImagePath.landBg
-    },
-    {
-     "type": "Collectables",
+      "type": "Collectables",
       "icon": AppImagePath.collectablesIcon,
-     "bg": AppImagePath.collectablesBg
+      "bg": AppImagePath.collectablesBg
     },
     {
-     "type": "Crypto",
+      "type": "Crypto",
       "icon": AppImagePath.cryptoIcon,
-     "bg": AppImagePath.cryptoBg
+      "bg": AppImagePath.cryptoBg
     },
     {
-     "type": "Real Estate",
+      "type": "Real Estate",
       "icon": AppImagePath.realEstateIcon,
-     "bg": AppImagePath.realEstateBg
+      "bg": AppImagePath.realEstateBg
     },
     {
-     "type": "Metals",
+      "type": "Metals",
       "icon": AppImagePath.metalIcon,
-     "bg": AppImagePath.metalBg
+      "bg": AppImagePath.metalBg
     },
   ];
-
-  Future<void> addAsset() async {
-    isLoading = true;
-    update();
-
-    await HttpHandler.postHttpMethod(
-        url: APIEndPoints.assetUrl,data: {
-      "name": assetNameTextController.text,
-      "description": assetNameTextController.text,
-      "assetId": assetNameTextController.text,
-      "numberOfMeasurement": assetNameTextController.text,
-      "measurementType": assetNameTextController.text,
-      "isAssetSolelyOwned": isSolelyOwned == "Yes" ? true : false,
-      "percentOwned": assetOwnedTextController.text,
-      "userId": "65cb5b780f6a3412a891d56e",
-      "subCategoryId": selectedSubCategoryController,
-      "partner": [],
-      "images": []
-    }).then((value) async {
-      if (value['error'] == null) {
-        printData("addAsset Api ==> ${value['body']}");
-
-        assetNameTextController.clear();
-        assetIdTextController.clear();
-        assetQuantityTextController.clear();
-        assetOwnedTextController.clear();
-        assetDescriptionTextController.clear();
-        Get.back();
-
-      } else {
-        printData("addAsset Api Error==> ${value['error']}");
-        ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
-        commonSnackBar(message: "${error.message}");
-        return null;
-      }
-    });
-
-    isLoading = false;
-    update();
-  }
 
   Future<void> getAssetData() async {
     isLoading = true;
     update();
 
-    await HttpHandler.getHttpMethod(
-        url: APIEndPoints.assetUrl).then((value) async {
+    await HttpHandler.getHttpMethod(url: APIEndPoints.assetUrl)
+        .then((value) async {
       if (value['error'] == null) {
         printData("getAssetData Api ==> ${value['body']}");
         AssetModel assetModel = AssetModel.fromJson(json.decode(value['body']));
@@ -149,10 +111,10 @@ class AddAssetsController extends GetxController{
     update();
 
     await HttpHandler.getHttpMethod(
-        url: "${APIEndPoints.subCategoryUrl}?cat_id=$catId").then((value) async {
+            url: "${APIEndPoints.subCategoryUrl}?cat_id=$catId")
+        .then((value) async {
       if (value['error'] == null) {
         printData("subCategoryData Api ==> ${value['body']}");
-
       } else {
         printData("subCategoryData Api Error==> ${value['error']}");
         ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
@@ -169,11 +131,10 @@ class AddAssetsController extends GetxController{
     isLoading = true;
     update();
 
-    await HttpHandler.getHttpMethod(
-        url: APIEndPoints.categoryUrl).then((value) async {
+    await HttpHandler.getHttpMethod(url: APIEndPoints.categoryUrl)
+        .then((value) async {
       if (value['error'] == null) {
         printData("categoryData Api ==> ${value['body']}");
-
       } else {
         printData("categoryData Api Error==> ${value['error']}");
         ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
@@ -186,4 +147,90 @@ class AddAssetsController extends GetxController{
     update();
   }
 
+  void openFileExplorer(
+      {bool isMultiSelection = false,
+      FileType filePickingType = FileType.image}) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: filePickingType,
+      allowMultiple: true,
+    );
+
+    if (result != null) {
+      print("result-----> $result");
+      // path = File(result.paths);
+      path = result.paths.map((e) {
+        return File(e!);
+      }).toList();
+      uploadImages();
+      print("PATH-----> $path");
+      update();
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  uploadImages() async {
+    isLoading = true;
+    update();
+
+    await HttpHandler.formHttpMethod(
+            url: APIEndPoints.uploadImage,
+            methodType: 'POST',
+            multipleFile: path,
+            multipleFileKey: "image")
+        .then((value) async {
+      if (value['error'] == null) {
+        uploadedImageString = json.decode(value['body'])["data"];
+        update();
+        printData("uploadImages Api ==> ${value['body']}");
+        printData(
+            "uploadImages Api ==> ${json.decode(value['body'])["data"].toString()}");
+      } else {
+        printData("uploadImages Api Error==> ${value['error']}");
+        ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
+        commonSnackBar(message: "${error.message}");
+        return null;
+      }
+    });
+
+    isLoading = false;
+    update();
+  }
+
+  addAssets() async {
+    isLoading = true;
+    update();
+    final userId = await getDataFromLocalStorage(
+        dataType: StorageKey.stringType, prefKey: StorageKey.userId);
+    await HttpHandler.postHttpMethod(url: APIEndPoints.createAsset, data: {
+      "name": assetNameTextController.text.trim(),
+      "description": assetDescriptionTextController.text.trim(),
+      "assetId": assetIdTextController.text.trim(),
+      "numberOfMeasurement": assetQuantityTextController.text.trim(),
+      "measurementType": 2,
+      "isAssetSolelyOwned": isSolelyOwned == "Yes" ? true : false,
+      "percentOwned": int.parse(assetOwnedTextController.text.trim()),
+      "userId": userId.toString(),
+      "subCategoryId": subCatId.toString(),
+      "partner": [],
+      "images": uploadedImageString
+    }).then((value) {
+      if (value['error'] == null) {
+        addAssetsModel = AddAssetsModel.fromJson(json.decode(value['body']));
+        update();
+        printData("addAssets Api ==> ${value['body']}");
+        printData("addAssets addAssetsModel Api ==> $addAssetsModel");
+      } else {
+        printData("addAssets Api Error==> ${value['error']}");
+        ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
+        commonSnackBar(message: "${error.message}");
+        isLoading = false;
+        update();
+        return null;
+      }
+    });
+
+    isLoading = false;
+    update();
+  }
 }

@@ -3,11 +3,10 @@ import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:flutter/cupertino.dart';
 
 class AppTextStyle {
-
   static TextStyle regularText = TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: size.height(16),
-      color: AppColor.blackColor);
+      color: AppColor.k242424);
 
   static TextStyle regularSubTitleText = TextStyle(
       fontWeight: FontWeight.w400,

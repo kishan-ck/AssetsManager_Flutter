@@ -1,6 +1,8 @@
+import 'package:assetsmanagement/app_widgets/custom_network_image.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
+import 'package:assetsmanagement/controller/global_controller.dart';
 import 'package:assetsmanagement/screen/main_screens/add_asset_flow/assets_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +15,6 @@ class AddAssetScreen extends StatefulWidget {
 }
 
 class _AddAssetScreenState extends State<AddAssetScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -40,55 +41,122 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 size.heightSpace(35),
-                Text("select_category".tr,style: AppTextStyle.regularHeadingText.copyWith(fontSize: 30),),
-                Text("you_can_select_any_category_in_which_you_are_interested".tr,style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center,),
-                size.heightSpace(20),
-                ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: controller.categoryData.length,
-                  padding: const EdgeInsets.only(bottom: 20),
-                  separatorBuilder: (BuildContext context, int index) => SizedBox(height: size.height(20),),
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(()=> const AssetFormScreen());
-                      },
-                      child: AnimatedContainer(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColor.whiteColor,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: AppColor.blackColor.withOpacity(0.1),
-                                  blurRadius: 12,
-                                  spreadRadius: 0,
-                                  offset: const Offset(1, 2))
-                            ],
-                            image: DecorationImage(image: AssetImage(controller.categoryData[index]["bg"]),alignment: Alignment.centerRight)
-                        ),
-                        curve: Curves.easeInOut,
-                        transform: Matrix4.translationValues(controller.startAnimation ? 0 : Get.width, 0, 0),
-                        duration: Duration(milliseconds: 300 + (index * 200)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Image.asset(controller.categoryData[index]["icon"],height: size.height(40)),
-                            size.widthSpace(20),
-                            Text(controller.categoryData[index]["type"] ?? "",style: AppTextStyle.largeText.copyWith(fontSize: 24),),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                Text(
+                  "select_category".tr,
+                  style: AppTextStyle.regularHeadingText.copyWith(fontSize: 30),
                 ),
-                Text("view_all".tr,style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
-
+                Text(
+                  "you_can_select_any_category_in_which_you_are_interested".tr,
+                  style: AppTextStyle.regularSubTitleText,
+                  textAlign: TextAlign.center,
+                ),
+                size.heightSpace(20),
+                Get.find<GlobalController>().homeDataModel?.data?.category ==
+                        null
+                    ? const SizedBox()
+                    : ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: Get.find<GlobalController>()
+                                .homeDataModel
+                                ?.data
+                                ?.category
+                                ?.length ??
+                            0,
+                        padding: const EdgeInsets.only(bottom: 20),
+                        separatorBuilder: (BuildContext context, int index) =>
+                            SizedBox(
+                          height: size.height(20),
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(() => AssetFormScreen(
+                                  category: Get.find<GlobalController>()
+                                      .homeDataModel!
+                                      .data!
+                                      .category![index]));
+                            },
+                            child: AnimatedContainer(
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppColor.whiteColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: AppColor.blackColor
+                                            .withOpacity(0.1),
+                                        blurRadius: 12,
+                                        spreadRadius: 0,
+                                        offset: const Offset(1, 2))
+                                  ],
+                                  image: DecorationImage(
+                                      image: Get.find<GlobalController>()
+                                                  .homeDataModel!
+                                                  .data
+                                                  ?.category?[index]
+                                                  .icon ==
+                                              ""
+                                          ? const NetworkImage(
+                                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR293gopaA9vQVSvmyN9ASloRaiVjn0eCKaxg&usqp=CAU",
+                                            )
+                                          : NetworkImage(
+                                              Get.find<GlobalController>()
+                                                      .homeDataModel!
+                                                      .data
+                                                      ?.category?[index]
+                                                      .icon ??
+                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR293gopaA9vQVSvmyN9ASloRaiVjn0eCKaxg&usqp=CAU",
+                                            ),
+                                      alignment: Alignment.centerRight)),
+                              curve: Curves.easeInOut,
+                              transform: Matrix4.translationValues(
+                                  controller.startAnimation ? 0 : Get.width,
+                                  0,
+                                  0),
+                              duration:
+                                  Duration(milliseconds: 300 + (index * 200)),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: CustomNetworkImage(
+                                      image: Get.find<GlobalController>()
+                                              .homeDataModel!
+                                              .data
+                                              ?.category?[index]
+                                              .image ??
+                                          "",
+                                      height: size.height(40),
+                                      width: size.width(40),
+                                    ),
+                                  ),
+                                  size.widthSpace(20),
+                                  Text(
+                                    Get.find<GlobalController>()
+                                            .homeDataModel!
+                                            .data
+                                            ?.category?[index]
+                                            .name ??
+                                        "",
+                                    style: AppTextStyle.largeText
+                                        .copyWith(fontSize: 24),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                Text(
+                  "view_all".tr,
+                  style: AppTextStyle.regularText
+                      .copyWith(color: AppColor.primaryColor),
+                ),
               ],
             ).paddingAll(23);
-          }
-      ),
+          }),
     );
   }
 }
@@ -116,18 +184,24 @@ class ListItem extends StatelessWidget {
                 spreadRadius: 0,
                 offset: const Offset(1, 2))
           ],
-          image: DecorationImage(image: AssetImage(controller.categoryData[index]["bg"]),alignment: Alignment.centerRight)
-      ),
+          image: DecorationImage(
+              image: AssetImage(controller.categoryData[index]["bg"]),
+              alignment: Alignment.centerRight)),
       curve: Curves.easeInOut,
-      transform: Matrix4.translationValues(controller.startAnimation ? 0 : Get.width, 0, 0),
+      transform: Matrix4.translationValues(
+          controller.startAnimation ? 0 : Get.width, 0, 0),
       duration: Duration(milliseconds: 300 + (index * 200)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Image.asset(controller.categoryData[index]["icon"],height: size.height(40)),
+          Image.asset(controller.categoryData[index]["icon"],
+              height: size.height(40)),
           size.widthSpace(20),
-          Text(controller.categoryData[index]["type"] ?? "",style: AppTextStyle.largeText.copyWith(fontSize: 24),),
+          Text(
+            controller.categoryData[index]["type"] ?? "",
+            style: AppTextStyle.largeText.copyWith(fontSize: 24),
+          ),
         ],
       ),
     );

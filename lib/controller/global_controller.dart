@@ -16,10 +16,11 @@ import 'package:get/get.dart';
 
 class GlobalController extends GetxController {
   TextEditingController globalSearchTextController = TextEditingController();
-  TextEditingController searchSubCategoryTextController = TextEditingController();
+  TextEditingController searchSubCategoryTextController =
+      TextEditingController();
   int currentIndex = 0;
   int selectedIndex = 0;
-  
+
   bool isLoading = false;
   HomeDataModel? homeDataModel;
 
@@ -42,15 +43,15 @@ class GlobalController extends GetxController {
     ),
   ];
 
-  List categoryData = [
-    "Residential",
-    "Commercial",
-    "Agricultural",
-    "Industrial",
-    "Vacant",
-    "Urban",
-    "Rural"
-  ];
+  // List categoryData = [
+  //   "Residential",
+  //   "Commercial",
+  //   "Agricultural",
+  //   "Industrial",
+  //   "Vacant",
+  //   "Urban",
+  //   "Rural"
+  // ];
   List categoryDataColor = [
     AppColor.primaryColor,
     AppColor.secondPrimaryColor,
@@ -65,8 +66,8 @@ class GlobalController extends GetxController {
     isLoading = true;
     update();
 
-    await HttpHandler.getHttpMethod(
-        url: APIEndPoints.homeUrl).then((value) async {
+    await HttpHandler.getHttpMethod(url: APIEndPoints.homeUrl)
+        .then((value) async {
       if (value['error'] == null) {
         printData("homeData Api ==> ${value['body']}");
         homeDataModel = HomeDataModel.fromJson(json.decode(value['body']));
@@ -91,11 +92,10 @@ class GlobalController extends GetxController {
     isLoading = true;
     update();
 
-    await HttpHandler.getHttpMethod(
-        url: APIEndPoints.newsUrl).then((value) async {
+    await HttpHandler.getHttpMethod(url: APIEndPoints.newsUrl)
+        .then((value) async {
       if (value['error'] == null) {
         printData("getNewsData Api ==> ${value['body']}");
-
       } else {
         printData("getNewsData Api Error==> ${value['error']}");
         ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
@@ -108,11 +108,11 @@ class GlobalController extends GetxController {
     update();
   }
 
-  ListView horizontalList(int n) {
+  ListView horizontalList(Category category) {
     return ListView(
       scrollDirection: Axis.horizontal,
       children: List.generate(
-        n,
+        category.subcategory?.length ?? 0,
         (i) => GestureDetector(
           onTap: () {
             selectedIndex = i;
@@ -124,16 +124,21 @@ class GlobalController extends GetxController {
             width: 120,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: selectedIndex == i ? AppColor.secondPrimaryColor : AppColor.whiteColor,
+                color: AppColor.whiteColor,
                 boxShadow: [
                   BoxShadow(
-                      color: AppColor.blackColor.withOpacity(0.1),
-                      blurRadius: 12,
+                      color: AppColor.blackColor.withOpacity(0.25),
+                      blurRadius: 9,
                       spreadRadius: 0,
-                      offset: const Offset(1, 2))
+                      offset: const Offset(2, 4))
                 ]),
             alignment: Alignment.center,
-            child: Text('${categoryData[i]}',style: AppTextStyle.regularText.copyWith(color: selectedIndex == i ? AppColor.whiteColor : AppColor.blackColor),),
+            child: Text(
+              category.subcategory?[i].name ?? "",
+              textAlign: TextAlign.center,
+              style:
+                  AppTextStyle.regularText.copyWith(color: AppColor.blackColor),
+            ),
           ),
         ),
       ),

@@ -2,12 +2,14 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
+import 'package:assetsmanagement/models/global/home_data_model.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ViewAllCategoryScreen extends StatelessWidget {
-  const ViewAllCategoryScreen({super.key});
+  final Category? categoryData;
+  const ViewAllCategoryScreen({super.key, this.categoryData});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ViewAllCategoryScreen extends StatelessWidget {
         leading: Row(
           children: [
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Get.back();
               },
               child: Row(
@@ -27,8 +29,15 @@ class ViewAllCategoryScreen extends StatelessWidget {
                   SizedBox(
                       height: size.height(24),
                       width: size.width(24),
-                      child: Icon(Icons.arrow_back,size: size.height(24),color: AppColor.blackColor,)),
-                  Text("back".tr,style: AppTextStyle.regularText,),
+                      child: Icon(
+                        Icons.arrow_back,
+                        size: size.height(24),
+                        color: AppColor.blackColor,
+                      )),
+                  Text(
+                    "back".tr,
+                    style: AppTextStyle.regularText,
+                  ),
                 ],
               ),
             ),
@@ -36,14 +45,17 @@ class ViewAllCategoryScreen extends StatelessWidget {
         ).paddingOnly(left: 15),
         centerTitle: true,
         title: const Text("Land Category"),
-        titleTextStyle: AppTextStyle.appbarTitleText.copyWith(color: AppColor.blackColor),
+        titleTextStyle:
+            AppTextStyle.appbarTitleText.copyWith(color: AppColor.blackColor),
         leadingWidth: 100,
         automaticallyImplyLeading: false,
         actions: [
           Image.asset(
-            AppImagePath.landIcon,color: AppColor.blackColor,
+            AppImagePath.landIcon,
+            color: AppColor.blackColor,
             height: size.height(24),
-            width: size.width(24),).paddingOnly(right: 25)
+            width: size.width(24),
+          ).paddingOnly(right: 25)
         ],
       ),
       body: GetBuilder(
@@ -66,25 +78,33 @@ class ViewAllCategoryScreen extends StatelessWidget {
                       color: AppColor.whiteColor,
                       shape: BoxShape.circle,
                     ),
-                    child: Image.asset(AppImagePath.searchIcon,height: size.height(24)),
+                    child: Image.asset(AppImagePath.searchIcon,
+                        height: size.height(24)),
                   ),
-
                 ),
                 size.heightSpace(5),
-                Text("10 Search results found",style: AppTextStyle.regularText.copyWith(fontSize: size.height(11), color: AppColor.greyColor),),
+                Text(
+                  "10 Search results found",
+                  style: AppTextStyle.regularText.copyWith(
+                      fontSize: size.height(11), color: AppColor.greyColor),
+                ),
                 size.heightSpace(15),
                 Expanded(
                   child: GridView.builder(
                     shrinkWrap: true,
-                    itemCount: controller.categoryData.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,mainAxisExtent: size.height(106), mainAxisSpacing: size.height(26), crossAxisSpacing: size.width(19)),
+                    itemCount: categoryData?.subcategory?.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisExtent: size.height(106),
+                        mainAxisSpacing: size.height(26),
+                        crossAxisSpacing: size.width(19)),
                     padding: const EdgeInsets.only(bottom: 20),
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color:controller.categoryDataColor[index],
+                            color: controller.categoryDataColor[index],
                             boxShadow: [
                               BoxShadow(
                                   color: AppColor.blackColor.withOpacity(0.1),
@@ -93,16 +113,18 @@ class ViewAllCategoryScreen extends StatelessWidget {
                                   offset: const Offset(1, 2))
                             ]),
                         alignment: Alignment.center,
-                        child: Text('${controller.categoryData[index]}',style: AppTextStyle.regularText.copyWith(color:  AppColor.whiteColor),),
+                        child: Text(
+                          categoryData?.subcategory?[index].name ?? "",
+                          style: AppTextStyle.regularText
+                              .copyWith(color: AppColor.whiteColor),
+                        ),
                       );
                     },
                   ),
                 ),
-
               ],
             ).paddingAll(23);
-          }
-      ),
+          }),
     );
   }
 }

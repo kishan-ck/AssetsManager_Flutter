@@ -9,24 +9,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class SignUpController extends GetxController {
-  final TextEditingController nameSignUpTextController = TextEditingController();
-  final TextEditingController phoneSignUpTextController = TextEditingController();
-  final TextEditingController emailSignUpTextController = TextEditingController();
-  final TextEditingController passwordSignUpTextController = TextEditingController();
-  final TextEditingController confirmPasswordSignUpTextController = TextEditingController();
+  final TextEditingController nameSignUpTextController =
+      TextEditingController();
+  final TextEditingController phoneSignUpTextController =
+      TextEditingController();
+  final TextEditingController emailSignUpTextController =
+      TextEditingController();
+  final TextEditingController passwordSignUpTextController =
+      TextEditingController();
+  final TextEditingController confirmPasswordSignUpTextController =
+      TextEditingController();
 
   bool isLoading = false;
   bool isValidate = true;
   bool isShadow = true;
 
-
   Future<void> register() async {
     isLoading = true;
     update();
 
-    await HttpHandler.postHttpMethod(
-        url: APIEndPoints.registerUrl,
-        data: {
+    await HttpHandler.postHttpMethod(url: APIEndPoints.registerUrl, data: {
       "fullname": nameSignUpTextController.text,
       "email": emailSignUpTextController.text,
       "phone_no": phoneSignUpTextController.text,
@@ -40,7 +42,8 @@ class SignUpController extends GetxController {
         emailSignUpTextController.clear();
         passwordSignUpTextController.clear();
         confirmPasswordSignUpTextController.clear();
-        commonSnackBar(message: "${jsonDecode(value['body'])['message']}", isError: false);
+        commonSnackBar(
+            message: "${jsonDecode(value['body'])['message']}", isError: false);
         Get.offAll(() => LoginScreen());
       } else {
         printData("register Api Error==> ${value['error']}");

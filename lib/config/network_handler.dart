@@ -18,14 +18,13 @@ class HttpHandler {
   // Retrieve the headers for the HTTP request
   static Future<Map<String, String>> getHeaders() async {
     token = await getDataFromLocalStorage(
-        dataType: StorageKey.stringType,
-        prefKey: StorageKey.token) ??
+            dataType: StorageKey.stringType, prefKey: StorageKey.token) ??
         "";
     if (token != "null" && token != "") {
       print("Token -- '$token'");
       return {
-        // 'Content-type': 'application/json',
-        // 'Accept': 'application/json',
+        // 'Content-Type': 'application/json',
+        // 'Accept': '*/*',
         'Authorization': 'Bearer $token',
       };
     } else {
@@ -71,7 +70,7 @@ class HttpHandler {
   }) async {
     var header = await getHeaders();
     print("Post URL -- '$endPointUrl$url'");
-    print("Post Data -- '$data'");
+    print("Post Data -- '${jsonEncode(data)}'");
     print("Post Header -- '$header'");
     http.Response response = await http.post(
       Uri.parse("$endPointUrl$url"),
@@ -201,20 +200,20 @@ class HttpHandler {
 //Method Type = POST, GET
   static Future<Map<String, dynamic>> formHttpMethod(
       {@required String? methodType,
-        @required String? url,
-        Map<String, String>? data,
-        File? singleFile,
-        // File? singleFile2,
-        String? singleFileKey,
-        // String? singleFileKey2,
-        List<File>? multipleFile,
-        List<String>? multipleFileKeysList,
-        String? multipleFileKey
-      }) async {
+      @required String? url,
+      Map<String, String>? data,
+      File? singleFile,
+      // File? singleFile2,
+      String? singleFileKey,
+      // String? singleFileKey2,
+      List<File>? multipleFile,
+      List<String>? multipleFileKeysList,
+      String? multipleFileKey}) async {
     var header = await getHeaders();
     printData("Form URL -- '$endPointUrl$url'");
     printData("Form Header -- '$header'");
-    http.MultipartRequest request = http.MultipartRequest(methodType!, Uri.parse("$endPointUrl$url"));
+    http.MultipartRequest request =
+        http.MultipartRequest(methodType!, Uri.parse("$endPointUrl$url"));
     request.headers.addAll(header);
     if (data != null) {
       request.fields.addAll(data);
@@ -226,14 +225,15 @@ class HttpHandler {
       ));
     }
 
-    if(multipleFileKey!=null){
-      if(multipleFileKeysList!=null){
-        if(multipleFileKeysList.isNotEmpty){
-          for (var i =0; i <multipleFile!.length; i++) {
-            request.files.add(await http.MultipartFile.fromPath(multipleFileKeysList[i], multipleFile[i].path));
+    if (multipleFileKey != null) {
+      if (multipleFileKeysList != null) {
+        if (multipleFileKeysList.isNotEmpty) {
+          for (var i = 0; i < multipleFile!.length; i++) {
+            request.files.add(await http.MultipartFile.fromPath(
+                multipleFileKeysList[i], multipleFile[i].path));
           }
         }
-      }else{
+      } else {
         if (multipleFile!.isNotEmpty) {
           for (File element in multipleFile) {
             request.files.add(await http.MultipartFile.fromPath(
@@ -248,7 +248,8 @@ class HttpHandler {
     printData("FORM FIELDS - ${request.fields}");
     printData("FORM FILES - ${request.files.first.filename}");
     http.StreamedResponse streamedResponse = await request.send();
-    if (streamedResponse.statusCode == 200 || streamedResponse.statusCode == 201) {
+    if (streamedResponse.statusCode == 200 ||
+        streamedResponse.statusCode == 201) {
       http.Response response = await http.Response.fromStream(streamedResponse);
       if (response.statusCode == 200 || response.statusCode == 201) {
         printData("In Post '${response.statusCode}'");
@@ -270,7 +271,8 @@ class HttpHandler {
         };
       }
     } else {
-      http.Response response1 = await http.Response.fromStream(streamedResponse);
+      http.Response response1 =
+          await http.Response.fromStream(streamedResponse);
       printData("In Form 'else 1---- ${streamedResponse.statusCode}'");
       return {
         'body': response1.body,
@@ -279,5 +281,4 @@ class HttpHandler {
       };
     }
   }
-
 }

@@ -28,10 +28,9 @@ class LoginController extends GetxController {
     isLoading = true;
     update();
 
-    await HttpHandler.postHttpMethod(
-        url: APIEndPoints.loginUrl,data: {
-      "email": emailTextController.text,
-      "password": passwordTextController.text,
+    await HttpHandler.postHttpMethod(url: APIEndPoints.loginUrl, data: {
+      "email": emailTextController.text.trim(),
+      "password": passwordTextController.text.trim(),
       "social_type": "3",
     }).then((value) async {
       if (value['error'] == null) {
@@ -39,14 +38,14 @@ class LoginController extends GetxController {
         loginModel = LoginModel.fromJson(json.decode(value['body']));
 
         await setDataToLocalStorage(
-        dataType: StorageKey.stringType,
-        stringData: loginModel?.data?.authToken ?? "",
-        prefKey: StorageKey.token);
+            dataType: StorageKey.stringType,
+            stringData: loginModel?.data?.authToken ?? "",
+            prefKey: StorageKey.token);
 
         await setDataToLocalStorage(
-        dataType: StorageKey.stringType,
-        stringData: jsonEncode(jsonDecode(value["body"])),
-        prefKey: StorageKey.authData);
+            dataType: StorageKey.stringType,
+            stringData: jsonEncode(jsonDecode(value["body"])),
+            prefKey: StorageKey.authData);
 
         await setDataToLocalStorage(
             dataType: StorageKey.stringType,
@@ -65,7 +64,6 @@ class LoginController extends GetxController {
         Get.find<GlobalController>().homeData();
         commonSnackBar(message: "${loginModel?.message}", isError: false);
         Get.offAll(() => const BottomNavigationBarScreen());
-
       } else {
         printData("Login Api Error==> ${value['error']}");
         ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
@@ -77,5 +75,4 @@ class LoginController extends GetxController {
     isLoading = false;
     update();
   }
-
 }

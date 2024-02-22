@@ -15,8 +15,8 @@ class AppColor {
   static const Color blueColor = Colors.blue;
   static const Color k9B9BA3 = Color(0XFF9B9BA3);
   static const Color indicatorBlackColor = Colors.black38;
+  static const Color k242424 = Color(0XFF242424);
 }
-
 
 String emailValidationRegExp =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";

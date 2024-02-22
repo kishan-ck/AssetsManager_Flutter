@@ -19,184 +19,160 @@ class GlobalScreen extends StatelessWidget {
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
         child: GetBuilder(
-          init: Get.find<GlobalController>(),
-          builder: (controller) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              text: "hello".tr,
-                              style: AppTextStyle.regularHeadingText,
-                              children:  <TextSpan>[
-                                TextSpan(text: Get.find<LoginController>().loginModel?.data?.fullname ?? "", style: AppTextStyle.regularHeadingText.copyWith(color: AppColor.secondPrimaryColor,fontWeight: FontWeight.bold)
-                                )],
-                            ),
-                          ),
-                          Text("here_you_can_search_global_assets".tr,style: AppTextStyle.regularSubTitleText,),
-                        ],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(9),
-                        decoration: const BoxDecoration(
-                          color: AppColor.primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Image.asset(AppImagePath.notificationsIcon,height: size.height(20)),
-                      )
-                    ],
-                  ),
-                  size.heightSpace(18),
-                  CustomTextField(
-                    controller: controller.globalSearchTextController,
-                    fillColor: AppColor.greyColor.withOpacity(0.1),
-                    isUnderLineBorderRadius: BorderRadius.circular(100),
-                    isShadow: false,
-                    hintText: "search_category".tr,
-                    underLineFocusColor: AppColor.primaryColor,
-                    suffixIcn: Container(
-                      margin: const EdgeInsets.all(5),
-                      padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(
-                        color: AppColor.whiteColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Image.asset(AppImagePath.searchIcon,height: size.height(24)),
-                    ),
-
-                  ),
-                  size.heightSpace(11),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset(AppImagePath.newsIcon,height: size.height(24)),
-                      size.widthSpace(9.05),
-                      Text("news".tr,style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
-                    ],
-                  ),
-                  size.heightSpace(15),
-                  CarouselSlider(
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      height: 150,
-                      viewportFraction: 1.9,
-                      aspectRatio: 1.0,
-                      enlargeFactor: 1.0,
-                      enlargeCenterPage: true,
-                      onPageChanged: (index, reason) {
-                        controller.currentIndex = index;
-                        controller.update();
-                      },
-                    ),
-                    items: controller.items,
-                    // items: controller.homeDataModel.data?.news?.map((images) {
-                    //   return GestureDetector(
-                    //       onTap: () {
-                    //         String content = controller.homeDataModel.data?.news?[controller.selectedIndex].content ?? '';
-                    //         String title = controller.homeDataModel.data?.news?[controller.selectedIndex].title ?? '';
-                    //         Get.to(()=> CurrentNewsScreen(content: content, title: title,));
-                    //       },
-                    //       child: Image.network("$images"));
-                    // }).toList(),
-                  ),
-                  size.heightSpace(10),
-                  Align(
-                    alignment: Alignment.center,
-                    child: DotsIndicator(
-                      dotsCount: controller.items.length,
-                      // dotsCount: controller.homeDataModel.data?.news?.length ?? 0,
-                      position: controller.currentIndex,
-                      decorator: const DotsDecorator(activeColor: AppColor.primaryColor),
-                    ),
-                  ),
-                  size.heightSpace(16),
-                  ListView.builder(
-                    itemCount: controller.homeDataModel?.data?.category?.length ?? 0,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                    return Column(
+            init: Get.find<GlobalController>(),
+            builder: (controller) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset(AppImagePath.landIcon,height: size.height(24)),
-                            size.widthSpace(9.05),
-                            Text(controller.homeDataModel?.data?.category?[index].name ?? "",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
-                            const Spacer(),
-                            GestureDetector(onTap: () {
-                              Get.to(()=> const ViewAllCategoryScreen());
-                            },child: Text("view_all".tr,style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),)),
+                            RichText(
+                              text: TextSpan(
+                                text: "hello".tr,
+                                style: AppTextStyle.regularHeadingText,
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text:
+                                          "${Get.find<LoginController>().loginModel?.data?.fullname ?? ""}!",
+                                      style: AppTextStyle.regularHeadingText
+                                          .copyWith(
+                                              color:
+                                                  AppColor.secondPrimaryColor,
+                                              fontWeight: FontWeight.bold))
+                                ],
+                              ),
+                            ),
+                            Text(
+                              "here_you_can_search_global_assets".tr,
+                              style: AppTextStyle.regularSubTitleText,
+                            ),
                           ],
                         ),
-                        size.heightSpace(15),
-                        SizedBox(
-                            height: 100,
-                            child: controller.horizontalList(controller.homeDataModel?.data?.category?[index].subcategory?.length ?? 0)),
+                        Container(
+                          padding: const EdgeInsets.all(9),
+                          decoration: const BoxDecoration(
+                            color: AppColor.primaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Image.asset(AppImagePath.notificationsIcon,
+                              height: size.height(20)),
+                        ),
                       ],
-                    );
-                  },),
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     Image.asset(AppImagePath.landIcon,height: size.height(24)),
-                  //     size.widthSpace(9.05),
-                  //     Text("Land Category",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
-                  //     const Spacer(),
-                  //     GestureDetector(onTap: (){
-                  //       Get.to(()=> const ViewAllCategoryScreen());
-                  //     },child: Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),)),
-                  //   ],
-                  // ),
-                  // size.heightSpace(15),
-                  // SizedBox(
-                  //     height: 100,
-                  //     child: controller.horizontalList(controller.categoryData.length)),
-                  // size.heightSpace(16),
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     Image.asset(AppImagePath.collectablesIcon,height: size.height(24)),
-                  //     size.widthSpace(9.05),
-                  //     Text("Collectables Category",style: AppTextStyle.largeText.copyWith(fontWeight: FontWeight.w700),),
-                  //     const Spacer(),
-                  //     Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
-                  //   ],
-                  // ),
-                  // size.heightSpace(15),
-                  // SizedBox(
-                  //     height: 100,
-                  //     child: controller.horizontalList(controller.categoryData.length)),
-                  // size.heightSpace(16),
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     Image.asset(AppImagePath.cryptoIcon,height: size.height(24)),
-                  //     size.widthSpace(9.05),
-                  //     Text("Cryptocurrencies Category",style: AppTextStyle.largeText,),
-                  //     const Spacer(),
-                  //     Text("View All",style: AppTextStyle.regularText.copyWith(color: AppColor.primaryColor),),
-                  //   ],
-                  // ),
-                  // size.heightSpace(15),
-                  // SizedBox(
-                  //     height: 100,
-                  //     child: controller.horizontalList(controller.categoryData.length)),
-                ],
-              ).paddingAll(15),
-            );
-          }
-        ),
+                    ),
+                    size.heightSpace(18),
+                    CustomTextField(
+                      controller: controller.globalSearchTextController,
+                      fillColor: AppColor.greyColor.withOpacity(0.1),
+                      isUnderLineBorderRadius: BorderRadius.circular(100),
+                      isShadow: false,
+                      hintText: "search_category".tr,
+                      underLineFocusColor: AppColor.primaryColor,
+                      suffixIcn: Container(
+                        margin: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(6),
+                        decoration: const BoxDecoration(
+                          color: AppColor.whiteColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.asset(AppImagePath.searchIcon,
+                            height: size.height(24)),
+                      ),
+                    ),
+                    size.heightSpace(11),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset(AppImagePath.newsIcon,
+                            height: size.height(24)),
+                        size.widthSpace(9.05),
+                        Text(
+                          "news".tr,
+                          style: AppTextStyle.largeText
+                              .copyWith(fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                    size.heightSpace(15),
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        height: 150,
+                        viewportFraction: 1.9,
+                        aspectRatio: 1.0,
+                        enlargeFactor: 1.0,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          controller.currentIndex = index;
+                          controller.update();
+                        },
+                      ),
+                      items: controller.items,
+                    ),
+                    size.heightSpace(10),
+                    Align(
+                      alignment: Alignment.center,
+                      child: DotsIndicator(
+                        dotsCount: controller.items.length,
+                        // dotsCount: controller.homeDataModel.data?.news?.length ?? 0,
+                        position: controller.currentIndex,
+                        decorator: const DotsDecorator(
+                            activeColor: AppColor.primaryColor),
+                      ),
+                    ),
+                    size.heightSpace(16),
+                    ListView.builder(
+                      itemCount:
+                          controller.homeDataModel?.data?.category?.length ?? 0,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset(AppImagePath.landIcon,
+                                    height: size.height(24)),
+                                size.widthSpace(9.05),
+                                Text(
+                                  controller.homeDataModel?.data
+                                          ?.category?[index].name ??
+                                      "",
+                                  style: AppTextStyle.largeText
+                                      .copyWith(fontWeight: FontWeight.w700),
+                                ),
+                                const Spacer(),
+                                GestureDetector(
+                                    onTap: () {
+                                      Get.to(() => ViewAllCategoryScreen(
+                                          categoryData: controller.homeDataModel
+                                              ?.data?.category?[index]));
+                                    },
+                                    child: Text(
+                                      "view_all".tr,
+                                      style: AppTextStyle.regularText.copyWith(
+                                          color: AppColor.primaryColor),
+                                    )),
+                              ],
+                            ),
+                            size.heightSpace(15),
+                            SizedBox(
+                                height: 100,
+                                child: controller.horizontalList(controller
+                                    .homeDataModel!.data!.category![index])),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ).paddingAll(15),
+              );
+            }).paddingAll(15),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
 import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
+import 'package:assetsmanagement/models/global/home_data_model.dart';
 import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:assetsmanagement/utils/widgets/common_dropdown_button.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
@@ -13,222 +14,315 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AssetFormScreen extends StatelessWidget {
-  const AssetFormScreen({super.key});
+  final Category? category;
+
+  const AssetFormScreen({super.key, this.category});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.primaryColor,
-      appBar: AppBar(
-        backgroundColor: AppColor.primaryColor,
-        leading: Row(
-          children: [
-            GestureDetector(
-              onTap: (){
-                Get.back();
-              },
-              child: SizedBox(
-                height: size.height(24),
-                width: size.width(24),
-                  child: Icon(Icons.arrow_back,size: size.height(24),color: AppColor.whiteColor,)),
-            ),
-          ],
-        ).paddingOnly(left: 15),
-        centerTitle: true,
-        title: const Text("Land Asset"),
-        titleTextStyle: AppTextStyle.appbarTitleText.copyWith(color: AppColor.whiteColor),
-        leadingWidth: 100,
-        automaticallyImplyLeading: false,
-        actions: [
-          Image.asset(
-            AppImagePath.addImageIcon,color: AppColor.whiteColor,
-            height: size.height(24),
-            width: size.width(24),).paddingOnly(right: 15)
-        ],
-      ),
-      body: GetBuilder(
-          init: Get.find<AddAssetsController>(),
-          builder: (controller) {
-            return Container(
-              height: double.infinity,
-              decoration: const BoxDecoration(
-                color: AppColor.whiteColor,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    DropDownButtonCommon(
-                      value: controller.selectedSubCategoryController,
-                      dropDownItems: controller.subCategoryDropDownItems,
-                      onChanged: (value) {
-                        controller.selectedSubCategoryController = value ?? "";
-                        controller.update();
+    return GetBuilder(
+        init: Get.find<AddAssetsController>(),
+        builder: (controller) {
+          return Stack(
+            children: [
+              Scaffold(
+                backgroundColor: AppColor.primaryColor,
+                appBar: AppBar(
+                  backgroundColor: AppColor.primaryColor,
+                  leading: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: SizedBox(
+                            height: size.height(24),
+                            width: size.width(24),
+                            child: Icon(
+                              Icons.arrow_back,
+                              size: size.height(24),
+                              color: AppColor.whiteColor,
+                            )),
+                      ),
+                    ],
+                  ).paddingOnly(left: 15),
+                  centerTitle: true,
+                  title: Text(category?.name ?? ""),
+                  titleTextStyle: AppTextStyle.appbarTitleText
+                      .copyWith(color: AppColor.whiteColor),
+                  leadingWidth: 100,
+                  automaticallyImplyLeading: false,
+                  actions: [
+                    GestureDetector(
+                      onTap: () {
+                        controller.openFileExplorer();
                       },
+                      child: Image.asset(
+                        AppImagePath.addImageIcon,
+                        color: AppColor.whiteColor,
+                        height: size.height(24),
+                        width: size.width(24),
+                      ).paddingOnly(right: 15),
                     ),
-                    size.heightSpace(15),
-                    Row(
+                  ],
+                ),
+                body: Container(
+                  height: double.infinity,
+                  decoration: const BoxDecoration(
+                      color: AppColor.whiteColor,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Flexible(
-                          child: CustomTextField(
-                            controller: controller.assetNameTextController,
-                            fillColor: AppColor.greyColor.withOpacity(0.1),
-                            isUnderLineBorderRadius: BorderRadius.circular(100),
-                            isShadow: false,
-                            hintText: "asset_name".tr,
-                            underLineFocusColor: AppColor.primaryColor,
-                          ),
+                        controller.path == null || controller.path!.isEmpty
+                            ? const SizedBox()
+                            : SizedBox(
+                                height: size.height(60),
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  itemCount: controller.path!.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Stack(
+                                      alignment: Alignment.topRight,
+                                      children: [
+                                        Container(
+                                          height: size.height(60),
+                                          width: size.width(60),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100)),
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: Image.file(
+                                                controller.path![index],
+                                                height: size.height(60),
+                                                width: size.width(60),
+                                                fit: BoxFit.cover,
+                                              )),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            controller.path!.removeAt(index);
+                                            controller.update();
+                                          },
+                                          child: SizedBox(
+                                            height: size.height(20),
+                                            width: size.width(20),
+                                            child: const Icon(
+                                              Icons.close,
+                                              size: 25,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return size.widthSpace(10);
+                                  },
+                                ),
+                              ),
+                        controller.path == null || controller.path!.isEmpty
+                            ? const SizedBox()
+                            : size.heightSpace(20),
+                        DropDownButtonCommon(
+                          value: category?.subcategory?.first.name ?? "",
+                          dropDownItems: category?.subcategory,
+                          onChanged: (value) {
+                            controller.selectedSubCategoryController =
+                                value?.name ?? "";
+                            controller.subCatId = value?.id ?? "";
+                            controller.update();
+                          },
                         ),
-                        size.widthSpace(15),
-                        Flexible(
-                          child: CustomTextField(
-                            controller: controller.assetIdTextController,
-                            fillColor: AppColor.greyColor.withOpacity(0.1),
-                            isUnderLineBorderRadius: BorderRadius.circular(100),
-                            isShadow: false,
-                            hintText: "asset_id".tr,
-                            underLineFocusColor: AppColor.primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    size.heightSpace(15),
-                    CustomTextField(
-                      controller: controller.assetQuantityTextController,
-                      fillColor: AppColor.greyColor.withOpacity(0.1),
-                      isUnderLineBorderRadius: BorderRadius.circular(100),
-                      isShadow: false,
-                      hintText: "number_of".tr,
-                      underLineFocusColor: AppColor.primaryColor,
-                    ),
-                    size.heightSpace(15),
-                    CustomTextField(
-                      controller: controller.assetDescriptionTextController,
-                      fillColor: AppColor.greyColor.withOpacity(0.1),
-                      isUnderLineBorderRadius: BorderRadius.circular(18),
-                      isShadow: false,
-                      hintText: "asset_description".tr,
-                      isExpand: true,
-                      height: size.height(120),
-                      underLineFocusColor: AppColor.primaryColor,
-                    ),
-                    size.heightSpace(15),
-                    Row(
-                      children: [
-                        Text("is_asset_solely_owned_?".tr,style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center,),
-                        size.widthSpace(15),
-                        Flexible(
-                          child: DropDownButtonCommon(
-                            value: controller.isSolelyOwned,
-                            dropDownItems: controller.solelyOwnedList,
-                            onChanged: (value) {
-                              controller.isSolelyOwned = value ?? "";
-                              controller.update();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    size.heightSpace(15),
-                    CustomTextField(
-                      controller: controller.assetOwnedTextController,
-                      fillColor: AppColor.greyColor.withOpacity(0.1),
-                      isUnderLineBorderRadius: BorderRadius.circular(100),
-                      isShadow: false,
-                      hintText: "%_owned".tr,
-                      underLineFocusColor: AppColor.primaryColor,
-                    ),
-                    size.heightSpace(15),
-                    HomeExpansionTile(
-                      tileController: controller.partnerExpansionTileController,
-                      isShadow: false,
-                      title: controller.title,
-                      tileMargin: 0,
-                      initialExpand: false,
-                      onExpansionChange: (p0) {
-                        printData("onExpansionChange------${p0}");
-                        controller.isExpanseChange = p0;
-                        controller.update();
-                      },
-                      outerBorderRadius: controller.isExpanseChange ? BorderRadius.circular(20) : BorderRadius.circular(100),
-                      children: [
+                        size.heightSpace(15),
                         Row(
                           children: [
                             Flexible(
                               child: CustomTextField(
-                                controller: controller.partnerNameTextController,
-                                fillColor: AppColor.whiteColor,
-                                isUnderLineBorderRadius: BorderRadius.circular(100),
+                                controller: controller.assetNameTextController,
+                                fillColor: AppColor.greyColor.withOpacity(0.1),
+                                isUnderLineBorderRadius:
+                                    BorderRadius.circular(100),
                                 isShadow: false,
-                                hintText: "name".tr,
-                                underLineFocusColor: AppColor.secondPrimaryColor,
+                                hintText: "asset_name".tr,
+                                underLineFocusColor: AppColor.primaryColor,
                               ),
                             ),
                             size.widthSpace(15),
                             Flexible(
                               child: CustomTextField(
-                                controller: controller.partnerOwnedTextController,
-                                fillColor: AppColor.whiteColor,
-                                isUnderLineBorderRadius: BorderRadius.circular(100),
+                                controller: controller.assetIdTextController,
+                                fillColor: AppColor.greyColor.withOpacity(0.1),
+                                isUnderLineBorderRadius:
+                                    BorderRadius.circular(100),
                                 isShadow: false,
-                                hintText: "%_owned".tr,
-                                underLineFocusColor: AppColor.secondPrimaryColor,
+                                hintText: "asset_id".tr,
+                                underLineFocusColor: AppColor.primaryColor,
                               ),
                             ),
                           ],
                         ),
                         size.heightSpace(15),
                         CustomTextField(
-                          controller: controller.partnerPhoneTextController,
-                          fillColor: AppColor.whiteColor,
+                          controller: controller.assetQuantityTextController,
+                          fillColor: AppColor.greyColor.withOpacity(0.1),
                           isUnderLineBorderRadius: BorderRadius.circular(100),
                           isShadow: false,
-                          hintText: "phone_no".tr,
-                          underLineFocusColor: AppColor.secondPrimaryColor,
+                          hintText: "number_of".tr,
+                          underLineFocusColor: AppColor.primaryColor,
                         ),
                         size.heightSpace(15),
-                      ],
-                    ),
-                    size.heightSpace(15),
-                    GestureDetector(
-                      onTap: (){
-
-                      },
-                      child: DottedBorder(
-                        color: AppColor.secondPrimaryColor,
-                        borderPadding: EdgeInsets.zero,
-                        strokeCap: StrokeCap.round,
-                        strokeWidth: 2,
-                        stackFit: StackFit.loose,
-                        dashPattern: const [3, 5],
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(100),
-                        padding: const EdgeInsets.all(15),
-                        child: Center(
-                          child: Text(
-                            "add_partners".tr,
-                            style: AppTextStyle.regularSubTitleText.copyWith(color: AppColor.secondPrimaryColor),
+                        CustomTextField(
+                          controller: controller.assetDescriptionTextController,
+                          fillColor: AppColor.greyColor.withOpacity(0.1),
+                          isUnderLineBorderRadius: BorderRadius.circular(18),
+                          isShadow: false,
+                          hintText: "asset_description".tr,
+                          isExpand: true,
+                          height: size.height(120),
+                          underLineFocusColor: AppColor.primaryColor,
+                        ),
+                        size.heightSpace(15),
+                        Row(
+                          children: [
+                            Text(
+                              "is_asset_solely_owned_?".tr,
+                              style: AppTextStyle.regularSubTitleText,
+                              textAlign: TextAlign.center,
+                            ),
+                            size.widthSpace(15),
+                            Flexible(
+                              child: DropDownButtonStringCommon(
+                                value: controller.isSolelyOwned,
+                                dropDownItems: controller.solelyOwnedList,
+                                onChanged: (value) {
+                                  controller.isSolelyOwned = value ?? "";
+                                  controller.update();
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        size.heightSpace(15),
+                        CustomTextField(
+                          controller: controller.assetOwnedTextController,
+                          fillColor: AppColor.greyColor.withOpacity(0.1),
+                          isUnderLineBorderRadius: BorderRadius.circular(100),
+                          isShadow: false,
+                          hintText: "%_owned".tr,
+                          underLineFocusColor: AppColor.primaryColor,
+                        ),
+                        size.heightSpace(15),
+                        HomeExpansionTile(
+                          tileController:
+                              controller.partnerExpansionTileController,
+                          isShadow: false,
+                          title: controller.title,
+                          tileMargin: 0,
+                          initialExpand: false,
+                          onExpansionChange: (p0) {
+                            printData("onExpansionChange------${p0}");
+                            controller.isExpanseChange = p0;
+                            controller.update();
+                          },
+                          outerBorderRadius: controller.isExpanseChange
+                              ? BorderRadius.circular(20)
+                              : BorderRadius.circular(100),
+                          children: [
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: CustomTextField(
+                                    controller:
+                                        controller.partnerNameTextController,
+                                    fillColor: AppColor.whiteColor,
+                                    isUnderLineBorderRadius:
+                                        BorderRadius.circular(100),
+                                    isShadow: false,
+                                    hintText: "name".tr,
+                                    underLineFocusColor:
+                                        AppColor.secondPrimaryColor,
+                                  ),
+                                ),
+                                size.widthSpace(15),
+                                Flexible(
+                                  child: CustomTextField(
+                                    controller:
+                                        controller.partnerOwnedTextController,
+                                    fillColor: AppColor.whiteColor,
+                                    isUnderLineBorderRadius:
+                                        BorderRadius.circular(100),
+                                    isShadow: false,
+                                    hintText: "%_owned".tr,
+                                    underLineFocusColor:
+                                        AppColor.secondPrimaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            size.heightSpace(15),
+                            CustomTextField(
+                              controller: controller.partnerPhoneTextController,
+                              fillColor: AppColor.whiteColor,
+                              isUnderLineBorderRadius:
+                                  BorderRadius.circular(100),
+                              isShadow: false,
+                              hintText: "phone_no".tr,
+                              underLineFocusColor: AppColor.secondPrimaryColor,
+                            ),
+                            size.heightSpace(15),
+                          ],
+                        ),
+                        size.heightSpace(15),
+                        GestureDetector(
+                          onTap: () {},
+                          child: DottedBorder(
+                            color: AppColor.secondPrimaryColor,
+                            borderPadding: EdgeInsets.zero,
+                            strokeCap: StrokeCap.round,
+                            strokeWidth: 2,
+                            stackFit: StackFit.loose,
+                            dashPattern: const [3, 5],
+                            borderType: BorderType.RRect,
+                            radius: const Radius.circular(100),
+                            padding: const EdgeInsets.all(15),
+                            child: Center(
+                              child: Text(
+                                "add_partners".tr,
+                                style: AppTextStyle.regularSubTitleText
+                                    .copyWith(
+                                        color: AppColor.secondPrimaryColor),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        size.heightSpace(15),
+                        AppButton(
+                            buttonText: "save".tr,
+                            onPressed: () async {
+                              await controller.addAssets();
+                              Get.find<BottomNavigationBarController>()
+                                  .selectedIndex = 0;
+                              Get.find<BottomNavigationBarController>()
+                                  .update();
+                              Get.offAll(
+                                  () => const BottomNavigationBarScreen());
+                            },
+                            isBorder: false),
+                      ],
                     ),
-                    size.heightSpace(15),
-                    AppButton(
-                        buttonText: "save".tr,
-                        onPressed: (){
-                          Get.find<BottomNavigationBarController>().selectedIndex = 0;
-                          Get.find<BottomNavigationBarController>().update();
-                          Get.offAll(() => const BottomNavigationBarScreen());
-                        },
-                        isBorder: false
-                    ),
-                  ],
-                ).paddingAll(23),
+                  ).paddingAll(23),
+                ),
               ),
-            );
-          }
-      ),
-    );
+            ],
+          );
+        });
   }
 }

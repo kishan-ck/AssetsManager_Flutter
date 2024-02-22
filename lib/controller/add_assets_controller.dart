@@ -17,7 +17,9 @@ import 'package:get/get.dart';
 
 class AddAssetsController extends GetxController {
   String selectedSubCategoryController = "Metal3";
+  String selectedMeasurementController = "acr";
   String subCatId = "";
+  String measurementId = "";
   String isSolelyOwned = "No";
   String title = "Partner - 1";
   List<File>? path;

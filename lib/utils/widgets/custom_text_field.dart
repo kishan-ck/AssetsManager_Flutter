@@ -45,63 +45,61 @@ class CustomTextField extends StatelessWidget {
   int? errorMaxLines;
   FocusNode? focusNode;
 
-  CustomTextField({
-    super.key,
-    this.controller,
-    this.inputTextColor,
-    this.contentPadding = const EdgeInsets.only(top: 0, bottom: 10, left: 15),
-    this.hintText,
-    this.isShadow = true,
-    this.isBorderEnable = true,
-    this.hintStyle,
-    this.inputTextStyle,
-    this.obscureText = false,
-    this.autofocus = false,
-    this.isExpand = false,
-    this.isEnable = true,
-    this.isUnderLineBorderRadius,
-    this.labelText,
-    this.onTap,
-    this.verticalPadding,
-    this.horizontalPadding,
-    this.inputFormatters,
-    this.labelStyle,
-    this.width,
-    this.fillColor,
-    this.onFieldSubmitted,
-    this.cursorColor,
-    this.underLineFocusColor,
-    this.underLineEnabledColor,
-    this.minLines,
-    this.maxLines,
-    this.maxLength,
-    this.prefixIcn,
-    this.suffixIcn,
-    this.height,
-    this.textAlign,
-    this.validator,
-    this.onChange,
-    this.textInputType = TextInputType.name,
-    this.readOnly = false,
-    this.errorMaxLines,
-    this.focusNode
-  });
+  CustomTextField(
+      {super.key,
+      this.controller,
+      this.inputTextColor,
+      this.contentPadding = const EdgeInsets.only(top: 0, bottom: 10, left: 15),
+      this.hintText,
+      this.isShadow = true,
+      this.isBorderEnable = true,
+      this.hintStyle,
+      this.inputTextStyle,
+      this.obscureText = false,
+      this.autofocus = false,
+      this.isExpand = false,
+      this.isEnable = true,
+      this.isUnderLineBorderRadius,
+      this.labelText,
+      this.onTap,
+      this.verticalPadding,
+      this.horizontalPadding,
+      this.inputFormatters,
+      this.labelStyle,
+      this.width,
+      this.fillColor,
+      this.onFieldSubmitted,
+      this.cursorColor,
+      this.underLineFocusColor,
+      this.underLineEnabledColor,
+      this.minLines,
+      this.maxLines,
+      this.maxLength,
+      this.prefixIcn,
+      this.suffixIcn,
+      this.height,
+      this.textAlign,
+      this.validator,
+      this.onChange,
+      this.textInputType = TextInputType.name,
+      this.readOnly = false,
+      this.errorMaxLines,
+      this.focusNode});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width ?? Get.width,
-      height: height ?? 50,
+      // height: height ?? 50,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         boxShadow: [
           isShadow == true
               ? BoxShadow(
-            color: AppColor.blackColor.withOpacity(0.05),
-            blurRadius: 10.0,
-            spreadRadius: 0,
-            offset: const Offset(0,1)
-          )
+                  color: AppColor.blackColor.withOpacity(0.05),
+                  blurRadius: 10.0,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 1))
               : const BoxShadow(color: Colors.transparent),
         ],
       ),
@@ -130,7 +128,6 @@ class CustomTextField extends StatelessWidget {
             onFieldSubmitted!(value);
           }
         },
-
         onChanged: (value) {
           if (onChange != null) {
             onChange!(value);
@@ -147,43 +144,43 @@ class CustomTextField extends StatelessWidget {
             border: InputBorder.none,
             errorStyle: const TextStyle(
                 color: AppColor.redColor,
-              fontSize: 14,
-              fontWeight: FontWeight.w400
-            ),
+                fontSize: 14,
+                fontWeight: FontWeight.w400),
             errorMaxLines: errorMaxLines,
             focusedBorder: isBorderEnable == true
                 ? OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: underLineFocusColor ?? AppColor.secondPrimaryColor),
-                borderRadius:
-                isUnderLineBorderRadius ?? BorderRadius.circular(10))
+                    borderSide: BorderSide(
+                        color:
+                            underLineFocusColor ?? AppColor.secondPrimaryColor),
+                    borderRadius:
+                        isUnderLineBorderRadius ?? BorderRadius.circular(10))
                 : null,
             enabledBorder: isBorderEnable == true
                 ? OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: underLineEnabledColor ??
-                        AppColor.transparentColor),
-                borderRadius:
-                isUnderLineBorderRadius ?? BorderRadius.circular(10))
+                    borderSide: BorderSide(
+                        color:
+                            underLineEnabledColor ?? AppColor.transparentColor),
+                    borderRadius:
+                        isUnderLineBorderRadius ?? BorderRadius.circular(10))
                 : null,
             disabledBorder: isBorderEnable == true
                 ? OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: underLineEnabledColor ?? AppColor.whiteColor),
-                borderRadius:
-                isUnderLineBorderRadius ?? BorderRadius.circular(10))
+                    borderSide: BorderSide(
+                        color: underLineEnabledColor ?? AppColor.whiteColor),
+                    borderRadius:
+                        isUnderLineBorderRadius ?? BorderRadius.circular(10))
                 : null,
             errorBorder: isBorderEnable == true
                 ? OutlineInputBorder(
-                borderSide: const BorderSide(color: AppColor.redColor),
-                borderRadius:
-                isUnderLineBorderRadius ?? BorderRadius.circular(10))
+                    borderSide: const BorderSide(color: AppColor.redColor),
+                    borderRadius:
+                        isUnderLineBorderRadius ?? BorderRadius.circular(10))
                 : null,
             focusedErrorBorder: isBorderEnable == true
                 ? OutlineInputBorder(
-                borderSide: const BorderSide(color: AppColor.redColor),
-                borderRadius:
-                isUnderLineBorderRadius ?? BorderRadius.circular(10))
+                    borderSide: const BorderSide(color: AppColor.redColor),
+                    borderRadius:
+                        isUnderLineBorderRadius ?? BorderRadius.circular(10))
                 : null,
             counterText: "",
             contentPadding: contentPadding,
@@ -193,10 +190,12 @@ class CustomTextField extends StatelessWidget {
             fillColor: fillColor ?? AppColor.whiteColor,
             prefixIcon: prefixIcn,
             suffixIcon: suffixIcn,
-            hintStyle: hintStyle ?? AppTextStyle.regularSubTitleText.copyWith(color: AppColor.greyColor,
-                overflow: TextOverflow.ellipsis),
+            hintStyle: hintStyle ??
+                AppTextStyle.regularSubTitleText.copyWith(
+                    color: AppColor.greyColor, overflow: TextOverflow.ellipsis),
             labelStyle: labelStyle ??
-                AppTextStyle.regularSubTitleText.copyWith(color: AppColor.greyColor,
+                AppTextStyle.regularSubTitleText.copyWith(
+                    color: AppColor.greyColor,
                     overflow: TextOverflow.ellipsis)),
       ),
     );

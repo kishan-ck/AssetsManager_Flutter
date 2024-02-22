@@ -66,6 +66,65 @@ class DropDownButtonCommon extends StatelessWidget {
   }
 }
 
+class DropDownButtonMeasurementCommon extends StatelessWidget {
+  final String value;
+  final String? hintText;
+  final List<Measurement>? dropDownItems;
+  final ValueChanged<Measurement?> onChanged;
+  final bool? isExpanded;
+  final EdgeInsetsGeometry? padding;
+
+  const DropDownButtonMeasurementCommon(
+      {required this.value,
+      required this.dropDownItems,
+      required this.onChanged,
+      this.isExpanded,
+      this.padding,
+      super.key,
+      this.hintText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: AppColor.greyColor.withOpacity(0.1),
+          // color: AppColor.redColor,
+          borderRadius: BorderRadius.circular(100)),
+      child: DropdownButtonHideUnderline(
+          child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButton<Measurement>(
+            hint: Text(hintText ?? ""),
+            borderRadius: BorderRadius.circular(10),
+            // padding: padding ?? const EdgeInsets.only(left: 3, right: 3),
+            isExpanded: isExpanded ?? true,
+            style: AppTextStyle.mediumText.copyWith(color: AppColor.greyColor),
+            icon: Container(
+              height: size.height(36),
+              width: size.width(36),
+              padding: const EdgeInsets.all(10.5),
+              decoration: const BoxDecoration(
+                color: AppColor.whiteColor,
+                shape: BoxShape.circle,
+              ),
+              child: Image.asset(AppImagePath.dropdownIcon),
+            ),
+            value: dropDownItems?.firstWhere((item) => item.name == value),
+            items: dropDownItems
+                ?.map<DropdownMenuItem<Measurement>>(
+                    (e) => DropdownMenuItem<Measurement>(
+                        value: e,
+                        child: Text(
+                          e.name ?? "",
+                          style: AppTextStyle.regularSubTitleText,
+                        )))
+                .toList(),
+            onChanged: onChanged),
+      )),
+    );
+  }
+}
+
 class DropDownButtonStringCommon extends StatelessWidget {
   final String value;
   final String? hintText;

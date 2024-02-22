@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:assetsmanagement/utils/widgets/custometile.dart' as c;
 import 'package:get/get.dart';
 
-class UserController extends GetxController{
-
-  TextEditingController searchUserAssetsTextController = TextEditingController();
+class UserController extends GetxController {
+  TextEditingController searchUserAssetsTextController =
+      TextEditingController();
   TextEditingController myPartnerNameTextController = TextEditingController();
   TextEditingController myPartnerOwnedTextController = TextEditingController();
   TextEditingController myPartnerPhoneTextController = TextEditingController();
 
-  c.ExpansionTileController myPartnerExpansionTileController = c.ExpansionTileController();
-  c.ExpansionTileController mainPartnerExpansionTileController = c.ExpansionTileController();
+  c.ExpansionTileController myPartnerExpansionTileController =
+      c.ExpansionTileController();
+  c.ExpansionTileController mainPartnerExpansionTileController =
+      c.ExpansionTileController();
 
   String subTitle = "Partner - 1";
   String title = "My Partners";
@@ -22,7 +24,7 @@ class UserController extends GetxController{
 
   List userCategoryData = [
     {
-      "type":"Land",
+      "type": "Land",
       "color": AppColor.primaryColor,
       "icon": AppImagePath.landIcon,
       "Quantity": "2 Acre",
@@ -30,7 +32,7 @@ class UserController extends GetxController{
       "isSolelyOwned": true,
     },
     {
-      "type":"Flat",
+      "type": "Flat",
       "color": AppColor.secondPrimaryColor,
       "icon": AppImagePath.realEstateIcon,
       "Quantity": "1141 ft2",
@@ -38,7 +40,7 @@ class UserController extends GetxController{
       "isSolelyOwned": true,
     },
     {
-      "type":"Land",
+      "type": "Land",
       "color": AppColor.lightGreenColor,
       "icon": AppImagePath.landIcon,
       "Quantity": "2 Acre",
@@ -46,7 +48,7 @@ class UserController extends GetxController{
       "isSolelyOwned": true,
     },
     {
-      "type":"Flat",
+      "type": "Flat",
       "color": AppColor.lightRedColor,
       "icon": AppImagePath.realEstateIcon,
       "Quantity": "1141 ft2",
@@ -64,15 +66,5 @@ class UserController extends GetxController{
     AppImagePath.myAssetImage,
     AppImagePath.myAssetImage,
     AppImagePath.myAssetImage,
-  ];
-
-  List categoryDataColor = [
-    AppColor.primaryColor,
-    AppColor.secondPrimaryColor,
-    AppColor.lightGreenColor,
-    AppColor.lightRedColor,
-    AppColor.primaryColor,
-    AppColor.secondPrimaryColor,
-    AppColor.lightGreenColor,
   ];
 }

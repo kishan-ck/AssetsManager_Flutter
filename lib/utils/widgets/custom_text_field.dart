@@ -90,7 +90,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width ?? Get.width,
-      // height: height ?? 50,
+      height: height ?? 50,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         boxShadow: [

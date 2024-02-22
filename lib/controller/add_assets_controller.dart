@@ -6,6 +6,7 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/constants/local_storage.dart';
+import 'package:assetsmanagement/controller/user_controller.dart';
 import 'package:assetsmanagement/models/asset/add_assets_model.dart';
 import 'package:assetsmanagement/models/asset/asset_model.dart';
 import 'package:assetsmanagement/models/auth/error_model.dart';
@@ -86,6 +87,7 @@ class AddAssetsController extends GetxController {
 
   Future<void> getAssetData() async {
     isLoading = true;
+    Get.find<UserController>().update();
     update();
 
     await HttpHandler.getHttpMethod(url: APIEndPoints.assetUrl)
@@ -93,11 +95,8 @@ class AddAssetsController extends GetxController {
       if (value['error'] == null) {
         printData("getAssetData Api ==> ${value['body']}");
         assetModel = AssetModel.fromJson(json.decode(value['body']));
-        // await setDataToLocalStorage(
-        //     dataType: StorageKey.stringType,
-        //     stringData: jsonEncode(jsonDecode(value["body"])),
-        //     prefKey: StorageKey.assetData);
         isLoading = false;
+        Get.find<UserController>().update();
         update();
       } else {
         printData("getAssetData Api Error==> ${value['error']}");
@@ -107,6 +106,7 @@ class AddAssetsController extends GetxController {
       }
     });
     isLoading = false;
+    Get.find<UserController>().update();
     update();
   }
 
@@ -214,10 +214,11 @@ class AddAssetsController extends GetxController {
           "description": assetDescriptionTextController.text.trim(),
           "assetId": assetIdTextController.text.trim(),
           "numberOfMeasurement": assetQuantityTextController.text.trim(),
-          "measurementType": 2,
+          "measurementType": selectedMeasurementController.toString(),
           "isAssetSolelyOwned": isSolelyOwned == "Yes" ? true : false,
           "percentOwned": int.parse(assetOwnedTextController.text.trim()),
           "userId": userId.toString(),
+          "location": assetLocationTextController.text.trim(),
           "subCategoryId": subCatId.toString(),
           "partner": [],
           "images": uploadedImageString
@@ -229,6 +230,7 @@ class AddAssetsController extends GetxController {
         assetIdTextController.clear();
         assetQuantityTextController.clear();
         assetOwnedTextController.clear();
+        assetLocationTextController.clear();
         subCatId = "";
         uploadedImageString.clear();
         update();

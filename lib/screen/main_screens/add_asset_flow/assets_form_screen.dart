@@ -213,37 +213,66 @@ class AssetFormScreen extends StatelessWidget {
                             hintText: "location".tr,
                             underLineFocusColor: AppColor.primaryColor,
                           ),
-                          size.heightSpace(15),
-                          Row(
-                            children: [
-                              CustomTextField(
-                                controller:
-                                    controller.assetQuantityTextController,
-                                fillColor: AppColor.greyColor.withOpacity(0.1),
-                                isUnderLineBorderRadius:
-                                    BorderRadius.circular(100),
-                                isShadow: false,
-                                hintText: "number_of".tr,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Numbers require";
-                                  }
-                                  return null;
-                                },
-                                underLineFocusColor: AppColor.primaryColor,
-                              ),
-                              DropDownButtonMeasurementCommon(
-                                value: category?.measurement?.first.name ?? "",
-                                dropDownItems: category?.measurement,
-                                onChanged: (value) {
-                                  controller.selectedMeasurementController =
-                                      value?.name ?? "";
-                                  controller.measurementId = value?.id ?? "";
-                                  controller.update();
-                                },
-                              )
-                            ],
-                          ),
+                          category?.measurement == null ||
+                                  category == null ||
+                                  category!.measurement!.isEmpty
+                              ? const SizedBox()
+                              : size.heightSpace(15),
+                          category?.measurement == null ||
+                                  category == null ||
+                                  category!.measurement!.isEmpty
+                              ? const SizedBox()
+                              : Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: CustomTextField(
+                                        controller: controller
+                                            .assetQuantityTextController,
+                                        height: 50,
+                                        fillColor:
+                                            AppColor.greyColor.withOpacity(0.1),
+                                        isUnderLineBorderRadius:
+                                            BorderRadius.circular(100),
+                                        isShadow: false,
+                                        hintText: "number_of".tr,
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return "Numbers require";
+                                          }
+                                          return null;
+                                        },
+                                        underLineFocusColor:
+                                            AppColor.primaryColor,
+                                      ),
+                                    ),
+                                    size.widthSpace(10),
+                                    category?.measurement == null ||
+                                            category == null ||
+                                            category!.measurement!.isEmpty
+                                        ? const SizedBox()
+                                        : Expanded(
+                                            flex: 1,
+                                            child:
+                                                DropDownButtonMeasurementCommon(
+                                              isExpanded: true,
+                                              value: category?.measurement
+                                                      ?.first.name ??
+                                                  "",
+                                              dropDownItems:
+                                                  category?.measurement,
+                                              onChanged: (value) {
+                                                controller
+                                                        .selectedMeasurementController =
+                                                    value?.name ?? "";
+                                                controller.measurementId =
+                                                    value?.id ?? "";
+                                                controller.update();
+                                              },
+                                            ),
+                                          )
+                                  ],
+                                ),
                           size.heightSpace(15),
                           CustomTextField(
                             controller:

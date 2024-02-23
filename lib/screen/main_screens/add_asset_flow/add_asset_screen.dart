@@ -71,6 +71,25 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                           return GestureDetector(
                             onTap: () {
                               controller.path?.clear();
+                              controller.subCatId = Get.find<GlobalController>()
+                                      .homeDataModel!
+                                      .data!
+                                      .category![index]
+                                      .subcategory
+                                      ?.first
+                                      .id ??
+                                  "";
+                              controller.assetNameTextController.clear();
+                              controller.assetDescriptionTextController.clear();
+                              controller.assetIdTextController.clear();
+                              controller.assetQuantityTextController.clear();
+                              controller.assetOwnedTextController.clear();
+                              controller.assetLocationTextController.clear();
+                              controller.uploadedImageString.clear();
+                              controller.partnerList.clear();
+                              partnerNameTextController.clear();
+                              partnerPhoneTextController.clear();
+                              partnerOwnedTextController.clear();
                               controller.update();
                               Get.to(() => AssetFormScreen(
                                   category: Get.find<GlobalController>()

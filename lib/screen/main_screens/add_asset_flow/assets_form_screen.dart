@@ -152,7 +152,7 @@ class AssetFormScreen extends StatelessWidget {
                                 ),
                           size.heightSpace(15),
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: CustomTextField(
@@ -165,14 +165,15 @@ class AssetFormScreen extends StatelessWidget {
                                   isShadow: false,
                                   hintText: "asset_name".tr,
                                   underLineFocusColor: AppColor.primaryColor,
-                                  height: controller.isValidate ? 50 : 75,
+                                  height:
+                                      controller.isValidateAssetName ? 50 : 75,
                                   validator: (value) {
                                     if (value.isEmpty) {
-                                      controller.isValidate = false;
+                                      controller.isValidateAssetName = false;
                                       controller.update();
                                       return "AssetName require";
                                     }
-                                    controller.isValidate = true;
+                                    controller.isValidateAssetName = true;
                                     controller.update();
                                     return null;
                                   },
@@ -188,14 +189,15 @@ class AssetFormScreen extends StatelessWidget {
                                       BorderRadius.circular(100),
                                   isShadow: false,
                                   hintText: "asset_id".tr,
-                                  height: controller.isValidate ? 50 : 75,
+                                  height:
+                                      controller.isValidateAssetId ? 50 : 75,
                                   validator: (value) {
                                     if (value.isEmpty) {
-                                      controller.isValidate = false;
+                                      controller.isValidateAssetId = false;
                                       controller.update();
                                       return "Assets Id require";
                                     }
-                                    controller.isValidate = true;
+                                    controller.isValidateAssetId = true;
                                     controller.update();
                                     return null;
                                   },
@@ -229,17 +231,20 @@ class AssetFormScreen extends StatelessWidget {
                                       child: CustomTextField(
                                         controller: controller
                                             .assetQuantityTextController,
-                                        height: 50,
+                                        height: controller.isValidate ? 50 : 75,
                                         fillColor:
                                             AppColor.greyColor.withOpacity(0.1),
                                         isUnderLineBorderRadius:
                                             BorderRadius.circular(100),
+                                        textInputType: TextInputType.number,
                                         isShadow: false,
                                         hintText: "number_of".tr,
                                         validator: (value) {
-                                          if (value.isEmpty) {
+                                          if (value.trim().isEmpty) {
+                                            controller.isValidate = false;
                                             return "Numbers require";
                                           }
+                                          controller.isValidate = true;
                                           return null;
                                         },
                                         underLineFocusColor:
@@ -281,8 +286,18 @@ class AssetFormScreen extends StatelessWidget {
                             isUnderLineBorderRadius: BorderRadius.circular(18),
                             isShadow: false,
                             hintText: "asset_description".tr,
+                            height:
+                                controller.isValidateDescription ? 120 : 150,
+                            validator: (value) {
+                              if (value.trim().isEmpty) {
+                                controller.isValidateDescription = false;
+                                return "Numbers require";
+                              }
+                              controller.isValidateDescription = true;
+                              return null;
+                            },
                             isExpand: true,
-                            height: size.height(120),
+                            // height: size.height(120),
                             underLineFocusColor: AppColor.primaryColor,
                           ),
                           size.heightSpace(15),
@@ -317,7 +332,7 @@ class AssetFormScreen extends StatelessWidget {
                           ),
                           size.heightSpace(15),
                           controller.isSolelyOwned == "Yes"
-                              ? SizedBox()
+                              ? const SizedBox()
                               : HomeExpansionTile(
                                   tileController:
                                       controller.partnerExpansionTileController,
@@ -381,12 +396,92 @@ class AssetFormScreen extends StatelessWidget {
                                   ],
                                 ),
                           controller.isSolelyOwned == "Yes"
-                              ? SizedBox()
+                              ? const SizedBox()
                               : size.heightSpace(15),
+                          ListView.separated(
+                            itemCount: controller.partnerList.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return HomeExpansionTile(
+                                tileController: controller.partnerList[index]
+                                    .nameExpansionTileController,
+                                isShadow: false,
+                                title: "Partner - ${index + 2}",
+                                tileMargin: 0,
+                                initialExpand: false,
+                                onExpansionChange: (p0) {
+                                  printData("onExpansionChange------${p0}");
+                                  controller
+                                      .partnerList[index].isExpanseChange = p0;
+                                  controller.update();
+                                },
+                                outerBorderRadius: controller
+                                        .partnerList[index].isExpanseChange
+                                    ? BorderRadius.circular(20)
+                                    : BorderRadius.circular(100),
+                                children: [
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: CustomTextField(
+                                          controller: controller
+                                              .partnerList[index]
+                                              .nameController,
+                                          fillColor: AppColor.whiteColor,
+                                          isUnderLineBorderRadius:
+                                              BorderRadius.circular(100),
+                                          isShadow: false,
+                                          hintText: "name".tr,
+                                          underLineFocusColor:
+                                              AppColor.secondPrimaryColor,
+                                        ),
+                                      ),
+                                      size.widthSpace(15),
+                                      Flexible(
+                                        child: CustomTextField(
+                                          controller: controller
+                                              .partnerList[index].ownController,
+                                          fillColor: AppColor.whiteColor,
+                                          isUnderLineBorderRadius:
+                                              BorderRadius.circular(100),
+                                          isShadow: false,
+                                          hintText: "%_owned".tr,
+                                          underLineFocusColor:
+                                              AppColor.secondPrimaryColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  size.heightSpace(15),
+                                  CustomTextField(
+                                    controller: controller
+                                        .partnerList[index].phoneController,
+                                    fillColor: AppColor.whiteColor,
+                                    isUnderLineBorderRadius:
+                                        BorderRadius.circular(100),
+                                    isShadow: false,
+                                    hintText: "phone_no".tr,
+                                    underLineFocusColor:
+                                        AppColor.secondPrimaryColor,
+                                  ),
+                                  size.heightSpace(15),
+                                ],
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return size.heightSpace(15);
+                            },
+                          ),
+                          size.heightSpace(15),
                           controller.isSolelyOwned == "Yes"
-                              ? SizedBox()
+                              ? const SizedBox()
                               : GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    controller.partnerList.add(PartnerModel());
+                                    controller.update();
+                                  },
                                   child: DottedBorder(
                                     color: AppColor.secondPrimaryColor,
                                     borderPadding: EdgeInsets.zero,

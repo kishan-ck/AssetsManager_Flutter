@@ -1,6 +1,7 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
+import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:assetsmanagement/controller/user_controller.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
 import 'package:assetsmanagement/utils/widgets/home_expansiontile.dart';
@@ -9,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AssetDetailScreen extends StatelessWidget {
-  const AssetDetailScreen({super.key});
+  final int? index;
+  const AssetDetailScreen({super.key, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +265,7 @@ class AssetDetailScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30)
                       ),
                       child: Text(
-                        "• Co-Owned",
+                        Get.find<SettingController>().assetModel?.data?[index ?? 0].isAssetSolelyOwned == true ? "• Co-Owned" : "• Solely Owned",
                         style: AppTextStyle.largeText.copyWith(color: AppColor.lightGreenColor, fontWeight: FontWeight.w700,fontSize: 10),
                       ),
                     ),
@@ -318,7 +320,7 @@ class AssetDetailScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Home",
+                            Get.find<SettingController>().assetModel?.data?[index ?? 0].name ?? "",
                             style: AppTextStyle.largeText,
                           ),
                           Row(
@@ -326,7 +328,7 @@ class AssetDetailScreen extends StatelessWidget {
                               Image.asset(AppImagePath.locationIcon, color: AppColor.blackColor,scale: 4),
                               size.widthSpace(5),
                               Text(
-                                "Adajan, Surat",
+                                Get.find<SettingController>().assetModel?.data?[index ?? 0].location ?? "",
                                 style: AppTextStyle.largeText,
                               ),
                             ],
@@ -336,15 +338,15 @@ class AssetDetailScreen extends StatelessWidget {
                             style: AppTextStyle.largeText,
                           ),
                           Text(
-                            "Commercial Land",
+                            Get.find<SettingController>().assetModel?.data?[index ?? 0].subCategoryId?.name ?? "",
                             style: AppTextStyle.largeText,
                           ),
                           Text(
-                            "500 acre",
+                            "${Get.find<SettingController>().assetModel?.data?[index ?? 0].numberOfMeasurement ?? ""} ${Get.find<SettingController>().assetModel?.data?[index ?? 0].measurementType ?? ""}",
                             style: AppTextStyle.largeText,
                           ),
                           Text(
-                            "My personal land for new project.",
+                            Get.find<SettingController>().assetModel?.data?[index ?? 0].description ?? "",
                             style: AppTextStyle.largeText,
                           ),
                         ],

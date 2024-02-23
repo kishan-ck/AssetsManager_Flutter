@@ -85,31 +85,6 @@ class AddAssetsController extends GetxController {
     },
   ];
 
-  Future<void> getAssetData() async {
-    isLoading = true;
-    Get.find<UserController>().update();
-    update();
-
-    await HttpHandler.getHttpMethod(url: APIEndPoints.assetUrl)
-        .then((value) async {
-      if (value['error'] == null) {
-        printData("getAssetData Api ==> ${value['body']}");
-        assetModel = AssetModel.fromJson(json.decode(value['body']));
-        isLoading = false;
-        Get.find<UserController>().update();
-        update();
-      } else {
-        printData("getAssetData Api Error==> ${value['error']}");
-        ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
-        commonSnackBar(message: "${error.message}");
-        return null;
-      }
-    });
-    isLoading = false;
-    Get.find<UserController>().update();
-    update();
-  }
-
   Future<void> subCategoryData({required String catId}) async {
     isLoading = true;
     update();

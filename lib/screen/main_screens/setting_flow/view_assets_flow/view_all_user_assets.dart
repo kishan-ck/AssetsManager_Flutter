@@ -2,6 +2,7 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
+import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:assetsmanagement/controller/user_controller.dart';
 import 'package:assetsmanagement/screen/main_screens/setting_flow/view_assets_flow/asset_detail_screen.dart';
 import 'package:assetsmanagement/utils/widgets/app_loader.dart';
@@ -87,7 +88,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                     Expanded(
                       child: GridView.builder(
                         shrinkWrap: true,
-                        itemCount: Get.find<AddAssetsController>()
+                        itemCount: Get.find<SettingController>()
                                 .assetModel
                                 ?.data
                                 ?.length ??
@@ -101,7 +102,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.to(() => const AssetDetailScreen());
+                              Get.to(() => AssetDetailScreen(index: index));
                             },
                             child: Stack(
                               alignment: Alignment.topRight,
@@ -134,7 +135,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        Get.find<AddAssetsController>()
+                                        Get.find<SettingController>()
                                                 .assetModel
                                                 ?.data?[index]
                                                 .name ??
@@ -144,7 +145,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                                 color: AppColor.whiteColor),
                                       ),
                                       Text(
-                                        '${Get.find<AddAssetsController>().assetModel?.data?[index].numberOfMeasurement ?? ""} ${Get.find<AddAssetsController>().assetModel?.data?[index].measurementType ?? ""}',
+                                        '${Get.find<SettingController>().assetModel?.data?[index].numberOfMeasurement ?? ""} ${Get.find<SettingController>().assetModel?.data?[index].measurementType ?? ""}',
                                         style: AppTextStyle.regularText
                                             .copyWith(
                                                 color: AppColor.whiteColor,
@@ -165,7 +166,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                             width: size.width(10),
                                           ),
                                           Text(
-                                            Get.find<AddAssetsController>()
+                                            Get.find<SettingController>()
                                                     .assetModel
                                                     ?.data?[index]
                                                     .location ??
@@ -180,7 +181,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                       Align(
                                           alignment: Alignment.bottomRight,
                                           child: Text(
-                                            Get.find<AddAssetsController>()
+                                            Get.find<SettingController>()
                                                         .assetModel
                                                         ?.data?[index]
                                                         .isAssetSolelyOwned ==

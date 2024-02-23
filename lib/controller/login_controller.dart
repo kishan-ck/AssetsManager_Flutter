@@ -7,6 +7,7 @@ import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/local_storage.dart';
 import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
+import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:assetsmanagement/models/auth/error_model.dart';
 import 'package:assetsmanagement/models/auth/login_model.dart';
 import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
@@ -21,6 +22,7 @@ class LoginController extends GetxController {
   bool isLoading = false;
   bool isValidate = true;
   bool isShadow = true;
+  bool passwordVisible = true;
 
   LoginModel? loginModel;
 
@@ -62,6 +64,7 @@ class LoginController extends GetxController {
         Get.find<BottomNavigationBarController>().selectedIndex = 0;
         Get.find<BottomNavigationBarController>().update();
         Get.find<GlobalController>().homeData();
+        Get.find<SettingController>().getUserAPI();
         commonSnackBar(message: "${loginModel?.message}", isError: false);
         Get.offAll(() => const BottomNavigationBarScreen());
       } else {

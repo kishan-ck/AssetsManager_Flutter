@@ -37,17 +37,16 @@ class SettingScreen extends StatelessWidget {
                     size.heightSpace(15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Arfaz Chhapawala",
+                              controller.getUserModelData?.data?.fullname ?? "",
                               style: AppTextStyle.appbarTitleText,
                             ),
                             Text(
-                              "arfaz.coderkube@gmail.com",
+                              controller.getUserModelData?.data?.email ?? "",
                               style: AppTextStyle.regularSubTitleText,
                             ),
                           ],

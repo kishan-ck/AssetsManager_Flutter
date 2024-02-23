@@ -1,0 +1,73 @@
+class UpdateUserProfileModel {
+  final int? status;
+  final Data? data;
+  final String? message;
+
+  UpdateUserProfileModel({
+    this.status,
+    this.data,
+    this.message,
+  });
+
+  UpdateUserProfileModel.fromJson(Map<String, dynamic> json)
+      : status = json['status'] as int?,
+        data = (json['data'] as Map<String,dynamic>?) != null ? Data.fromJson(json['data'] as Map<String,dynamic>) : null,
+        message = json['message'] as String?;
+
+  Map<String, dynamic> toJson() => {
+    'status' : status,
+    'data' : data?.toJson(),
+    'message' : message
+  };
+}
+
+class Data {
+  final String? image;
+  final String? id;
+  final String? fullname;
+  final int? phoneNo;
+  final String? email;
+  final String? password;
+  final String? socialId;
+  final String? socialType;
+  final String? authToken;
+  final int? v;
+
+  Data({
+    this.image,
+    this.id,
+    this.fullname,
+    this.phoneNo,
+    this.email,
+    this.password,
+    this.socialId,
+    this.socialType,
+    this.authToken,
+    this.v,
+  });
+
+  Data.fromJson(Map<String, dynamic> json)
+      : image = json['image'] as String?,
+        id = json['_id'] as String?,
+        fullname = json['fullname'] as String?,
+        phoneNo = json['phone_no'] as int?,
+        email = json['email'] as String?,
+        password = json['password'] as String?,
+        socialId = json['social_id'] as String?,
+        socialType = json['social_type'] as String?,
+        authToken = json['authToken'] as String?,
+        v = json['__v'] as int?;
+
+  Map<String, dynamic> toJson() => {
+    'image' : image,
+    '_id' : id,
+    'fullname' : fullname,
+    'phone_no' : phoneNo,
+    'email' : email,
+    'password' : password,
+    'social_id' : socialId,
+    'social_type' : socialType,
+    'authToken' : authToken,
+    '__v' : v
+  };
+}

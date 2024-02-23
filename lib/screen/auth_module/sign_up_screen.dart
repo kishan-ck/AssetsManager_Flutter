@@ -67,6 +67,7 @@ class SignUpScreen extends StatelessWidget {
                                 height: controller.isValidate ? 50 : 75,
                                 isShadow: controller.isShadow,
                                 hintText: "enter_your_email".tr,
+                                maxLines: 1,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
                                     controller.isValidate = false;
@@ -90,6 +91,7 @@ class SignUpScreen extends StatelessWidget {
                                 hintText: "enter_your_full_name".tr,
                                 height: controller.isValidate ? 50 : 75,
                                 isShadow: controller.isShadow,
+                                maxLines: 1,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
                                     controller.isValidate = false;
@@ -109,6 +111,7 @@ class SignUpScreen extends StatelessWidget {
                                 hintText: "enter_your_phone_no".tr,
                                 height: controller.isValidate ? 50 : 75,
                                 isShadow: controller.isShadow,
+                                maxLines: 1,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
                                     controller.isValidate = false;
@@ -127,7 +130,16 @@ class SignUpScreen extends StatelessWidget {
                                 isShadow: controller.isShadow,
                                 controller: controller.passwordSignUpTextController,
                                 hintText: "enter_your_password".tr,
+                                suffixIcn: GestureDetector(
+                                    onTap: () {
+                                      controller.passwordVisible = !controller.passwordVisible;
+                                      controller.update();
+                                    },
+                                    child: controller.passwordVisible ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.visibility_outlined)),
                                 errorMaxLines: 3,
+                                maxLines: 1,
+                                obscuringCharacter: "*",
+                                obscureText: controller.passwordVisible,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
                                     controller.isValidate = false;
@@ -152,17 +164,21 @@ class SignUpScreen extends StatelessWidget {
                                 controller: controller.confirmPasswordSignUpTextController,
                                 hintText: "confirm_your_password".tr,
                                 errorMaxLines: 3,
+                                suffixIcn: GestureDetector(
+                                    onTap: () {
+                                      controller.confirmPasswordVisible = !controller.confirmPasswordVisible;
+                                      controller.update();
+                                    },
+                                    child: controller.confirmPasswordVisible ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.visibility_outlined)),
+                                maxLines: 1,
+                                obscuringCharacter: "*",
+                                obscureText: controller.confirmPasswordVisible,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
                                     controller.isValidate = false;
                                     controller.update();
                                     return 'please_confirm_your_password'.tr;
-                                  } else if (!RegExp(passwordValidationRegExp)
-                                      .hasMatch(value)) {
-                                    controller.isValidate = false;
-                                    controller.update();
-                                    return 'strong_password'.tr;
-                                  }else if(controller.confirmPasswordSignUpTextController.text != controller.passwordSignUpTextController.text){
+                                  } else if(controller.confirmPasswordSignUpTextController.text != controller.passwordSignUpTextController.text) {
                                     controller.isValidate = false;
                                     controller.update();
                                     return 'ⓘ_password_incorrect._please_re-check_your_password.'.tr;

@@ -1,6 +1,7 @@
 import 'package:assetsmanagement/constants/local_storage.dart';
 import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
+import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:assetsmanagement/screen/auth_module/login_screen.dart';
 import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:assetsmanagement/utils/storage/shared_preferences.dart';
@@ -20,6 +21,7 @@ class SplashController extends GetxController{
         Get.find<BottomNavigationBarController>().selectedIndex = 0;
         Get.find<BottomNavigationBarController>().update();
         Get.find<GlobalController>().homeData();
+        Get.find<SettingController>().getUserAPI();
         Get.offAll(() => const BottomNavigationBarScreen());
       } else{
         Get.offAll(() => LoginScreen());

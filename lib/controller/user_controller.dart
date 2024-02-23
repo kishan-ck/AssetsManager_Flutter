@@ -1,5 +1,14 @@
+import 'dart:convert';
+
+import 'package:assetsmanagement/config/api_end_point.dart';
+import 'package:assetsmanagement/config/network_handler.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
+import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
+import 'package:assetsmanagement/constants/local_storage.dart';
+import 'package:assetsmanagement/models/auth/error_model.dart';
+import 'package:assetsmanagement/models/auth/get_user_model.dart';
+import 'package:assetsmanagement/utils/storage/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:assetsmanagement/utils/widgets/custometile.dart' as c;
 import 'package:get/get.dart';
@@ -55,6 +64,13 @@ class UserController extends GetxController {
       "location": "Adajan, Surat",
       "isSolelyOwned": true,
     },
+  ];
+
+  final List<Color> categoryColor = [
+    AppColor.primaryColor,
+    AppColor.secondPrimaryColor,
+    AppColor.lightGreenColor,
+    AppColor.lightRedColor,
   ];
 
   final List<String> imageUrls = [

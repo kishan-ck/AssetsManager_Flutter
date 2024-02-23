@@ -100,6 +100,8 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                             crossAxisSpacing: size.width(19)),
                         padding: const EdgeInsets.only(bottom: 20),
                         itemBuilder: (BuildContext context, int index) {
+                          final color = controller.categoryColor[index % controller.categoryColor.length];
+                          printData("Color ===> $color");
                           return GestureDetector(
                             onTap: () {
                               Get.to(() => AssetDetailScreen(index: index));
@@ -117,8 +119,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                           scale: 3,
                                           alignment: Alignment.topRight),
                                       borderRadius: BorderRadius.circular(10),
-                                      color: controller.userCategoryData[index]
-                                          ['color'],
+                                      color: color,
                                       boxShadow: [
                                         BoxShadow(
                                             color: AppColor.blackColor
@@ -138,7 +139,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                         Get.find<SettingController>()
                                                 .assetModel
                                                 ?.data?[index]
-                                                .name ??
+                                                .subCategoryId?.catId?.name ??
                                             "",
                                         style: AppTextStyle.regularText
                                             .copyWith(
@@ -195,16 +196,16 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                     ],
                                   ).paddingSymmetric(horizontal: 15),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10.0, right: 15),
-                                  child: Image.asset(
-                                    controller.userCategoryData[index]['icon'],
-                                    color: AppColor.whiteColor,
-                                    height: size.height(29),
-                                    width: size.width(29),
-                                  ),
-                                )
+                                // Padding(
+                                //   padding: const EdgeInsets.only(
+                                //       top: 10.0, right: 15),
+                                //   child: Image.asset(
+                                //     controller.userCategoryData[index]['icon'],
+                                //     color: AppColor.whiteColor,
+                                //     height: size.height(29),
+                                //     width: size.width(29),
+                                //   ),
+                                // )
                               ],
                             ),
                           );

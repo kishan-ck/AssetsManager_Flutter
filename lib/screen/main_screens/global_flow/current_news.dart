@@ -1,13 +1,17 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
+import 'package:assetsmanagement/controller/global_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class CurrentNewsScreen extends StatelessWidget {
   final String? title;
   final String? content;
-  const CurrentNewsScreen({super.key, this.title, this.content});
+  final String? date;
+  final String? day;
+  const CurrentNewsScreen({super.key, this.title, this.content, this.date, this.day});
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +64,8 @@ class CurrentNewsScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Today", style: AppTextStyle.mediumLargeText),
-                Text("01st February, 2024",
+                Text(day!, style: AppTextStyle.mediumLargeText),
+                Text(Get.find<GlobalController>().addOrdinalSuffix(DateFormat('dd MMMM, yyyy').format(DateTime.parse(date!))),
                     style: AppTextStyle.regularSubTitleText
                         .copyWith(color: AppColor.k9B9BA3)),
               ],

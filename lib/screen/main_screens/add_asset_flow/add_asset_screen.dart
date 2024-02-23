@@ -193,11 +193,6 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                           );
                         },
                       ),
-                Text(
-                  "view_all".tr,
-                  style: AppTextStyle.regularText
-                      .copyWith(color: AppColor.primaryColor),
-                ),
               ],
             ).paddingAll(23);
           }),

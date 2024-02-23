@@ -23,6 +23,8 @@ class SignUpController extends GetxController {
   bool isLoading = false;
   bool isValidate = true;
   bool isShadow = true;
+  bool passwordVisible = true;
+  bool confirmPasswordVisible = true;
 
   Future<void> register() async {
     isLoading = true;

@@ -27,4 +27,12 @@ class APIEndPoints {
   static String profileUrl({required int userId}) {
     return "/user_profile/$userId";
   }
+
+  static String updateUser({required String userId}) {
+    return "/updateuser?id=$userId";
+  }
+
+  static String getUserUrl({required String userId}) {
+    return "/getUser?id=$userId";
+  }
 }

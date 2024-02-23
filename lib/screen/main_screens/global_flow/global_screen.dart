@@ -2,7 +2,8 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
-import 'package:assetsmanagement/controller/login_controller.dart';
+import 'package:assetsmanagement/controller/setting_controller.dart';
+import 'package:assetsmanagement/screen/main_screens/global_flow/current_news.dart';
 import 'package:assetsmanagement/screen/main_screens/global_flow/view_all_category_screen.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -38,7 +39,7 @@ class GlobalScreen extends StatelessWidget {
                                 children: <TextSpan>[
                                   TextSpan(
                                       text:
-                                          "${Get.find<LoginController>().loginModel?.data?.fullname ?? ""}!",
+                                          "${Get.find<SettingController>().getUserModelData?.data?.fullname ?? ""}!",
                                       style: AppTextStyle.regularHeadingText
                                           .copyWith(
                                               color:
@@ -53,14 +54,17 @@ class GlobalScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(9),
-                          decoration: const BoxDecoration(
-                            color: AppColor.primaryColor,
-                            shape: BoxShape.circle,
+                        InkWell(
+                          onTap: () => Get.find<SettingController>().getUserAPI(),
+                          child: Container(
+                            padding: const EdgeInsets.all(9),
+                            decoration: const BoxDecoration(
+                              color: AppColor.primaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.asset(AppImagePath.notificationsIcon,
+                                height: size.height(20)),
                           ),
-                          child: Image.asset(AppImagePath.notificationsIcon,
-                              height: size.height(20)),
                         ),
                       ],
                     ),
@@ -111,7 +115,18 @@ class GlobalScreen extends StatelessWidget {
                           controller.update();
                         },
                       ),
-                      items: controller.items,
+                      items: controller.items.map((item) {
+                        return GestureDetector(
+                          onTap: () {
+                            String title = controller.homeDataModel?.data?.news?[controller.currentIndex].title ?? "";
+                            String content = controller.homeDataModel?.data?.news?[controller.currentIndex].content ?? "";
+                            String date = controller.homeDataModel?.data?.date ?? "";
+                            String day = controller.homeDataModel?.data?.day ?? "";
+                            Get.to(()=> CurrentNewsScreen(title: title, content: content, date : date, day : day));
+                          },
+                          child: Image.asset(item, fit: BoxFit.fill),
+                        );
+                      }).toList(),
                     ),
                     size.heightSpace(10),
                     Align(
@@ -129,6 +144,7 @@ class GlobalScreen extends StatelessWidget {
                       itemCount:
                           controller.homeDataModel?.data?.category?.length ?? 0,
                       shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return Column(
                           children: [

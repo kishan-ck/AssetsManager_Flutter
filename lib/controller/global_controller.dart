@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:assetsmanagement/config/api_end_point.dart';
 import 'package:assetsmanagement/config/network_handler.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
@@ -25,22 +24,7 @@ class GlobalController extends GetxController {
   HomeDataModel? homeDataModel;
 
   final items = [
-    Image.asset(
-      AppImagePath.newsImage1,
-      fit: BoxFit.fill,
-    ),
-    Image.asset(
-      AppImagePath.newsImage1,
-      fit: BoxFit.fill,
-    ),
-    Image.asset(
-      AppImagePath.newsImage1,
-      fit: BoxFit.fill,
-    ),
-    Image.asset(
-      AppImagePath.newsImage1,
-      fit: BoxFit.fill,
-    ),
+    AppImagePath.newsImage1,
   ];
 
   // List categoryData = [
@@ -61,6 +45,22 @@ class GlobalController extends GetxController {
     AppColor.secondPrimaryColor,
     AppColor.lightGreenColor,
   ];
+
+  String addOrdinalSuffix(String formattedDate) {
+    String day = formattedDate.split(' ')[1];
+    String suffix = '';
+    if (day.endsWith('1')) {
+      suffix = 'st';
+    } else if (day.endsWith('2')) {
+      suffix = 'nd';
+    } else if (day.endsWith('3')) {
+      suffix = 'rd';
+    } else {
+      suffix = 'th';
+    }
+    return formattedDate.replaceAllMapped(
+        RegExp(r'\b\d{1,2}\b'), (Match m) => m.group(0)! + suffix);
+  }
 
   Future<void> homeData() async {
     isLoading = true;

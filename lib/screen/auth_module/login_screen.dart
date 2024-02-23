@@ -67,6 +67,7 @@ class LoginScreen extends StatelessWidget {
                               controller: controller.emailTextController,
                                 height: controller.isValidate ? 50 : 75,
                                 isShadow: controller.isShadow,
+                                maxLines: 1,
                                 hintText: "enter_your_email".tr,
                                 validator: (value) {
                                 if (value!.trim().isEmpty) {
@@ -92,6 +93,15 @@ class LoginScreen extends StatelessWidget {
                                 isShadow: controller.isShadow,
                                 hintText: "enter_your_password".tr,
                                 errorMaxLines: 3,
+                                maxLines: 1,
+                                obscuringCharacter: "*",
+                                suffixIcn: GestureDetector(
+                                    onTap: () {
+                                      controller.passwordVisible = !controller.passwordVisible;
+                                      controller.update();
+                                    },
+                                    child: controller.passwordVisible ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.visibility_outlined)),
+                                obscureText: controller.passwordVisible,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
                                     controller.isValidate = false;

@@ -44,6 +44,7 @@ class CustomTextField extends StatelessWidget {
   int? maxLines;
   int? errorMaxLines;
   FocusNode? focusNode;
+  String? obscuringCharacter;
 
   CustomTextField(
       {super.key,
@@ -84,7 +85,8 @@ class CustomTextField extends StatelessWidget {
       this.textInputType = TextInputType.name,
       this.readOnly = false,
       this.errorMaxLines,
-      this.focusNode});
+      this.focusNode,
+        this.obscuringCharacter});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +113,7 @@ class CustomTextField extends StatelessWidget {
         readOnly: readOnly,
         textAlign: textAlign ?? TextAlign.left,
         obscureText: obscureText,
-        obscuringCharacter: "*",
+        obscuringCharacter: obscuringCharacter ?? "*",
         cursorColor: cursorColor ?? AppColor.secondPrimaryColor,
         minLines: isExpand == true ? null : minLines ?? 1,
         maxLines: isExpand == true ? null : maxLines,

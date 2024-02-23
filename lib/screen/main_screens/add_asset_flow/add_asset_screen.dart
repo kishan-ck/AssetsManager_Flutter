@@ -87,9 +87,9 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                               controller.assetLocationTextController.clear();
                               controller.uploadedImageString.clear();
                               controller.partnerList.clear();
-                              partnerNameTextController.clear();
-                              partnerPhoneTextController.clear();
-                              partnerOwnedTextController.clear();
+                              controller.partnerNameTextController.clear();
+                              controller.partnerPhoneTextController.clear();
+                              controller.partnerOwnedTextController.clear();
                               controller.update();
                               Get.to(() => AssetFormScreen(
                                   category: Get.find<GlobalController>()

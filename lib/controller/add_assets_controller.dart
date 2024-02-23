@@ -24,6 +24,7 @@ class AddAssetsController extends GetxController {
   String isSolelyOwned = "No";
   String title = "Partner - 1";
   List<File>? path;
+  List<PartnerModel> partnerList = [];
   List<dynamic> uploadedImageString = [];
 
   AddAssetsModel? addAssetsModel;
@@ -48,6 +49,10 @@ class AddAssetsController extends GetxController {
   bool isExpanseChange = false;
   bool isLoading = false;
   bool isValidate = false;
+  bool isValidateDescription = false;
+  bool isValidateAssetName = false;
+  bool isValidateAssetId = false;
+  int partnerLength = 0;
 
   List<String> subCategoryDropDownItems = [
     "Residential Land",
@@ -204,6 +209,23 @@ class AddAssetsController extends GetxController {
   addAssets() async {
     isLoading = true;
     update();
+    List<Map<String, String>> list = partnerList.map((e) {
+      return {
+        "name": e.nameController.text.trim(),
+        "contact": e.phoneController.text.trim(),
+        "percentOwned": e.ownController.text.trim(),
+      };
+    }).toList();
+
+    Map<String, String> firstData = {
+      "name": partnerNameTextController.text.trim(),
+      "contact": partnerPhoneTextController.text.trim(),
+      "percentOwned": partnerOwnedTextController.text.trim(),
+    };
+
+    list.add(firstData);
+    print("partner List:: $list");
+
     final userId = await getDataFromLocalStorage(
         dataType: StorageKey.stringType, prefKey: StorageKey.userId);
     await HttpHandler.postHttpMethod(
@@ -216,11 +238,13 @@ class AddAssetsController extends GetxController {
           "numberOfMeasurement": assetQuantityTextController.text.trim(),
           "measurementType": selectedMeasurementController.toString(),
           "isAssetSolelyOwned": isSolelyOwned == "Yes" ? true : false,
-          "percentOwned": int.parse(assetOwnedTextController.text.trim()),
+          "percentOwned": int.parse(assetOwnedTextController.text.trim() == ""
+              ? "0"
+              : assetOwnedTextController.text.trim()),
           "userId": userId.toString(),
           "location": assetLocationTextController.text.trim(),
           "subCategoryId": subCatId.toString(),
-          "partner": [],
+          "partner": isSolelyOwned == "Yes" ? [] : list,
           "images": uploadedImageString
         }).then((value) {
       if (value['error'] == null) {
@@ -231,6 +255,9 @@ class AddAssetsController extends GetxController {
         assetQuantityTextController.clear();
         assetOwnedTextController.clear();
         assetLocationTextController.clear();
+        partnerNameTextController.clear();
+        partnerPhoneTextController.clear();
+        partnerOwnedTextController.clear();
         subCatId = "";
         uploadedImageString.clear();
         update();
@@ -250,4 +277,24 @@ class AddAssetsController extends GetxController {
     isLoading = false;
     update();
   }
+}
+
+class PartnerModel {
+  final TextEditingController nameController;
+  final TextEditingController ownController;
+  final TextEditingController phoneController;
+  final c.ExpansionTileController nameExpansionTileController;
+  bool isExpanseChange;
+
+  PartnerModel({
+    TextEditingController? nameController,
+    TextEditingController? ownController,
+    TextEditingController? phoneController,
+    this.isExpanseChange = false,
+    c.ExpansionTileController? nameExpansionTileController,
+  })  : nameController = nameController ?? TextEditingController(text: ""),
+        ownController = ownController ?? TextEditingController(text: ""),
+        phoneController = phoneController ?? TextEditingController(text: ""),
+        nameExpansionTileController =
+            nameExpansionTileController ?? c.ExpansionTileController();
 }

@@ -75,10 +75,33 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                                       .homeDataModel!
                                       .data!
                                       .category![index]
-                                      .subcategory
-                                      ?.first
-                                      .id ??
-                                  "";
+                                      .subcategory!
+                                      .isNotEmpty
+                                  ? Get.find<GlobalController>()
+                                          .homeDataModel!
+                                          .data!
+                                          .category![index]
+                                          .subcategory
+                                          ?.first
+                                          .id ??
+                                      ""
+                                  : "";
+                              controller.measurementId =
+                                  Get.find<GlobalController>()
+                                          .homeDataModel!
+                                          .data!
+                                          .category![index]
+                                          .measurement!
+                                          .isNotEmpty
+                                      ? Get.find<GlobalController>()
+                                              .homeDataModel!
+                                              .data!
+                                              .category![index]
+                                              .measurement
+                                              ?.first
+                                              .id ??
+                                          ""
+                                      : "";
                               controller.assetNameTextController.clear();
                               controller.assetDescriptionTextController.clear();
                               controller.assetIdTextController.clear();

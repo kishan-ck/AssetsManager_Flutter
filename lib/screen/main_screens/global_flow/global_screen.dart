@@ -39,7 +39,7 @@ class GlobalScreen extends StatelessWidget {
                                 children: <TextSpan>[
                                   TextSpan(
                                       text:
-                                          "${Get.find<SettingController>().getUserModelData?.data?.fullname ?? ""}!",
+                                          "${Get.find<SettingController>().getUserModelData?.data?.fullname?.split(" ")[0] ?? ""}!",
                                       style: AppTextStyle.regularHeadingText
                                           .copyWith(
                                               color:
@@ -181,6 +181,7 @@ class GlobalScreen extends StatelessWidget {
                                 height: 100,
                                 child: controller.horizontalList(controller
                                     .homeDataModel!.data!.category![index])),
+                            size.heightSpace(15),
                           ],
                         );
                       },

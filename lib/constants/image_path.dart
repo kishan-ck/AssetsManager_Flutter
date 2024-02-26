@@ -10,6 +10,7 @@ class AppImagePath {
   static const profileImage = "assets/images/user_profile.png";
   static const myAssetBgImage = "assets/images/my_asset_bg.png";
   static const myAssetImage = "assets/images/asset_image.png";
+  static const defaultBG = "assets/images/default_bg.png";
 
   static const collectablesIcon = "assets/icon/collectables.png";
   static const growthIcon = "assets/icon/grow.png";

@@ -171,8 +171,14 @@ class SettingController extends GetxController {
                       decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppColor.whiteColor),
-                      child: Get.find<AddAssetsController>().uploadedImageString.isEmpty ?
-                      Image.network("${Get.find<AddAssetsController>().uploadedImageString}")
+                      child: getUserModelData?.data?.image != null ?
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(105),
+                        child: Image.memory(
+                          const Base64Decoder().convert(getUserModelData?.data?.image?.split(',').elementAt(1) ?? ""),
+                          fit: BoxFit.cover,
+                        ),
+                      )
                        : const Center(
                         child: Icon(Icons.camera_alt),
                       ),
@@ -181,7 +187,7 @@ class SettingController extends GetxController {
                 ),
                 Text("full_name".tr),
                 CustomTextField(
-                  textInputType: TextInputType.number,
+                  textInputType: TextInputType.text,
                   controller: nameController,
                   hintText: "full_name".tr,
                   height: isValidate ? 50 : 75,
@@ -230,6 +236,7 @@ class SettingController extends GetxController {
                 CustomTextField(
                   height: isValidate ? 50 : 75,
                   // isShadow: isShadow,
+                  textInputType: TextInputType.phone,
                   controller: phoneController,
                   hintText: "phone_no".tr,
                   errorMaxLines: 3,
@@ -249,6 +256,7 @@ class SettingController extends GetxController {
                     buttonText: "update_profile".tr,
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
+                        Get.back();
                         updateUserProfileAPI();
                       }
                     },

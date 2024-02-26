@@ -17,7 +17,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class AddAssetsController extends GetxController {
-  String selectedSubCategoryController = "Metal3";
+  String selectedSubCategoryController = "asdasd";
   String selectedMeasurementController = "acr";
   String subCatId = "";
   String measurementId = "";

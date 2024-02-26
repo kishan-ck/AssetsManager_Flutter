@@ -1,6 +1,7 @@
 import 'package:assetsmanagement/app_widgets/custom_network_image.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
+import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
 import 'package:assetsmanagement/screen/main_screens/add_asset_flow/assets_form_screen.dart';
@@ -114,6 +115,10 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                               controller.partnerPhoneTextController.clear();
                               controller.partnerOwnedTextController.clear();
                               controller.update();
+                              controller.selectedSubCategoryController = Get.find<GlobalController>()
+                                  .homeDataModel!
+                                  .data!
+                                  .category![index].subcategory?.first.name ?? "";
                               Get.to(() => AssetFormScreen(
                                   category: Get.find<GlobalController>()
                                       .homeDataModel!
@@ -133,17 +138,15 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                                         spreadRadius: 0,
                                         offset: const Offset(1, 2))
                                   ],
-                                  image: DecorationImage(
-                                      image: Get.find<GlobalController>()
-                                                  .homeDataModel!
-                                                  .data
-                                                  ?.category?[index]
-                                                  .icon ==
-                                              ""
-                                          ? const NetworkImage(
-                                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR293gopaA9vQVSvmyN9ASloRaiVjn0eCKaxg&usqp=CAU",
-                                            )
-                                          : NetworkImage(
+                                  image: Get.find<GlobalController>()
+                                      .homeDataModel!
+                                      .data
+                                      ?.category?[index]
+                                      .icon ==
+                                      ""
+                                      ? const DecorationImage(image: AssetImage(AppImagePath.defaultBG),alignment: Alignment.centerRight)
+                                      : DecorationImage(
+                                      image: NetworkImage(
                                               Get.find<GlobalController>()
                                                       .homeDataModel!
                                                       .data

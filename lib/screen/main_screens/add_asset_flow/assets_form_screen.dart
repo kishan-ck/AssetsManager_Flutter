@@ -25,6 +25,7 @@ class AssetFormScreen extends StatelessWidget {
     return GetBuilder(
         init: Get.find<AddAssetsController>(),
         builder: (controller) {
+
           return Stack(
             children: [
               Scaffold(
@@ -93,33 +94,33 @@ class AssetFormScreen extends StatelessWidget {
                                       return Stack(
                                         alignment: Alignment.topRight,
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             height: size.height(60),
                                             width: size.width(60),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(100)),
-                                            child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                child: Image.file(
-                                                  controller.path![index],
-                                                  height: size.height(60),
-                                                  width: size.width(60),
-                                                  fit: BoxFit.cover,
-                                                )),
+                                            child: Image.file(
+                                              controller.path![index],
+                                              height: size.height(60),
+                                              width: size.width(60),
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                           GestureDetector(
                                             onTap: () {
                                               controller.path!.removeAt(index);
                                               controller.update();
                                             },
-                                            child: SizedBox(
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                color: AppColor.blackColor,
+                                                shape: BoxShape.circle
+                                              ),
+                                              alignment: Alignment.center,
                                               height: size.height(20),
                                               width: size.width(20),
                                               child: const Icon(
                                                 Icons.close,
-                                                size: 25,
+                                                color: AppColor.whiteColor,
+                                                size: 20,
                                               ),
                                             ),
                                           )
@@ -135,18 +136,19 @@ class AssetFormScreen extends StatelessWidget {
                           controller.path == null || controller.path!.isEmpty
                               ? const SizedBox()
                               : size.heightSpace(20),
-                          category?.subcategory == null ||
-                                  category == null ||
+                          ///----------
+                    category == null ||
+                        category?.subcategory == null ||
                                   category!.subcategory!.isEmpty
                               ? const SizedBox()
                               : DropDownButtonCommon(
-                                  value:
-                                      category?.subcategory?.first.name ?? "",
-                                  dropDownItems: category?.subcategory,
+                                  value: controller.selectedSubCategoryController,
+                                  dropDownItems: category?.subcategory ?? [],
                                   onChanged: (value) {
                                     controller.selectedSubCategoryController =
                                         value?.name ?? "";
                                     controller.subCatId = value?.id ?? "";
+                                    printData("controller.selectedSubCategoryController-------${controller.selectedSubCategoryController}");
                                     controller.update();
                                   },
                                 ),
@@ -326,6 +328,7 @@ class AssetFormScreen extends StatelessWidget {
                             controller: controller.assetOwnedTextController,
                             fillColor: AppColor.greyColor.withOpacity(0.1),
                             isUnderLineBorderRadius: BorderRadius.circular(100),
+                            textInputType: TextInputType.number,
                             isShadow: false,
                             hintText: "%_owned".tr,
                             underLineFocusColor: AppColor.primaryColor,
@@ -372,6 +375,7 @@ class AssetFormScreen extends StatelessWidget {
                                             fillColor: AppColor.whiteColor,
                                             isUnderLineBorderRadius:
                                                 BorderRadius.circular(100),
+                                            textInputType: TextInputType.number,
                                             isShadow: false,
                                             hintText: "%_owned".tr,
                                             underLineFocusColor:

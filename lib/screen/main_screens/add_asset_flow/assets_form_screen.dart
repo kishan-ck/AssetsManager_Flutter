@@ -218,6 +218,15 @@ class AssetFormScreen extends StatelessWidget {
                             hintText: "location".tr,
                             underLineFocusColor: AppColor.primaryColor,
                           ),
+                          size.heightSpace(15),
+                          CustomTextField(
+                            controller: controller.pricePerUnitTextController,
+                            fillColor: AppColor.greyColor.withOpacity(0.1),
+                            isUnderLineBorderRadius: BorderRadius.circular(100),
+                            isShadow: false,
+                            hintText: "price_per_unit".tr,
+                            underLineFocusColor: AppColor.primaryColor,
+                          ),
                           category?.measurement == null ||
                                   category == null ||
                                   category!.measurement!.isEmpty
@@ -355,7 +364,7 @@ class AssetFormScreen extends StatelessWidget {
                                   tileMargin: 0,
                                   initialExpand: false,
                                   onExpansionChange: (p0) {
-                                    printData("onExpansionChange------${p0}");
+                                    printData("onExpansionChange------$p0");
                                     controller.isExpanseChange = p0;
                                     controller.update();
                                   },
@@ -364,6 +373,10 @@ class AssetFormScreen extends StatelessWidget {
                                       : BorderRadius.circular(100),
                                   children: [
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Flexible(
                                           child: CustomTextField(
@@ -404,6 +417,15 @@ class AssetFormScreen extends StatelessWidget {
                                           BorderRadius.circular(100),
                                       isShadow: false,
                                       hintText: "phone_no".tr,
+                                      height: controller.isValidatePartnerPhone
+                                          ? 50
+                                          : 75,
+                                      validator: (value) {
+                                        if (value.toString().trim().isEmpty) {
+                                          return "Partner Phone is required";
+                                        }
+                                        return null;
+                                      },
                                       underLineFocusColor:
                                           AppColor.secondPrimaryColor,
                                     ),
@@ -418,69 +440,100 @@ class AssetFormScreen extends StatelessWidget {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return HomeExpansionTile(
-                                tileController: controller.partnerList[index]
-                                    .nameExpansionTileController,
-                                isShadow: false,
-                                title: "Partner - ${index + 2}",
-                                tileMargin: 0,
-                                initialExpand: false,
-                                onExpansionChange: (p0) {
-                                  printData("onExpansionChange------${p0}");
-                                  controller
-                                      .partnerList[index].isExpanseChange = p0;
-                                  controller.update();
-                                },
-                                outerBorderRadius: controller
-                                        .partnerList[index].isExpanseChange
-                                    ? BorderRadius.circular(20)
-                                    : BorderRadius.circular(100),
+                              return Stack(
                                 children: [
-                                  Row(
+                                  HomeExpansionTile(
+                                    tileController: controller
+                                        .partnerList[index]
+                                        .nameExpansionTileController,
+                                    isShadow: false,
+                                    title: "Partner - ${index + 2}",
+                                    tileMargin: 0,
+                                    initialExpand: false,
+                                    onExpansionChange: (p0) {
+                                      printData("onExpansionChange------${p0}");
+                                      controller.partnerList[index]
+                                          .isExpanseChange = p0;
+                                      controller.update();
+                                    },
+                                    outerBorderRadius: controller
+                                            .partnerList[index].isExpanseChange
+                                        ? BorderRadius.circular(20)
+                                        : BorderRadius.circular(100),
                                     children: [
-                                      Flexible(
-                                        child: CustomTextField(
-                                          controller: controller
-                                              .partnerList[index]
-                                              .nameController,
-                                          fillColor: AppColor.whiteColor,
-                                          isUnderLineBorderRadius:
-                                              BorderRadius.circular(100),
-                                          isShadow: false,
-                                          hintText: "name".tr,
-                                          underLineFocusColor:
-                                              AppColor.secondPrimaryColor,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Flexible(
+                                            child: CustomTextField(
+                                              controller: controller
+                                                  .partnerList[index]
+                                                  .nameController,
+                                              fillColor: AppColor.whiteColor,
+                                              isUnderLineBorderRadius:
+                                                  BorderRadius.circular(100),
+                                              isShadow: false,
+                                              hintText: "name".tr,
+                                              underLineFocusColor:
+                                                  AppColor.secondPrimaryColor,
+                                            ),
+                                          ),
+                                          size.widthSpace(15),
+                                          Flexible(
+                                            child: CustomTextField(
+                                              controller: controller
+                                                  .partnerList[index]
+                                                  .ownController,
+                                              fillColor: AppColor.whiteColor,
+                                              isUnderLineBorderRadius:
+                                                  BorderRadius.circular(100),
+                                              isShadow: false,
+                                              hintText: "%_owned".tr,
+                                              underLineFocusColor:
+                                                  AppColor.secondPrimaryColor,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      size.widthSpace(15),
-                                      Flexible(
-                                        child: CustomTextField(
-                                          controller: controller
-                                              .partnerList[index].ownController,
-                                          fillColor: AppColor.whiteColor,
-                                          isUnderLineBorderRadius:
-                                              BorderRadius.circular(100),
-                                          isShadow: false,
-                                          hintText: "%_owned".tr,
-                                          underLineFocusColor:
-                                              AppColor.secondPrimaryColor,
-                                        ),
+                                      size.heightSpace(15),
+                                      CustomTextField(
+                                        controller: controller
+                                            .partnerList[index].phoneController,
+                                        fillColor: AppColor.whiteColor,
+                                        isUnderLineBorderRadius:
+                                            BorderRadius.circular(100),
+                                        isShadow: false,
+                                        hintText: "phone_no".tr,
+                                        height: controller.partnerList[index]
+                                                .isPhoneValidate
+                                            ? 50
+                                            : 75,
+                                        validator: (value) {
+                                          if (value.toString().trim().isEmpty) {
+                                            return "Partner Phone is required";
+                                          }
+                                          return null;
+                                        },
+                                        underLineFocusColor:
+                                            AppColor.secondPrimaryColor,
                                       ),
+                                      size.heightSpace(15),
                                     ],
                                   ),
-                                  size.heightSpace(15),
-                                  CustomTextField(
-                                    controller: controller
-                                        .partnerList[index].phoneController,
-                                    fillColor: AppColor.whiteColor,
-                                    isUnderLineBorderRadius:
-                                        BorderRadius.circular(100),
-                                    isShadow: false,
-                                    hintText: "phone_no".tr,
-                                    underLineFocusColor:
-                                        AppColor.secondPrimaryColor,
-                                  ),
-                                  size.heightSpace(15),
+                                  Positioned(
+                                    right: 50,
+                                    top: 15,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        controller.partnerList.removeAt(index);
+                                        controller.update();
+                                      },
+                                      child: const Icon(
+                                        Icons.close,
+                                        color: AppColor.redColor,
+                                        size: 30,
+                                      ),
+                                    ),
+                                  )
                                 ],
                               );
                             },
@@ -529,8 +582,6 @@ class AssetFormScreen extends StatelessWidget {
                                       .selectedIndex = 0;
                                   Get.find<BottomNavigationBarController>()
                                       .update();
-                                  Get.offAll(
-                                      () => const BottomNavigationBarScreen());
                                 } else if (controller
                                     .selectedSubCategoryController.isEmpty) {
                                   commonSnackBar(

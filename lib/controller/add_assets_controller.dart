@@ -9,6 +9,7 @@ import 'package:assetsmanagement/constants/local_storage.dart';
 import 'package:assetsmanagement/models/asset/add_assets_model.dart';
 import 'package:assetsmanagement/models/asset/asset_model.dart';
 import 'package:assetsmanagement/models/auth/error_model.dart';
+import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:assetsmanagement/utils/storage/shared_preferences.dart';
 import 'package:assetsmanagement/utils/widgets/custometile.dart' as c;
 import 'package:file_picker/file_picker.dart';
@@ -41,6 +42,7 @@ class AddAssetsController extends GetxController {
   TextEditingController partnerOwnedTextController = TextEditingController();
   TextEditingController partnerPhoneTextController = TextEditingController();
   TextEditingController assetLocationTextController = TextEditingController();
+  TextEditingController pricePerUnitTextController = TextEditingController();
 
   c.ExpansionTileController partnerExpansionTileController =
       c.ExpansionTileController();
@@ -50,6 +52,9 @@ class AddAssetsController extends GetxController {
   bool isLoading = false;
   bool isValidate = false;
   bool isValidateDescription = false;
+  bool isValidatePartnerName = false;
+  bool isValidatePartnerOwn = false;
+  bool isValidatePartnerPhone = false;
   bool isValidateAssetName = false;
   bool isValidateAssetId = false;
 
@@ -212,6 +217,7 @@ class AddAssetsController extends GetxController {
           "description": assetDescriptionTextController.text.trim(),
           "assetId": assetIdTextController.text.trim(),
           "numberOfMeasurement": assetQuantityTextController.text.trim(),
+          "priceperunit": pricePerUnitTextController.text.trim(),
           "measurementType": selectedMeasurementController.toString(),
           "isAssetSolelyOwned": isSolelyOwned == "Yes" ? true : false,
           "percentOwned": int.parse(assetOwnedTextController.text.trim() == ""
@@ -234,10 +240,12 @@ class AddAssetsController extends GetxController {
         partnerNameTextController.clear();
         partnerPhoneTextController.clear();
         partnerOwnedTextController.clear();
+        pricePerUnitTextController.clear();
         subCatId = "";
         uploadedImageString.clear();
         update();
         commonSnackBar(message: "Assets Added Successfully", isError: false);
+        Get.offAll(() => const BottomNavigationBarScreen());
         printData("addAssets Api ==> ${value['body']}");
         printData("addAssets addAssetsModel Api ==> $addAssetsModel");
       } else {
@@ -259,6 +267,7 @@ class PartnerModel {
   final TextEditingController nameController;
   final TextEditingController ownController;
   final TextEditingController phoneController;
+  bool isPhoneValidate;
   final c.ExpansionTileController nameExpansionTileController;
   bool isExpanseChange;
 
@@ -267,6 +276,7 @@ class PartnerModel {
     TextEditingController? ownController,
     TextEditingController? phoneController,
     this.isExpanseChange = false,
+    this.isPhoneValidate = false,
     c.ExpansionTileController? nameExpansionTileController,
   })  : nameController = nameController ?? TextEditingController(text: ""),
         ownController = ownController ?? TextEditingController(text: ""),

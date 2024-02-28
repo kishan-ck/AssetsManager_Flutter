@@ -114,6 +114,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                               controller.partnerNameTextController.clear();
                               controller.partnerPhoneTextController.clear();
                               controller.partnerOwnedTextController.clear();
+                              controller.pricePerUnitTextController.clear();
                               controller.update();
                               controller.selectedSubCategoryController =
                                   Get.find<GlobalController>()
@@ -131,6 +132,15 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                                               .name ??
                                           ""
                                       : "";
+                              controller.isSolelyOwned == "Yes"
+                                  ? controller.assetOwnedTextController.text =
+                                      "100"
+                                  : controller.assetOwnedTextController.text =
+                                      "";
+                              controller.isSolelyOwned == "Yes"
+                                  ? controller.readOnly = true
+                                  : controller.readOnly = false;
+                              controller.update();
                               Get.to(() => AssetFormScreen(
                                   category: Get.find<GlobalController>()
                                       .homeDataModel!

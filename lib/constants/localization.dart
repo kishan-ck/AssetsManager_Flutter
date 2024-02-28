@@ -19,6 +19,7 @@ class Localization extends Translations {
           "forgot_password_?": "Forgot password ?",
           "or_continue_with": "or continue with",
           "update_profile": "Update Profile",
+          "price_per_unit": "Price Per Unit",
           "don't_have_an_account_? ": "Don't have an account ? ",
           "sign_up": "Sign up",
           "create_account": "Create Account",

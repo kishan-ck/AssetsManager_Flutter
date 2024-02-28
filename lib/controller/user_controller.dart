@@ -1,17 +1,11 @@
-import 'dart:convert';
-
-import 'package:assetsmanagement/config/api_end_point.dart';
-import 'package:assetsmanagement/config/network_handler.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
-import 'package:assetsmanagement/constants/local_storage.dart';
-import 'package:assetsmanagement/models/auth/error_model.dart';
-import 'package:assetsmanagement/models/auth/get_user_model.dart';
-import 'package:assetsmanagement/utils/storage/shared_preferences.dart';
+import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:assetsmanagement/utils/widgets/custometile.dart' as c;
 import 'package:get/get.dart';
+
+import '../models/asset/asset_model.dart' as a;
 
 class UserController extends GetxController {
   TextEditingController searchUserAssetsTextController =
@@ -30,6 +24,8 @@ class UserController extends GetxController {
 
   bool isExpanseChange = false;
   bool isSubExpanseChange = false;
+
+  List<a.Data> searchAssetsList = [];
 
   List userCategoryData = [
     {
@@ -83,4 +79,29 @@ class UserController extends GetxController {
     AppImagePath.myAssetImage,
     AppImagePath.myAssetImage,
   ];
+
+  searchData({required String value}){
+    List<a.Data>? assetList = Get.find<SettingController>().assetModel?.data;
+    printData("search list data :: ${ Get.find<SettingController>().assetModel?.data}");
+
+    if (assetList != null ) {
+      searchAssetsList = assetList.where((element) {
+        if(element.subCategoryId?.catId != null){
+        if (element.subCategoryId!.catId!.name!.toLowerCase().contains(value.toLowerCase())) {
+          return element.subCategoryId!.catId!.name!.toLowerCase().contains(value.toLowerCase());
+        } else if (element.numberOfMeasurement.toString()
+            .contains(value)) {
+          return element.numberOfMeasurement!.toString()
+              .contains(value);
+        } else if (element.location!
+            .toLowerCase()
+            .contains(value.toLowerCase())) {
+          return element.location!.toLowerCase().contains(value.toLowerCase());
+        }}
+        return false;
+      }).toList();
+      update();
+      printData("search list :: ${searchAssetsList[0].name}");
+    }
+  }
 }

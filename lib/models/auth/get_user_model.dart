@@ -32,6 +32,8 @@ class Data {
   final String? authToken;
   final String? image;
   final int? v;
+  final int? assets;
+  final int? subCat;
 
   Data({
     this.id,
@@ -44,6 +46,8 @@ class Data {
     this.authToken,
     this.image,
     this.v,
+    this.assets,
+    this.subCat,
   });
 
   Data.fromJson(Map<String, dynamic> json)
@@ -56,7 +60,9 @@ class Data {
         socialType = json['social_type'] as String?,
         authToken = json['authToken'] as String?,
         image = json['image'] as String?,
-        v = json['__v'] as int?;
+        v = json['__v'] as int?,
+        assets = json['assets'] as int?,
+        subCat = json['sub_cat'] as int?;
 
   Map<String, dynamic> toJson() => {
     '_id' : id,
@@ -68,6 +74,8 @@ class Data {
     'social_type' : socialType,
     'authToken' : authToken,
     'image' : image,
-    '__v' : v
+    '__v' : v,
+    'assets' : assets,
+    'sub_cat' : subCat
   };
 }

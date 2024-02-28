@@ -118,7 +118,7 @@ class SettingScreen extends StatelessWidget {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(
-                                              "50",
+                                              "${controller.getUserModelData?.data?.assets ?? 0}",
                                               style: TextStyle(
                                                   color: AppColor.whiteColor,
                                                   fontSize: size.height(50),
@@ -143,7 +143,7 @@ class SettingScreen extends StatelessWidget {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(
-                                              "50",
+                                        "${controller.getUserModelData?.data?.subCat ?? 0}",
                                               style: TextStyle(
                                                   color: AppColor.whiteColor,
                                                   fontSize: size.height(50),

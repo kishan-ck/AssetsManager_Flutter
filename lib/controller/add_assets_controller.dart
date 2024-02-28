@@ -17,12 +17,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class AddAssetsController extends GetxController {
-  String selectedSubCategoryController = "asdasd";
+  String selectedSubCategoryController = "";
   String selectedMeasurementController = "acr";
   String subCatId = "";
   String measurementId = "";
   String isSolelyOwned = "No";
   String title = "Partner - 1";
+  bool readOnly = false;
   List<File>? path;
   List<PartnerModel> partnerList = [];
   List<dynamic> uploadedImageString = [];

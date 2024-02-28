@@ -25,7 +25,6 @@ class AssetFormScreen extends StatelessWidget {
     return GetBuilder(
         init: Get.find<AddAssetsController>(),
         builder: (controller) {
-
           return Stack(
             children: [
               Scaffold(
@@ -111,9 +110,8 @@ class AssetFormScreen extends StatelessWidget {
                                             },
                                             child: Container(
                                               decoration: const BoxDecoration(
-                                                color: AppColor.blackColor,
-                                                shape: BoxShape.circle
-                                              ),
+                                                  color: AppColor.blackColor,
+                                                  shape: BoxShape.circle),
                                               alignment: Alignment.center,
                                               height: size.height(20),
                                               width: size.width(20),
@@ -136,19 +134,22 @@ class AssetFormScreen extends StatelessWidget {
                           controller.path == null || controller.path!.isEmpty
                               ? const SizedBox()
                               : size.heightSpace(20),
+
                           ///----------
-                    category == null ||
-                        category?.subcategory == null ||
+                          category == null ||
+                                  category?.subcategory == null ||
                                   category!.subcategory!.isEmpty
                               ? const SizedBox()
                               : DropDownButtonCommon(
-                                  value: controller.selectedSubCategoryController,
+                                  value:
+                                      controller.selectedSubCategoryController,
                                   dropDownItems: category?.subcategory ?? [],
                                   onChanged: (value) {
                                     controller.selectedSubCategoryController =
                                         value?.name ?? "";
                                     controller.subCatId = value?.id ?? "";
-                                    printData("controller.selectedSubCategoryController-------${controller.selectedSubCategoryController}");
+                                    printData(
+                                        "controller.selectedSubCategoryController-------${controller.selectedSubCategoryController}");
                                     controller.update();
                                   },
                                 ),
@@ -318,6 +319,15 @@ class AssetFormScreen extends StatelessWidget {
                                   onChanged: (value) {
                                     controller.isSolelyOwned = value ?? "";
                                     controller.update();
+                                    controller.isSolelyOwned == "Yes"
+                                        ? controller.assetOwnedTextController
+                                            .text = "100"
+                                        : controller
+                                            .assetOwnedTextController.text = "";
+                                    controller.isSolelyOwned == "Yes"
+                                        ? controller.readOnly = true
+                                        : controller.readOnly = false;
+                                    controller.update();
                                   },
                                 ),
                               ),
@@ -327,6 +337,7 @@ class AssetFormScreen extends StatelessWidget {
                           CustomTextField(
                             controller: controller.assetOwnedTextController,
                             fillColor: AppColor.greyColor.withOpacity(0.1),
+                            readOnly: controller.readOnly,
                             isUnderLineBorderRadius: BorderRadius.circular(100),
                             textInputType: TextInputType.number,
                             isShadow: false,

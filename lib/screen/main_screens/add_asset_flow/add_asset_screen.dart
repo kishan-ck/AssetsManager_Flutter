@@ -115,10 +115,22 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                               controller.partnerPhoneTextController.clear();
                               controller.partnerOwnedTextController.clear();
                               controller.update();
-                              controller.selectedSubCategoryController = Get.find<GlobalController>()
-                                  .homeDataModel!
-                                  .data!
-                                  .category![index].subcategory?.first.name ?? "";
+                              controller.selectedSubCategoryController =
+                                  Get.find<GlobalController>()
+                                          .homeDataModel!
+                                          .data!
+                                          .category![index]
+                                          .subcategory!
+                                          .isNotEmpty
+                                      ? Get.find<GlobalController>()
+                                              .homeDataModel!
+                                              .data!
+                                              .category![index]
+                                              .subcategory
+                                              ?.first
+                                              .name ??
+                                          ""
+                                      : "";
                               Get.to(() => AssetFormScreen(
                                   category: Get.find<GlobalController>()
                                       .homeDataModel!
@@ -139,22 +151,25 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                                         offset: const Offset(1, 2))
                                   ],
                                   image: Get.find<GlobalController>()
-                                      .homeDataModel!
-                                      .data
-                                      ?.category?[index]
-                                      .icon ==
-                                      ""
-                                      ? const DecorationImage(image: AssetImage(AppImagePath.defaultBG),alignment: Alignment.centerRight)
+                                              .homeDataModel!
+                                              .data
+                                              ?.category?[index]
+                                              .icon ==
+                                          ""
+                                      ? const DecorationImage(
+                                          image: AssetImage(
+                                              AppImagePath.defaultBG),
+                                          alignment: Alignment.centerRight)
                                       : DecorationImage(
-                                      image: NetworkImage(
-                                              Get.find<GlobalController>()
-                                                      .homeDataModel!
-                                                      .data
-                                                      ?.category?[index]
-                                                      .icon ??
-                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR293gopaA9vQVSvmyN9ASloRaiVjn0eCKaxg&usqp=CAU",
-                                            ),
-                                      alignment: Alignment.centerRight)),
+                                          image: NetworkImage(
+                                            Get.find<GlobalController>()
+                                                    .homeDataModel!
+                                                    .data
+                                                    ?.category?[index]
+                                                    .icon ??
+                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR293gopaA9vQVSvmyN9ASloRaiVjn0eCKaxg&usqp=CAU",
+                                          ),
+                                          alignment: Alignment.centerRight)),
                               curve: Curves.easeInOut,
                               transform: Matrix4.translationValues(
                                   controller.startAnimation ? 0 : Get.width,

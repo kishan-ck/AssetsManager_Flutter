@@ -26,6 +26,7 @@ class AddAssetsController extends GetxController {
   bool readOnly = false;
   List<File>? path;
   List<PartnerModel> partnerList = [];
+  List<Partner> editPartnerList = [];
   List<dynamic> uploadedImageString = [];
 
   AddAssetsModel? addAssetsModel;
@@ -43,6 +44,19 @@ class AddAssetsController extends GetxController {
   TextEditingController partnerPhoneTextController = TextEditingController();
   TextEditingController assetLocationTextController = TextEditingController();
   TextEditingController pricePerUnitTextController = TextEditingController();
+
+  /// Edit Assets TextField
+  TextEditingController editAssetNameTextController = TextEditingController();
+  TextEditingController editAssetIdTextController = TextEditingController();
+  TextEditingController editAssetQuantityTextController =
+      TextEditingController();
+  TextEditingController editAssetOwnedTextController = TextEditingController();
+  TextEditingController editAssetLocationTextController =
+      TextEditingController();
+  TextEditingController editAssetDescriptionTextController =
+      TextEditingController();
+  TextEditingController editAssetPricePerUnitTextController =
+      TextEditingController();
 
   c.ExpansionTileController partnerExpansionTileController =
       c.ExpansionTileController();

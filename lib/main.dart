@@ -21,17 +21,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        title: 'Assets Management',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-            fontFamily: "DMSans"),
-        initialBinding: RootBinding(),
-        translations: Localization(),
-        fallbackLocale: const Locale('en', 'US'),
-        locale: const Locale('en', 'US'),
-        home: const SplashScreen());
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: GetMaterialApp(
+          title: 'Assets Management',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+              fontFamily: "DMSans"),
+          initialBinding: RootBinding(),
+          translations: Localization(),
+          fallbackLocale: const Locale('en', 'US'),
+          locale: const Locale('en', 'US'),
+          home: const SplashScreen()),
+    );
   }
 }

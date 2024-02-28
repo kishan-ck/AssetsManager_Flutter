@@ -45,7 +45,7 @@ class SignUpController extends GetxController {
         passwordSignUpTextController.clear();
         confirmPasswordSignUpTextController.clear();
         commonSnackBar(
-            message: "${jsonDecode(value['body'])['message']}", isError: false);
+            message: "User Register Successfully", isError: false);
         Get.offAll(() => LoginScreen());
       } else {
         printData("register Api Error==> ${value['error']}");

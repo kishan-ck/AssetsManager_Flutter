@@ -65,7 +65,7 @@ class LoginController extends GetxController {
         Get.find<BottomNavigationBarController>().update();
         Get.find<GlobalController>().homeData();
         Get.find<SettingController>().getUserAPI();
-        commonSnackBar(message: "${loginModel?.message}", isError: false);
+        commonSnackBar(message: "User Login Successfully", isError: false);
         Get.offAll(() => const BottomNavigationBarScreen());
       } else {
         printData("Login Api Error==> ${value['error']}");

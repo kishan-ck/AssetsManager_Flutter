@@ -188,51 +188,49 @@ class SettingScreen extends StatelessWidget {
                           size.heightSpace(15),
                           SizedBox(
                             height: Get.height/4,
-                            child: Expanded(
-                              child: ListView.separated(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: controller.menuList.length,
-                                itemBuilder: (context, index) {
-                                  return Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        controller.menuList[index]['icon'],
-                                        color: AppColor.blackColor,
-                                        height: size.height(24),
-                                      ),
-                                      size.widthSpace(17),
-                                      Text(
-                                        controller.menuList[index]['text'],
-                                        style: AppTextStyle.regularSubTitleText,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const Spacer(),
-                                      Row(
-                                        children: [
-                                          index == 1
-                                              ? Text(
-                                            "English",
-                                            style: AppTextStyle.regularSubTitleText
-                                                .copyWith(
-                                              color: AppColor.greyColor,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          )
-                                              : const SizedBox(),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: AppColor.blackColor,
-                                            size: size.height(24),
+                            child: ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: controller.menuList.length,
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      controller.menuList[index]['icon'],
+                                      color: AppColor.blackColor,
+                                      height: size.height(24),
+                                    ),
+                                    size.widthSpace(17),
+                                    Text(
+                                      controller.menuList[index]['text'],
+                                      style: AppTextStyle.regularSubTitleText,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const Spacer(),
+                                    Row(
+                                      children: [
+                                        index == 1
+                                            ? Text(
+                                          "English",
+                                          style: AppTextStyle.regularSubTitleText
+                                              .copyWith(
+                                            color: AppColor.greyColor,
                                           ),
-                                        ],
-                                      )
-                                    ],
-                                  );
-                                },
-                                separatorBuilder: (context, index) => SizedBox(
-                                  height: size.height(25),
-                                ),
+                                          textAlign: TextAlign.center,
+                                        )
+                                            : const SizedBox(),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          color: AppColor.blackColor,
+                                          size: size.height(24),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                );
+                              },
+                              separatorBuilder: (context, index) => SizedBox(
+                                height: size.height(25),
                               ),
                             ),
                           ),

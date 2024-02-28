@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
         return Stack(
           children: [
             Scaffold(
-              resizeToAvoidBottomInset: false,
+              // resizeToAvoidBottomInset: false,
                 body: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
                       height: double.infinity,
                       width: double.infinity,
                       alignment: Alignment.topCenter,
-                      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 46),
+                      margin: EdgeInsets.symmetric(horizontal: size.width(25)),
                       decoration: BoxDecoration(
                         gradient:  RadialGradient(
                           radius: 1.5,
@@ -50,6 +50,7 @@ class LoginScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              size.heightSpace(45),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                               Text('email'.tr, style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
                               CustomTextField(
                               controller: controller.emailTextController,
-                                height: controller.isValidate ? 50 : 75,
+                                // height: controller.isValidate ? 75 : 75,
                                 isShadow: controller.isShadow,
                                 maxLines: 1,
                                 hintText: "enter_your_email".tr,
@@ -79,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                                   controller.isValidate = false;
                                   controller.update();
                                   return 'please_enter_valid_email'.tr;
-                                }else{}
+                                }
                                 controller.isValidate = true;
                                 controller.update();
                                 return null;
@@ -89,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                               Text('password'.tr, style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
                               CustomTextField(
                               controller: controller.passwordTextController,
-                                height: controller.isValidate ? 50 : 117,
+                                height: controller.isValidate ? 50 : 75,
                                 isShadow: controller.isShadow,
                                 hintText: "enter_your_password".tr,
                                 errorMaxLines: 3,
@@ -107,12 +108,7 @@ class LoginScreen extends StatelessWidget {
                                     controller.isValidate = false;
                                     controller.update();
                                     return 'please_enter_password'.tr;
-                                  } else if (!RegExp(passwordValidationRegExp)
-                                      .hasMatch(value)) {
-                                    controller.isValidate = false;
-                                    controller.update();
-                                    return 'strong_password'.tr;
-                                  }else{}
+                                  }
                                   controller.isValidate = true;
                                   controller.update();
                                   return null;

@@ -21,7 +21,11 @@ class GlobalController extends GetxController {
   int selectedIndex = 0;
 
   bool isLoading = false;
+  bool isNoDataFound = false;
+
   HomeDataModel? homeDataModel;
+
+  List searchAssetsList = [];
 
   final items = [
     AppImagePath.newsImage1,
@@ -143,5 +147,23 @@ class GlobalController extends GetxController {
         ),
       ),
     );
+  }
+
+  searchData({required String value}){
+    List<Category>? assetList = homeDataModel?.data?.category;
+    printData("search list data :: $assetList");
+
+    if (assetList != null ) {
+      printData('Assets List ==> $assetList');
+      searchAssetsList = assetList.where((element) {
+        if(element.name != null){
+          if (element.name!.toLowerCase().contains(value.toLowerCase())) {
+            return element.name!.toLowerCase().contains(value.toLowerCase());
+          }}
+        return false;
+      }).toList();
+      update();
+      // printData("search list :: ${searchAssetsList[0].name}");
+    }
   }
 }

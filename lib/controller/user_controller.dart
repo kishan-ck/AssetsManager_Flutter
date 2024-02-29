@@ -24,6 +24,7 @@ class UserController extends GetxController {
 
   bool isExpanseChange = false;
   bool isSubExpanseChange = false;
+  bool isNoDataFound = false;
 
   List<a.Data> searchAssetsList = [];
 
@@ -85,6 +86,7 @@ class UserController extends GetxController {
     printData("search list data :: ${ Get.find<SettingController>().assetModel?.data}");
 
     if (assetList != null ) {
+      printData('Assets List ==> $assetList');
       searchAssetsList = assetList.where((element) {
         if(element.subCategoryId?.catId != null){
         if (element.subCategoryId!.catId!.name!.toLowerCase().contains(value.toLowerCase())) {
@@ -101,7 +103,7 @@ class UserController extends GetxController {
         return false;
       }).toList();
       update();
-      printData("search list :: ${searchAssetsList[0].name}");
+      // printData("search list :: ${searchAssetsList[0].name}");
     }
   }
 }

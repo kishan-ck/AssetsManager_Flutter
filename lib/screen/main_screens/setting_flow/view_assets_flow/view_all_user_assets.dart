@@ -71,6 +71,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                         onTap: () {
                           controller.searchAssetsList.clear();
                           controller.searchUserAssetsTextController.clear();
+                          controller.isNoDataFound = false;
                           controller.update();
                         },
                         child: Container(
@@ -84,11 +85,126 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                         ),
                       ),
                       onChange: (value) {
+                        controller.isNoDataFound = true;
                         controller.searchData(value: value.toString());
                       },
                     ),
                     size.heightSpace(15),
-                    controller.searchAssetsList.isEmpty ? Expanded(
+                   controller.isNoDataFound ? controller.searchAssetsList.isEmpty ? const Text("Search Data Not Found") :
+                   Expanded(
+                       child: GridView.builder(
+                         shrinkWrap: true,
+                         itemCount: controller.searchAssetsList.length,
+                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                             crossAxisCount: 2,
+                             mainAxisExtent: size.height(126),
+                             mainAxisSpacing: size.height(26),
+                             crossAxisSpacing: size.width(19)),
+                         padding: const EdgeInsets.only(bottom: 20),
+                         itemBuilder: (BuildContext context, int index) {
+                           final color = controller.categoryColor[index % controller.categoryColor.length];
+                           return GestureDetector(
+                             onTap: () {
+                               Get.to(() => AssetDetailScreen(index: index));
+                             },
+                             child: Stack(
+                               alignment: Alignment.topRight,
+                               children: [
+                                 Container(
+                                   padding:
+                                   const EdgeInsets.symmetric(vertical: 15),
+                                   decoration: BoxDecoration(
+                                       image: const DecorationImage(
+                                           image: AssetImage(
+                                               AppImagePath.myAssetBgImage),
+                                           scale: 3,
+                                           alignment: Alignment.topRight),
+                                       borderRadius: BorderRadius.circular(10),
+                                       color: color,
+                                       boxShadow: [
+                                         BoxShadow(
+                                             color: AppColor.blackColor
+                                                 .withOpacity(0.1),
+                                             blurRadius: 12,
+                                             spreadRadius: 0,
+                                             offset: const Offset(1, 2))
+                                       ]),
+                                   alignment: Alignment.topLeft,
+                                   child: Column(
+                                     crossAxisAlignment:
+                                     CrossAxisAlignment.start,
+                                     mainAxisAlignment:
+                                     MainAxisAlignment.spaceBetween,
+                                     children: [
+                                       Text(
+                                         controller.searchAssetsList[index].subCategoryId?.catId?.name ??
+                                             "",
+                                         style: AppTextStyle.regularText
+                                             .copyWith(
+                                             color: AppColor.whiteColor),
+                                       ),
+                                       Text(
+                                         '${controller.searchAssetsList[index].numberOfMeasurement ?? ""} ${Get.find<SettingController>().assetModel?.data?[index].measurementType ?? ""}',
+                                         style: AppTextStyle.regularText
+                                             .copyWith(
+                                             color: AppColor.whiteColor,
+                                             fontSize: 18,
+                                             fontWeight: FontWeight.bold),
+                                       ),
+                                       Row(
+                                         crossAxisAlignment:
+                                         CrossAxisAlignment.center,
+                                         mainAxisAlignment:
+                                         MainAxisAlignment.start,
+                                         mainAxisSize: MainAxisSize.min,
+                                         children: [
+                                           Image.asset(
+                                             AppImagePath.locationIcon,
+                                             color: AppColor.whiteColor,
+                                             height: size.height(10),
+                                             width: size.width(10),
+                                           ),
+                                           Text(
+                                             controller.searchAssetsList[index].location ?? "",
+                                             style: AppTextStyle.regularText
+                                                 .copyWith(
+                                                 color: AppColor.whiteColor,
+                                                 fontSize: size.height(10)),
+                                           ),
+                                         ],
+                                       ),
+                                       Align(
+                                           alignment: Alignment.bottomRight,
+                                           child: Text(
+                                             controller.searchAssetsList[index]
+                                                 .isAssetSolelyOwned ==
+                                                 true
+                                                 ? "Sole Owned"
+                                                 : "Co-Owned",
+                                             style: AppTextStyle.regularText
+                                                 .copyWith(
+                                                 color: AppColor.whiteColor),
+                                           )),
+                                     ],
+                                   ).paddingSymmetric(horizontal: 15),
+                                 ),
+                                 // Padding(
+                                 //   padding: const EdgeInsets.only(
+                                 //       top: 10.0, right: 15),
+                                 //   child: Image.asset(
+                                 //     controller.userCategoryData[index]['icon'],
+                                 //     color: AppColor.whiteColor,
+                                 //     height: size.height(29),
+                                 //     width: size.width(29),
+                                 //   ),
+                                 // )
+                               ],
+                             ),
+                           );
+                         },
+                       )
+                   ) :
+                   Expanded(
                       child: GridView.builder(
                         shrinkWrap: true,
                         itemCount: Get.find<SettingController>()
@@ -214,120 +330,7 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                           );
                         },
                       ),
-                    ) : Expanded(
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: controller.searchAssetsList.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisExtent: size.height(126),
-                            mainAxisSpacing: size.height(26),
-                            crossAxisSpacing: size.width(19)),
-                        padding: const EdgeInsets.only(bottom: 20),
-                        itemBuilder: (BuildContext context, int index) {
-                          final color = controller.categoryColor[index % controller.categoryColor.length];
-                          printData("Color ===> $color");
-                          return GestureDetector(
-                            onTap: () {
-                              Get.to(() => AssetDetailScreen(index: index));
-                            },
-                            child: Stack(
-                              alignment: Alignment.topRight,
-                              children: [
-                                Container(
-                                  padding:
-                                  const EdgeInsets.symmetric(vertical: 15),
-                                  decoration: BoxDecoration(
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              AppImagePath.myAssetBgImage),
-                                          scale: 3,
-                                          alignment: Alignment.topRight),
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: color,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: AppColor.blackColor
-                                                .withOpacity(0.1),
-                                            blurRadius: 12,
-                                            spreadRadius: 0,
-                                            offset: const Offset(1, 2))
-                                      ]),
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        controller.searchAssetsList[index].subCategoryId?.catId?.name ??
-                                            "",
-                                        style: AppTextStyle.regularText
-                                            .copyWith(
-                                            color: AppColor.whiteColor),
-                                      ),
-                                      Text(
-                                        '${controller.searchAssetsList[index].numberOfMeasurement ?? ""} ${Get.find<SettingController>().assetModel?.data?[index].measurementType ?? ""}',
-                                        style: AppTextStyle.regularText
-                                            .copyWith(
-                                            color: AppColor.whiteColor,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Image.asset(
-                                            AppImagePath.locationIcon,
-                                            color: AppColor.whiteColor,
-                                            height: size.height(10),
-                                            width: size.width(10),
-                                          ),
-                                          Text(
-                                            controller.searchAssetsList[index].location ?? "",
-                                            style: AppTextStyle.regularText
-                                                .copyWith(
-                                                color: AppColor.whiteColor,
-                                                fontSize: size.height(10)),
-                                          ),
-                                        ],
-                                      ),
-                                      Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: Text(
-                                            controller.searchAssetsList[index]
-                                                .isAssetSolelyOwned ==
-                                                true
-                                                ? "Sole Owned"
-                                                : "Co-Owned",
-                                            style: AppTextStyle.regularText
-                                                .copyWith(
-                                                color: AppColor.whiteColor),
-                                          )),
-                                    ],
-                                  ).paddingSymmetric(horizontal: 15),
-                                ),
-                                // Padding(
-                                //   padding: const EdgeInsets.only(
-                                //       top: 10.0, right: 15),
-                                //   child: Image.asset(
-                                //     controller.userCategoryData[index]['icon'],
-                                //     color: AppColor.whiteColor,
-                                //     height: size.height(29),
-                                //     width: size.width(29),
-                                //   ),
-                                // )
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                    )
                   ],
                 ).paddingAll(23);
               }),

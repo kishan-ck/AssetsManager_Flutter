@@ -75,16 +75,27 @@ class GlobalScreen extends StatelessWidget {
                         isShadow: false,
                         hintText: "search_category".tr,
                         underLineFocusColor: AppColor.primaryColor,
-                        suffixIcn: Container(
-                          margin: const EdgeInsets.all(5),
-                          padding: const EdgeInsets.all(6),
-                          decoration: const BoxDecoration(
-                            color: AppColor.whiteColor,
-                            shape: BoxShape.circle,
+                        suffixIcn: GestureDetector(
+                          onTap: () {
+                            controller.searchAssetsList.clear();
+                            controller.globalSearchTextController.clear();
+                            controller.isNoDataFound = false;
+                            controller.update();
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(6),
+                            decoration: const BoxDecoration(
+                              color: AppColor.whiteColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.close),
                           ),
-                          child: Image.asset(AppImagePath.searchIcon,
-                              height: size.height(24)),
                         ),
+                        onChange: (value) {
+                          controller.isNoDataFound = true;
+                          controller.searchData(value: value.toString());
+                        },
                       ),
                       size.heightSpace(11),
                       Row(
@@ -139,9 +150,53 @@ class GlobalScreen extends StatelessWidget {
                         ),
                       ),
                       size.heightSpace(16),
+                      controller.isNoDataFound ? controller.searchAssetsList.isEmpty ? const Text("Search Data Not Found") :
                       ListView.builder(
                         itemCount:
-                            controller.homeDataModel?.data?.category?.length ?? 0,
+                            controller.searchAssetsList.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset(AppImagePath.landIcon,
+                                      height: size.height(24)),
+                                  size.widthSpace(9.05),
+                                  Text(
+                                    controller.searchAssetsList[index].name ??
+                                        "",
+                                    style: AppTextStyle.largeText
+                                        .copyWith(fontWeight: FontWeight.w700),
+                                  ),
+                                  const Spacer(),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => ViewAllCategoryScreen(
+                                            categoryData: controller.searchAssetsList[index]));
+                                      },
+                                      child: Text(
+                                        "view_all".tr,
+                                        style: AppTextStyle.regularText.copyWith(
+                                            color: AppColor.primaryColor),
+                                      )),
+                                ],
+                              ),
+                              size.heightSpace(15),
+                              SizedBox(
+                                  height: 100,
+                                  child: controller.horizontalList(controller.searchAssetsList[index])),
+                              size.heightSpace(15),
+                            ],
+                          );
+                        },
+                      ) :
+                      ListView.builder(
+                        itemCount:
+                        controller.homeDataModel?.data?.category?.length ?? 0,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
@@ -156,7 +211,7 @@ class GlobalScreen extends StatelessWidget {
                                   size.widthSpace(9.05),
                                   Text(
                                     controller.homeDataModel?.data
-                                            ?.category?[index].name ??
+                                        ?.category?[index].name ??
                                         "",
                                     style: AppTextStyle.largeText
                                         .copyWith(fontWeight: FontWeight.w700),
@@ -184,7 +239,7 @@ class GlobalScreen extends StatelessWidget {
                             ],
                           );
                         },
-                      ),
+                      )
                     ],
                   ),
                 ),

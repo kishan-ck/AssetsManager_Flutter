@@ -32,7 +32,6 @@ class SettingController extends GetxController {
   GetUserModel? getUserModelData;
   File? path;
 
-
   List menuList = [
     {
       "icon": AppImagePath.notificationIcon,
@@ -54,6 +53,7 @@ class SettingController extends GetxController {
 
   Future<void> getAssetData() async {
     isLoading = true;
+    Get.find<AddAssetsController>().update();
     update();
     await HttpHandler.getHttpMethod(url: APIEndPoints.assetUrl)
         .then((value) async {
@@ -70,12 +70,13 @@ class SettingController extends GetxController {
       }
     });
     isLoading = false;
+    Get.find<AddAssetsController>().update();
     update();
   }
 
   void openFileExplorer(
       {bool isMultiSelection = false,
-        FileType filePickingType = FileType.image}) async {
+      FileType filePickingType = FileType.image}) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: filePickingType,
       allowMultiple: false,
@@ -88,7 +89,7 @@ class SettingController extends GetxController {
       print("PATH-----> $path");
       update();
     } else {
-     printData("Image Not Select =====>");
+      printData("Image Not Select =====>");
     }
   }
 
@@ -96,19 +97,19 @@ class SettingController extends GetxController {
     isLoading = true;
     update();
     String userId = await getDataFromLocalStorage(
-        dataType: StorageKey.stringType,
-        prefKey: StorageKey.userId);
+        dataType: StorageKey.stringType, prefKey: StorageKey.userId);
     printData("userId === $userId");
     await HttpHandler.putHttpMethod(
-        url: APIEndPoints.updateUser(
-        userId: userId), data: {
-      "fullname": nameController.text.trim(),
-      "email": emailController.text.trim(),
-      "phone_no": phoneController.text.trim(),
-    }).then((value) async {
+        url: APIEndPoints.updateUser(userId: userId),
+        data: {
+          "fullname": nameController.text.trim(),
+          "email": emailController.text.trim(),
+          "phone_no": phoneController.text.trim(),
+        }).then((value) async {
       if (value['error'] == null) {
         printData("Update User Api ==> ${value['body']}");
-        UpdateUserProfileModel updateUserProfileModel = UpdateUserProfileModel.fromJson(json.decode(value['body']));
+        UpdateUserProfileModel updateUserProfileModel =
+            UpdateUserProfileModel.fromJson(json.decode(value['body']));
         await getUserAPI();
         isLoading = false;
         update();
@@ -127,10 +128,11 @@ class SettingController extends GetxController {
 
   Future<void> getUserAPI() async {
     String userId = await getDataFromLocalStorage(
-        dataType: StorageKey.stringType,
-        prefKey: StorageKey.userId);
+        dataType: StorageKey.stringType, prefKey: StorageKey.userId);
     printData("userId Get User===>> $userId");
-    await HttpHandler.getHttpMethod(url: APIEndPoints.getUserUrl(userId: userId)).then((value) async {
+    await HttpHandler.getHttpMethod(
+            url: APIEndPoints.getUserUrl(userId: userId))
+        .then((value) async {
       if (value['error'] == null) {
         printData("Get User Api ==> ${value['body']}");
         getUserModelData = GetUserModel.fromJson(json.decode(value['body']));
@@ -152,119 +154,123 @@ class SettingController extends GetxController {
       context: context,
       builder: (context) {
         return AlertDialog(
-        title: Center(child: Text("update_profile".tr)),
-        content: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.find<AddAssetsController>().openFileExplorer();
-                    },
-                    child: Container(
-                      height: size.height(150),
-                      width: size.width(150),
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColor.whiteColor),
-                      child: getUserModelData?.data?.image != null ?
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(105),
-                        child: Image.memory(
-                          const Base64Decoder().convert(getUserModelData?.data?.image?.split(',').elementAt(1) ?? ""),
-                          fit: BoxFit.cover,
+            title: Center(child: Text("update_profile".tr)),
+            content: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.find<AddAssetsController>().openFileExplorer();
+                        },
+                        child: Container(
+                          height: size.height(150),
+                          width: size.width(150),
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColor.whiteColor),
+                          child: getUserModelData?.data?.image != null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(105),
+                                  child: Image.memory(
+                                    const Base64Decoder().convert(
+                                        getUserModelData?.data?.image
+                                                ?.split(',')
+                                                .elementAt(1) ??
+                                            ""),
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : const Center(
+                                  child: Icon(Icons.camera_alt),
+                                ),
                         ),
-                      )
-                       : const Center(
-                        child: Icon(Icons.camera_alt),
                       ),
                     ),
-                  ),
+                    Text("full_name".tr),
+                    CustomTextField(
+                      textInputType: TextInputType.text,
+                      controller: nameController,
+                      hintText: "full_name".tr,
+                      height: isValidate ? 50 : 75,
+                      // isShadow: controller.isShadow,
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          isValidate = false;
+                          update();
+                          return 'please_enter_your_full_name'.tr;
+                        } else {}
+                        isValidate = true;
+                        update();
+                        return null;
+                      },
+                    ),
+                    size.heightSpace(15),
+                    Text('email'.tr,
+                        style: AppTextStyle.regularSubTitleText,
+                        textAlign: TextAlign.center),
+                    CustomTextField(
+                      height: isValidate ? 50 : 75,
+                      // isShadow: controller.isShadow,
+                      controller: emailController,
+                      hintText: "enter_your_email".tr,
+                      errorMaxLines: 3,
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          isValidate = false;
+                          update();
+                          return 'please_enter_email'.tr;
+                        } else if (!RegExp(emailValidationRegExp)
+                            .hasMatch(value)) {
+                          isValidate = false;
+                          update();
+                          return 'please_enter_valid_email'.tr;
+                        } else {}
+                        isValidate = true;
+                        update();
+                        return null;
+                      },
+                    ),
+                    size.heightSpace(15),
+                    Text('phone_no'.tr,
+                        style: AppTextStyle.regularSubTitleText,
+                        textAlign: TextAlign.center),
+                    CustomTextField(
+                      height: isValidate ? 50 : 75,
+                      // isShadow: isShadow,
+                      textInputType: TextInputType.phone,
+                      controller: phoneController,
+                      hintText: "phone_no".tr,
+                      errorMaxLines: 3,
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          isValidate = false;
+                          update();
+                          return 'please_enter_phone_no'.tr;
+                        }
+                        isValidate = true;
+                        update();
+                        return null;
+                      },
+                    ),
+                    size.heightSpace(15),
+                    AppButton(
+                        buttonText: "update_profile".tr,
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            Get.back();
+                            updateUserProfileAPI();
+                          }
+                        },
+                        isBorder: false),
+                  ],
                 ),
-                Text("full_name".tr),
-                CustomTextField(
-                  textInputType: TextInputType.text,
-                  controller: nameController,
-                  hintText: "full_name".tr,
-                  height: isValidate ? 50 : 75,
-                  // isShadow: controller.isShadow,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      isValidate = false;
-                      update();
-                      return 'please_enter_your_full_name'.tr;
-                    } else {}
-                    isValidate = true;
-                    update();
-                    return null;
-                  },
-                ),
-                size.heightSpace(15),
-                Text('email'.tr,
-                    style: AppTextStyle.regularSubTitleText,
-                    textAlign: TextAlign.center),
-                CustomTextField(
-                  height: isValidate ? 50 : 75,
-                  // isShadow: controller.isShadow,
-                  controller: emailController,
-                  hintText: "enter_your_email".tr,
-                  errorMaxLines: 3,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      isValidate = false;
-                      update();
-                      return 'please_enter_email'.tr;
-                    } else if (!RegExp(emailValidationRegExp)
-                        .hasMatch(value)) {
-                      isValidate = false;
-                      update();
-                      return 'please_enter_valid_email'.tr;
-                    } else {}
-                    isValidate = true;
-                    update();
-                    return null;
-                  },
-                ),
-                size.heightSpace(15),
-                Text('phone_no'.tr,
-                    style: AppTextStyle.regularSubTitleText,
-                    textAlign: TextAlign.center),
-                CustomTextField(
-                  height: isValidate ? 50 : 75,
-                  // isShadow: isShadow,
-                  textInputType: TextInputType.phone,
-                  controller: phoneController,
-                  hintText: "phone_no".tr,
-                  errorMaxLines: 3,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      isValidate = false;
-                      update();
-                      return 'please_enter_phone_no'.tr;
-                    }
-                    isValidate = true;
-                    update();
-                    return null;
-                  },
-                ),
-                size.heightSpace(15),
-                AppButton(
-                    buttonText: "update_profile".tr,
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        Get.back();
-                        updateUserProfileAPI();
-                      }
-                    },
-                    isBorder: false),
-              ],
-            ),
-          ),
-        ));
+              ),
+            ));
       },
     );
   }

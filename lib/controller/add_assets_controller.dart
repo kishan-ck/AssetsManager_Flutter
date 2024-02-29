@@ -275,6 +275,70 @@ class AddAssetsController extends GetxController {
     isLoading = false;
     update();
   }
+
+  editAssets({required String id}) async {
+    isLoading = true;
+    update();
+    List<Map<String, String>> list = editPartnerList.map((e) {
+      return {
+        "name": e.nameController.text.trim(),
+        "contact": e.phoneController.text.trim(),
+        "percentOwned": e.ownController.text.trim(),
+      };
+    }).toList();
+
+    print("partner Edit List:: $list");
+    print("subCatId Edit:: ${subCatId}");
+
+    final userId = await getDataFromLocalStorage(
+        dataType: StorageKey.stringType, prefKey: StorageKey.userId);
+    await HttpHandler.putHttpMethod(url: APIEndPoints.editAsset(id: id), data: {
+      "name": assetNameTextController.text.trim(),
+      "description": editAssetDescriptionTextController.text.trim(),
+      "assetId": editAssetIdTextController.text.trim(),
+      "numberOfMeasurement": editAssetQuantityTextController.text.trim(),
+      "priceperunit": editAssetPricePerUnitTextController.text.trim(),
+      "measurementType": selectedMeasurementController.toString(),
+      "isAssetSolelyOwned": isSolelyOwned == "Yes" ? true : false,
+      "percentOwned": int.parse(editAssetOwnedTextController.text.trim() == ""
+          ? "0"
+          : editAssetOwnedTextController.text.trim()),
+      "userId": userId.toString(),
+      "location": editAssetLocationTextController.text.trim(),
+      "subCategoryId": subCatId.toString(),
+      "partner": isSolelyOwned == "Yes" ? [] : list,
+      "images": uploadedImageString
+    }).then((value) {
+      if (value['error'] == null) {
+        // addAssetsModel = AddAssetsModel.fromJson(json.decode(value['body']));
+
+        editAssetDescriptionTextController.clear();
+        editAssetIdTextController.clear();
+        editAssetQuantityTextController.clear();
+        editAssetOwnedTextController.clear();
+        editAssetLocationTextController.clear();
+
+        editAssetPricePerUnitTextController.clear();
+        subCatId = "";
+        uploadedImageString.clear();
+        update();
+        commonSnackBar(message: "Assets Edited Successfully", isError: false);
+        Get.offAll(() => const BottomNavigationBarScreen());
+        printData("EditAssets Api ==> ${value['body']}");
+        printData("EditAssets addAssetsModel Api ==> $addAssetsModel");
+      } else {
+        printData("editAssets Api Error==> ${value['error']}");
+        ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
+        commonSnackBar(message: "${error.message}");
+        isLoading = false;
+        update();
+        return null;
+      }
+    });
+
+    isLoading = false;
+    update();
+  }
 }
 
 class PartnerModel {

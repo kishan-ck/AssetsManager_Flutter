@@ -1,3 +1,4 @@
+import 'package:assetsmanagement/app_widgets/custom_network_image.dart';
 import 'package:assetsmanagement/constants/app_button.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
@@ -5,9 +6,7 @@ import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
 import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
-import 'package:assetsmanagement/models/asset/asset_model.dart';
-import 'package:assetsmanagement/models/global/home_data_model.dart';
-import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:assetsmanagement/models/asset/asset_model.dart' as a;
 import 'package:assetsmanagement/utils/widgets/app_loader.dart';
 import 'package:assetsmanagement/utils/widgets/common_dropdown_button.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
@@ -17,9 +16,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class EditAssetScreen extends StatelessWidget {
-  final bool isOwn;
+  final a.Data? asset;
   final String header;
-  const EditAssetScreen({super.key, this.isOwn = false, required this.header});
+  const EditAssetScreen({super.key, required this.header, this.asset});
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +81,14 @@ class EditAssetScreen extends StatelessWidget {
                       child: Column(
                         // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          controller.path == null || controller.path!.isEmpty
+                          controller.uploadedImageString.isEmpty
                               ? const SizedBox()
                               : SizedBox(
                                   height: size.height(60),
                                   child: ListView.separated(
                                     shrinkWrap: true,
-                                    itemCount: controller.path!.length,
+                                    itemCount:
+                                        controller.uploadedImageString.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
                                       return Stack(
@@ -97,16 +97,17 @@ class EditAssetScreen extends StatelessWidget {
                                           SizedBox(
                                             height: size.height(60),
                                             width: size.width(60),
-                                            child: Image.file(
-                                              controller.path![index],
+                                            child: CustomNetworkImage(
+                                              image: controller
+                                                  .uploadedImageString[index],
                                               height: size.height(60),
                                               width: size.width(60),
-                                              fit: BoxFit.cover,
                                             ),
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              controller.path!.removeAt(index);
+                                              controller.uploadedImageString
+                                                  .removeAt(index);
                                               controller.update();
                                             },
                                             child: Container(
@@ -213,7 +214,7 @@ class EditAssetScreen extends StatelessWidget {
                           Row(
                             children: [
                               Expanded(
-                                flex: 2,
+                                flex: 5,
                                 child: CustomTextField(
                                   controller: controller
                                       .editAssetQuantityTextController,
@@ -236,10 +237,11 @@ class EditAssetScreen extends StatelessWidget {
                                   underLineFocusColor: AppColor.primaryColor,
                                 ),
                               ),
-                              size.widthSpace(10),
+                              size.widthSpace(30),
                               Expanded(
                                 flex: 1,
-                                child: Text(""),
+                                child: Text(
+                                    controller.selectedMeasurementController),
                               )
                             ],
                           ),
@@ -282,10 +284,12 @@ class EditAssetScreen extends StatelessWidget {
                                     controller.isSolelyOwned = value ?? "";
                                     controller.update();
                                     controller.isSolelyOwned == "Yes"
-                                        ? controller.assetOwnedTextController
+                                        ? controller
+                                            .editAssetOwnedTextController
                                             .text = "100"
                                         : controller
-                                            .assetOwnedTextController.text = "";
+                                            .editAssetOwnedTextController
+                                            .text = "";
                                     controller.isSolelyOwned == "Yes"
                                         ? controller.readOnly = true
                                         : controller.readOnly = false;
@@ -307,202 +311,138 @@ class EditAssetScreen extends StatelessWidget {
                             underLineFocusColor: AppColor.primaryColor,
                           ),
                           size.heightSpace(15),
-                          // isOwn
-                          //     ? const SizedBox()
-                          //     : HomeExpansionTile(
-                          //         tileController:
-                          //             controller.partnerExpansionTileController,
-                          //         isShadow: false,
-                          //         title: controller.title,
-                          //         tileMargin: 0,
-                          //         initialExpand: false,
-                          //         onExpansionChange: (p0) {
-                          //           printData("onExpansionChange------$p0");
-                          //           controller.isExpanseChange = p0;
-                          //           controller.update();
-                          //         },
-                          //         outerBorderRadius: controller.isExpanseChange
-                          //             ? BorderRadius.circular(20)
-                          //             : BorderRadius.circular(100),
-                          //         children: [
-                          //           Row(
-                          //             mainAxisAlignment:
-                          //                 MainAxisAlignment.center,
-                          //             crossAxisAlignment:
-                          //                 CrossAxisAlignment.center,
-                          //             children: [
-                          //               Flexible(
-                          //                 child: CustomTextField(
-                          //                   controller: controller
-                          //                       .partnerNameTextController,
-                          //                   fillColor: AppColor.whiteColor,
-                          //                   isUnderLineBorderRadius:
-                          //                       BorderRadius.circular(100),
-                          //                   isShadow: false,
-                          //                   hintText: "name".tr,
-                          //                   underLineFocusColor:
-                          //                       AppColor.secondPrimaryColor,
-                          //                 ),
-                          //               ),
-                          //               size.widthSpace(15),
-                          //               Flexible(
-                          //                 child: CustomTextField(
-                          //                   controller: controller
-                          //                       .partnerOwnedTextController,
-                          //                   fillColor: AppColor.whiteColor,
-                          //                   isUnderLineBorderRadius:
-                          //                       BorderRadius.circular(100),
-                          //                   textInputType: TextInputType.number,
-                          //                   isShadow: false,
-                          //                   hintText: "%_owned".tr,
-                          //                   underLineFocusColor:
-                          //                       AppColor.secondPrimaryColor,
-                          //                 ),
-                          //               ),
-                          //             ],
-                          //           ),
-                          //           size.heightSpace(15),
-                          //           CustomTextField(
-                          //             controller:
-                          //                 controller.partnerPhoneTextController,
-                          //             fillColor: AppColor.whiteColor,
-                          //             isUnderLineBorderRadius:
-                          //                 BorderRadius.circular(100),
-                          //             isShadow: false,
-                          //             hintText: "phone_no".tr,
-                          //             height: controller.isValidatePartnerPhone
-                          //                 ? 50
-                          //                 : 75,
-                          //             validator: (value) {
-                          //               if (value.toString().trim().isEmpty) {
-                          //                 return "Partner Phone is required";
-                          //               }
-                          //               return null;
-                          //             },
-                          //             underLineFocusColor:
-                          //                 AppColor.secondPrimaryColor,
-                          //           ),
-                          //           size.heightSpace(15),
-                          //         ],
-                          //       ),
-                          isOwn ? const SizedBox() : size.heightSpace(15),
-                          ListView.separated(
-                            itemCount: controller.editPartnerList.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Stack(
-                                children: [
-                                  HomeExpansionTile(
-                                    tileController: controller
-                                        .editPartnerList[index]
-                                        .nameExpansionTileController,
-                                    isShadow: false,
-                                    title: "Partner - ${index + 1}",
-                                    tileMargin: 0,
-                                    initialExpand: false,
-                                    onExpansionChange: (p0) {
-                                      printData("onExpansionChange------${p0}");
-                                      controller.editPartnerList[index]
-                                          .isExpanseChange = p0;
-                                      controller.update();
-                                    },
-                                    outerBorderRadius: controller
-                                            .editPartnerList[index]
-                                            .isExpanseChange
-                                        ? BorderRadius.circular(20)
-                                        : BorderRadius.circular(100),
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Flexible(
-                                            child: CustomTextField(
+                          controller.isSolelyOwned == "Yes"
+                              ? const SizedBox()
+                              : size.heightSpace(15),
+                          controller.isSolelyOwned == "Yes"
+                              ? const SizedBox()
+                              : ListView.separated(
+                                  itemCount: controller.editPartnerList.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return Stack(
+                                      children: [
+                                        HomeExpansionTile(
+                                          tileController: controller
+                                              .editPartnerList[index]
+                                              .nameExpansionTileController,
+                                          isShadow: false,
+                                          title: "Partner - ${index + 1}",
+                                          tileMargin: 0,
+                                          initialExpand: false,
+                                          onExpansionChange: (p0) {
+                                            printData(
+                                                "onExpansionChange------${p0}");
+                                            controller.editPartnerList[index]
+                                                .isExpanseChange = p0;
+                                            controller.update();
+                                          },
+                                          outerBorderRadius: controller
+                                                  .editPartnerList[index]
+                                                  .isExpanseChange
+                                              ? BorderRadius.circular(20)
+                                              : BorderRadius.circular(100),
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Flexible(
+                                                  child: CustomTextField(
+                                                    controller: controller
+                                                        .editPartnerList[index]
+                                                        .nameController,
+                                                    fillColor:
+                                                        AppColor.whiteColor,
+                                                    isUnderLineBorderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    isShadow: false,
+                                                    hintText: "name".tr,
+                                                    underLineFocusColor:
+                                                        AppColor
+                                                            .secondPrimaryColor,
+                                                  ),
+                                                ),
+                                                size.widthSpace(15),
+                                                Flexible(
+                                                  child: CustomTextField(
+                                                    controller: controller
+                                                        .editPartnerList[index]
+                                                        .ownController,
+                                                    fillColor:
+                                                        AppColor.whiteColor,
+                                                    isUnderLineBorderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    isShadow: false,
+                                                    hintText: "%_owned".tr,
+                                                    underLineFocusColor:
+                                                        AppColor
+                                                            .secondPrimaryColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            size.heightSpace(15),
+                                            CustomTextField(
                                               controller: controller
                                                   .editPartnerList[index]
-                                                  .nameController,
+                                                  .phoneController,
                                               fillColor: AppColor.whiteColor,
                                               isUnderLineBorderRadius:
                                                   BorderRadius.circular(100),
                                               isShadow: false,
-                                              hintText: "name".tr,
+                                              hintText: "phone_no".tr,
+                                              height: controller
+                                                      .editPartnerList[index]
+                                                      .isPhoneValidate
+                                                  ? 50
+                                                  : 75,
+                                              validator: (value) {
+                                                if (value
+                                                    .toString()
+                                                    .trim()
+                                                    .isEmpty) {
+                                                  return "Partner Phone is required";
+                                                }
+                                                return null;
+                                              },
                                               underLineFocusColor:
                                                   AppColor.secondPrimaryColor,
                                             ),
-                                          ),
-                                          size.widthSpace(15),
-                                          Flexible(
-                                            child: CustomTextField(
-                                              controller: controller
-                                                  .editPartnerList[index]
-                                                  .ownController,
-                                              fillColor: AppColor.whiteColor,
-                                              isUnderLineBorderRadius:
-                                                  BorderRadius.circular(100),
-                                              isShadow: false,
-                                              hintText: "%_owned".tr,
-                                              underLineFocusColor:
-                                                  AppColor.secondPrimaryColor,
+                                            size.heightSpace(15),
+                                          ],
+                                        ),
+                                        Positioned(
+                                          right: 50,
+                                          top: 15,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              controller.editPartnerList
+                                                  .removeAt(index);
+                                              controller.update();
+                                            },
+                                            child: const Icon(
+                                              Icons.close,
+                                              color: AppColor.redColor,
+                                              size: 30,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                      size.heightSpace(15),
-                                      CustomTextField(
-                                        controller: controller
-                                            .editPartnerList[index]
-                                            .phoneController,
-                                        fillColor: AppColor.whiteColor,
-                                        isUnderLineBorderRadius:
-                                            BorderRadius.circular(100),
-                                        isShadow: false,
-                                        hintText: "phone_no".tr,
-                                        height: controller
-                                                .editPartnerList[index]
-                                                .isPhoneValidate
-                                            ? 50
-                                            : 75,
-                                        validator: (value) {
-                                          if (value.toString().trim().isEmpty) {
-                                            return "Partner Phone is required";
-                                          }
-                                          return null;
-                                        },
-                                        underLineFocusColor:
-                                            AppColor.secondPrimaryColor,
-                                      ),
-                                      size.heightSpace(15),
-                                    ],
-                                  ),
-                                  Positioned(
-                                    right: 50,
-                                    top: 15,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        controller.editPartnerList
-                                            .removeAt(index);
-                                        controller.update();
-                                      },
-                                      child: const Icon(
-                                        Icons.close,
-                                        color: AppColor.redColor,
-                                        size: 30,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return size.heightSpace(15);
-                            },
-                          ),
+                                        )
+                                      ],
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return size.heightSpace(15);
+                                  },
+                                ),
                           size.heightSpace(15),
-                          isOwn
+                          controller.isSolelyOwned == "Yes"
                               ? const SizedBox()
                               : GestureDetector(
                                   onTap: () {
-                                    controller.editPartnerList.add(Partner());
+                                    controller.editPartnerList.add(a.Partner());
                                     controller.update();
                                   },
                                   child: DottedBorder(
@@ -528,11 +468,12 @@ class EditAssetScreen extends StatelessWidget {
                                 ),
                           size.heightSpace(15),
                           AppButton(
-                              buttonText: "save".tr,
+                              buttonText: "edit_asset".tr,
                               onPressed: () async {
                                 if (controller.formKey.currentState!
                                     .validate()) {
-                                  // await controller.addAssets();
+                                  await controller.editAssets(
+                                      id: asset?.id.toString() ?? "");
                                   Get.find<BottomNavigationBarController>()
                                       .selectedIndex = 0;
                                   Get.find<BottomNavigationBarController>()

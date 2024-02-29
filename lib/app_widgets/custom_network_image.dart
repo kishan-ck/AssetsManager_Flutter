@@ -22,10 +22,10 @@ class CustomNetworkImage extends StatelessWidget {
       height: height,
       fit: BoxFit.cover,
       placeholder: (context, url) => Image.asset(
-        "assets/images/user_profile.png",
+        "assets/icon/image.png",
       ),
       errorWidget: (context, url, error) => Image.asset(
-        "assets/images/user_profile.png",
+        "assets/icon/image.png",
       ),
     );
   }

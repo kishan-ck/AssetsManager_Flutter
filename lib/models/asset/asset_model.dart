@@ -228,9 +228,9 @@ class Partner {
         v = json['__v'] as int?,
         isPhoneValidate = json['isPhoneValidate'] as bool? ?? false,
         isExpanseChange = json['isExpanseChange'] as bool? ?? false,
-        nameController = TextEditingController(text: json['name'] ?? ""),
-        ownController = TextEditingController(text: json['own'] ?? ""),
-        phoneController = TextEditingController(text: json['phone'] ?? ""),
+        nameController = TextEditingController(text: ""),
+        ownController = TextEditingController(text: ""),
+        phoneController = TextEditingController(text: ""),
         nameExpansionTileController = c.ExpansionTileController();
 
   Map<String, dynamic> toJson() => {
@@ -240,9 +240,9 @@ class Partner {
         'percentOwned': percentOwned,
         'isPhoneValidate': isPhoneValidate,
         'isExpanseChange': isExpanseChange,
-        'name': nameController.text,
-        'own': ownController.text,
-        'phone': phoneController.text,
+        // 'name': nameController.text,
+        // 'own': ownController.text,
+        // 'phone': phoneController.text,
         '__v': v
       };
 }

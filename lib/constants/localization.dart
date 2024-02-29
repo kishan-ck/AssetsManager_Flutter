@@ -20,6 +20,7 @@ class Localization extends Translations {
           "or_continue_with": "or continue with",
           "update_profile": "Update Profile",
           "price_per_unit": "Price Per Unit",
+          "edit_asset": "Edit Asset",
           "don't_have_an_account_? ": "Don't have an account ? ",
           "sign_up": "Sign up",
           "create_account": "Create Account",

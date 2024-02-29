@@ -21,6 +21,7 @@ class APIEndPoints {
   static String uploadImage = "/upload";
 
   static String createAsset = "/asset/";
+  static String editAsset({required String id}) => "/asset?id=$id";
 
   static String subCategoryUrl = "/subcategory";
 

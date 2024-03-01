@@ -4,6 +4,7 @@ import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
 import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:assetsmanagement/controller/user_controller.dart';
+import 'package:assetsmanagement/models/asset/asset_model.dart';
 import 'package:assetsmanagement/screen/main_screens/add_asset_flow/edit_assets_screen.dart';
 import 'package:assetsmanagement/utils/widgets/app_loader.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
@@ -13,11 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AssetDetailScreen extends StatelessWidget {
-  final int? index;
-  const AssetDetailScreen({super.key, this.index});
+  final Data data;
+
+  const AssetDetailScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
+    // printData("--=-=-=-=-=-=-=--${num.parse("${data.numberOfMeasurement ?? 0}") * num.parse(data.priceperunit ?? "")}");
     return GetBuilder(
         init: Get.find<UserController>(),
         builder: (controller) {
@@ -203,60 +206,115 @@ class AssetDetailScreen extends StatelessWidget {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
+                                Text(
+                                  "purchased".tr,
+                                  style: AppTextStyle.largeText
+                                      .copyWith(color: AppColor.whiteColor),
+                                ),
+                                Row(
                                   children: [
                                     Text(
-                                      "purchased".tr,
+                                      "current_market".tr,
                                       style: AppTextStyle.largeText
                                           .copyWith(color: AppColor.whiteColor),
                                     ),
-                                    Text(
-                                      "50",
-                                      style: TextStyle(
-                                          color: AppColor.whiteColor,
-                                          fontSize: size.height(50),
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "current_market".tr,
-                                          style: AppTextStyle.largeText
-                                              .copyWith(
-                                                  color: AppColor.whiteColor),
-                                        ),
-                                        size.widthSpace(7.5),
-                                        Image.asset(
-                                          AppImagePath.growthIcon,
-                                          color: AppColor.whiteColor,
-                                          height: size.height(15),
-                                          width: size.width(15),
-                                        )
-                                      ],
-                                    ),
-                                    Text(
-                                      "100",
-                                      style: TextStyle(
-                                          color: AppColor.whiteColor,
-                                          fontSize: size.height(50),
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    size.widthSpace(7.5),
+                                    Image.asset(
+                                      AppImagePath.growthIcon,
+                                      color: AppColor.whiteColor,
+                                      height: size.height(15),
+                                      width: size.width(15),
+                                    )
                                   ],
                                 ),
                               ],
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    // "${num.parse("${data.numberOfMeasurement ?? 0}") * num.parse(data.priceperunit ?? "")}",
+                                    "50",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                        color: AppColor.whiteColor,
+                                        fontSize: size.height(40),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "100",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: AppColor.whiteColor,
+                                        fontSize: size.height(40),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            //   crossAxisAlignment: CrossAxisAlignment.center,
+                            //   children: [
+                            //     Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment: MainAxisAlignment.center,
+                            //       mainAxisSize: MainAxisSize.min,
+                            //       children: [
+                            //         Text(
+                            //           "purchased".tr,
+                            //           style: AppTextStyle.largeText
+                            //               .copyWith(color: AppColor.whiteColor),
+                            //         ),
+                            //         Text(
+                            //           "${num.parse(data.numberOfMeasurement.toString()) * num.parse(data.priceperunit.toString())}",
+                            //           style: TextStyle(
+                            //               color: AppColor.whiteColor,
+                            //               fontSize: size.height(50),
+                            //               fontWeight: FontWeight.bold),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //     Expanded(
+                            //       child: Column(
+                            //         crossAxisAlignment: CrossAxisAlignment.center,
+                            //         mainAxisAlignment: MainAxisAlignment.center,
+                            //         mainAxisSize: MainAxisSize.min,
+                            //         children: [
+                            //           Row(
+                            //             children: [
+                            //               Text(
+                            //                 "current_market".tr,
+                            //                 style: AppTextStyle.largeText
+                            //                     .copyWith(
+                            //                         color: AppColor.whiteColor),
+                            //               ),
+                            //               size.widthSpace(7.5),
+                            //               Image.asset(
+                            //                 AppImagePath.growthIcon,
+                            //                 color: AppColor.whiteColor,
+                            //                 height: size.height(15),
+                            //                 width: size.width(15),
+                            //               )
+                            //             ],
+                            //           ),
+                            //           Text(
+                            //             "100",
+                            //             style: TextStyle(
+                            //                 color: AppColor.whiteColor,
+                            //                 fontSize: size.height(50),
+                            //                 fontWeight: FontWeight.bold),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                             GestureDetector(
                               onTap: () {},
                               child: Container(
@@ -291,15 +349,13 @@ class AssetDetailScreen extends StatelessWidget {
                                 color: AppColor.blackColor,
                                 borderRadius: BorderRadius.circular(30)),
                             child: Text(
-                              Get.find<SettingController>()
-                                          .assetModel
-                                          ?.data?[index ?? 0]
-                                          .isAssetSolelyOwned ==
-                                      true
+                              data.isAssetSolelyOwned == true
                                   ? "• Co-Owned"
                                   : "• Solely Owned",
                               style: AppTextStyle.largeText.copyWith(
-                                  color: AppColor.lightGreenColor,
+                                  color: data.isAssetSolelyOwned == true
+                                      ? AppColor.lightGreenColor
+                                      : AppColor.secondPrimaryColor,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 10),
                             ),
@@ -310,161 +366,73 @@ class AssetDetailScreen extends StatelessWidget {
                                   .getAssetData();
                               Get.find<AddAssetsController>()
                                   .editAssetDescriptionTextController
-                                  .text = Get.find<SettingController>()
-                                      .assetModel
-                                      ?.data?[index ?? 0]
-                                      .description ??
-                                  "";
+                                  .text = data.description ?? "";
                               Get.find<AddAssetsController>()
                                   .editAssetNameTextController
-                                  .text = Get.find<SettingController>()
-                                      .assetModel
-                                      ?.data?[index ?? 0]
-                                      .name ??
-                                  "";
+                                  .text = data.name ?? "";
                               Get.find<AddAssetsController>()
                                   .editAssetIdTextController
-                                  .text = Get.find<SettingController>()
-                                      .assetModel
-                                      ?.data?[index ?? 0]
-                                      .assetId ??
-                                  "";
+                                  .text = data.assetId ?? "";
                               Get.find<AddAssetsController>()
                                   .editAssetLocationTextController
-                                  .text = Get.find<SettingController>()
-                                      .assetModel
-                                      ?.data?[index ?? 0]
-                                      .location ??
-                                  "";
+                                  .text = data.location ?? "";
                               Get.find<AddAssetsController>()
                                   .editAssetOwnedTextController
-                                  .text = Get.find<SettingController>()
-                                      .assetModel
-                                      ?.data?[index ?? 0]
-                                      .percentOwned
-                                      .toString() ??
-                                  "";
+                                  .text = data.percentOwned.toString();
                               Get.find<AddAssetsController>()
                                   .editAssetPricePerUnitTextController
-                                  .text = Get.find<SettingController>()
-                                      .assetModel
-                                      ?.data?[index ?? 0]
-                                      .priceperunit ??
-                                  "";
+                                  .text = data.priceperunit ?? "";
                               Get.find<AddAssetsController>()
                                   .editAssetQuantityTextController
-                                  .text = Get.find<SettingController>()
-                                      .assetModel
-                                      ?.data?[index ?? 0]
-                                      .numberOfMeasurement
-                                      .toString() ??
-                                  "";
-                              print("top index:: $index");
+                                  .text = data.numberOfMeasurement.toString();
 
                               Get.find<AddAssetsController>().editPartnerList =
-                                  Get.find<SettingController>()
-                                          .assetModel
-                                          ?.data?[index ?? 0]
-                                          .partner ??
-                                      [];
-                              print(
-                                  "list of partner:: ${Get.find<SettingController>().assetModel?.data?[index ?? 0].partner}");
-                              for (int i = 0;
-                                  i <
-                                      Get.find<SettingController>()
-                                          .assetModel!
-                                          .data![index ?? 0]
-                                          .partner!
-                                          .length;
-                                  i++) {
+                                  data.partner ?? [];
+                              print("list of partner:: ${data.partner}");
+                              for (int i = 0; i < data.partner!.length; i++) {
                                 Get.find<AddAssetsController>()
                                     .editPartnerList[i]
                                     .nameController
-                                    .text = Get.find<SettingController>()
-                                        .assetModel
-                                        ?.data?[index ?? 0]
-                                        .partner![i]
-                                        .name ??
-                                    "";
+                                    .text = data.partner![i].name ?? "";
                                 Get.find<AddAssetsController>()
-                                    .editPartnerList[i]
-                                    .phoneController
-                                    .text = Get.find<SettingController>()
-                                        .assetModel
-                                        ?.data?[index ?? 0]
-                                        .partner![i]
-                                        .contact
-                                        .toString() ??
-                                    "";
+                                        .editPartnerList[i]
+                                        .phoneController
+                                        .text =
+                                    data.partner![i].contact.toString() ?? "";
                                 Get.find<AddAssetsController>()
-                                    .editPartnerList[i]
-                                    .ownController
-                                    .text = Get.find<SettingController>()
-                                        .assetModel
-                                        ?.data?[index ?? 0]
-                                        .partner![i]
-                                        .percentOwned
-                                        .toString() ??
-                                    "";
+                                        .editPartnerList[i]
+                                        .ownController
+                                        .text =
+                                    data.partner![i].percentOwned.toString() ??
+                                        "";
                               }
                               Get.find<AddAssetsController>().isSolelyOwned =
-                                  Get.find<SettingController>()
-                                              .assetModel
-                                              ?.data?[index ?? 0]
-                                              .isAssetSolelyOwned ??
-                                          false
+                                  data.isAssetSolelyOwned ?? false
                                       ? "Yes"
                                       : "No";
 
                               Get.find<AddAssetsController>().subCatId =
-                                  Get.find<SettingController>()
-                                          .assetModel
-                                          ?.data?[index ?? 0]
-                                          .subCategoryId
-                                          ?.id
-                                          .toString() ??
-                                      "";
+                                  data.subCategoryId?.id.toString() ?? "";
                               Get.find<AddAssetsController>()
-                                  .assetNameTextController
-                                  .text = Get.find<SettingController>()
-                                      .assetModel
-                                      ?.data?[index ?? 0]
-                                      .subCategoryId
-                                      ?.name
-                                      .toString() ??
-                                  "";
+                                      .assetNameTextController
+                                      .text =
+                                  data.subCategoryId?.name.toString() ?? "";
                               Get.find<AddAssetsController>()
                                       .selectedMeasurementController =
-                                  Get.find<SettingController>()
-                                          .assetModel
-                                          ?.data?[index ?? 0]
-                                          .measurementType ??
-                                      "";
+                                  data.measurementType ?? "";
                               Get.find<AddAssetsController>()
                                   .uploadedImageString
                                   .clear();
                               Get.find<AddAssetsController>()
-                                      .uploadedImageString =
-                                  Get.find<SettingController>()
-                                          .assetModel
-                                          ?.data?[index ?? 0]
-                                          .images ??
-                                      [];
+                                  .uploadedImageString = data.images ?? [];
                               print(
                                   "images: ${Get.find<AddAssetsController>().uploadedImageString}");
                               Get.find<AddAssetsController>().update();
                               Get.find<SettingController>().update();
                               Get.to(() => EditAssetScreen(
-                                  header: Get.find<SettingController>()
-                                          .assetModel
-                                          ?.data?[index ?? 0]
-                                          .subCategoryId
-                                          ?.catId
-                                          ?.name ??
+                                  header: data.subCategoryId?.catId?.name ??
                                       "Category",
-                                  asset: Get.find<SettingController>()
-                                      .assetModel
-                                      ?.data?[index ?? 0]));
+                                  asset: data));
                             },
                             child: Container(
                               padding: const EdgeInsets.all(9),
@@ -507,6 +475,11 @@ class AssetDetailScreen extends StatelessWidget {
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
                               Text(
+                                "Owned:",
+                                style: AppTextStyle.largeText
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
                                 "quantity:".tr,
                                 style: AppTextStyle.largeText
                                     .copyWith(fontWeight: FontWeight.bold),
@@ -525,11 +498,7 @@ class AssetDetailScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  Get.find<SettingController>()
-                                          .assetModel
-                                          ?.data?[index ?? 0]
-                                          .name ??
-                                      "",
+                                  data.name ?? "",
                                   style: AppTextStyle.largeText,
                                 ),
                                 Row(
@@ -538,11 +507,7 @@ class AssetDetailScreen extends StatelessWidget {
                                         color: AppColor.blackColor, scale: 4),
                                     size.widthSpace(5),
                                     Text(
-                                      Get.find<SettingController>()
-                                              .assetModel
-                                              ?.data?[index ?? 0]
-                                              .location ??
-                                          "",
+                                      data.location ?? "",
                                       style: AppTextStyle.largeText,
                                     ),
                                   ],
@@ -552,24 +517,19 @@ class AssetDetailScreen extends StatelessWidget {
                                   style: AppTextStyle.largeText,
                                 ),
                                 Text(
-                                  Get.find<SettingController>()
-                                          .assetModel
-                                          ?.data?[index ?? 0]
-                                          .subCategoryId
-                                          ?.name ??
-                                      "",
+                                  data.subCategoryId?.name ?? "",
                                   style: AppTextStyle.largeText,
                                 ),
                                 Text(
-                                  "${Get.find<SettingController>().assetModel?.data?[index ?? 0].numberOfMeasurement ?? ""} ${Get.find<SettingController>().assetModel?.data?[index ?? 0].measurementType ?? ""}",
+                                  "${data.percentOwned} %",
                                   style: AppTextStyle.largeText,
                                 ),
                                 Text(
-                                  Get.find<SettingController>()
-                                          .assetModel
-                                          ?.data?[index ?? 0]
-                                          .description ??
-                                      "",
+                                  "${data.numberOfMeasurement ?? ""} ${data.measurementType ?? ""}",
+                                  style: AppTextStyle.largeText,
+                                ),
+                                Text(
+                                  data.description ?? "",
                                   style: AppTextStyle.largeText,
                                 ),
                               ],
@@ -578,6 +538,7 @@ class AssetDetailScreen extends StatelessWidget {
                         ],
                       ),
                       size.heightSpace(15),
+                      data.partner!.isNotEmpty ?
                       HomeExpansionTile(
                         tileController:
                             controller.mainPartnerExpansionTileController,
@@ -598,79 +559,171 @@ class AssetDetailScreen extends StatelessWidget {
                         onExpansionChange: (p0) {
                           printData("onExpansionChange------$p0");
                           controller.isExpanseChange = p0;
-                          controller.update();
                         },
                         outerBorderRadius: BorderRadius.circular(10),
                         children: [
-                          HomeExpansionTile(
-                            tileController:
-                                controller.myPartnerExpansionTileController,
-                            isShadow: false,
-                            title: controller.subTitle,
-                            tileMargin: 0,
-                            initialExpand: false,
-                            onExpansionChange: (p0) {
-                              printData("onExpansionChange------$p0");
-                              controller.isSubExpanseChange = p0;
-                              controller.update();
-                            },
-                            outerBorderRadius: controller.isSubExpanseChange
-                                ? BorderRadius.circular(20)
-                                : BorderRadius.circular(100),
-                            children: [
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: CustomTextField(
+                          ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: controller.showPartnerList.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return HomeExpansionTile(
+                                  tileController: controller
+                                      .showPartnerList[index]
+                                      .nameExpansionTileController,
+                                  isShadow: false,
+                                  title: "Partner - ${index + 1}",
+                                  tileMargin: 0,
+                                  initialExpand: false,
+                                  onExpansionChange: (p0) {
+                                    printData("onExpansionChange------$p0");
+                                    controller.isSubExpanseChange = p0;
+                                    controller.update();
+                                  },
+                                  outerBorderRadius:
+                                      controller.isSubExpanseChange
+                                          ? BorderRadius.circular(20)
+                                          : BorderRadius.circular(100),
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: CustomTextField(
+                                            controller: controller
+                                                .showPartnerList[index]
+                                                .nameController,
+                                            fillColor: AppColor.whiteColor,
+                                            isUnderLineBorderRadius:
+                                                BorderRadius.circular(100),
+                                            isShadow: false,
+                                            hintText: "Name",
+                                            underLineFocusColor:
+                                                AppColor.secondPrimaryColor,
+                                          ),
+                                        ),
+                                        size.widthSpace(15),
+                                        Flexible(
+                                          child: CustomTextField(
+                                            controller: controller
+                                                .showPartnerList[index]
+                                                .ownController,
+                                            fillColor: AppColor.whiteColor,
+                                            isUnderLineBorderRadius:
+                                                BorderRadius.circular(100),
+                                            isShadow: false,
+                                            hintText: "% Owned",
+                                            underLineFocusColor:
+                                                AppColor.secondPrimaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    size.heightSpace(15),
+                                    CustomTextField(
                                       controller: controller
-                                          .myPartnerNameTextController,
+                                          .showPartnerList[index]
+                                          .phoneController,
                                       fillColor: AppColor.whiteColor,
                                       isUnderLineBorderRadius:
                                           BorderRadius.circular(100),
                                       isShadow: false,
-                                      hintText: "Name",
+                                      hintText: "Phone Number",
                                       underLineFocusColor:
                                           AppColor.secondPrimaryColor,
                                     ),
-                                  ),
-                                  size.widthSpace(15),
-                                  Flexible(
-                                    child: CustomTextField(
-                                      controller: controller
-                                          .myPartnerOwnedTextController,
-                                      fillColor: AppColor.whiteColor,
-                                      isUnderLineBorderRadius:
-                                          BorderRadius.circular(100),
-                                      isShadow: false,
-                                      hintText: "% Owned",
-                                      underLineFocusColor:
-                                          AppColor.secondPrimaryColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              size.heightSpace(15),
-                              CustomTextField(
-                                controller:
-                                    controller.myPartnerPhoneTextController,
-                                fillColor: AppColor.whiteColor,
-                                isUnderLineBorderRadius:
-                                    BorderRadius.circular(100),
-                                isShadow: false,
-                                hintText: "Phone Number",
-                                underLineFocusColor:
-                                    AppColor.secondPrimaryColor,
-                              ),
-                              size.heightSpace(15),
-                            ],
-                          ),
+                                    size.heightSpace(15),
+                                  ],
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return size.heightSpace(10);
+                              })
                         ],
-                      ),
+                      ) :
+                      const SizedBox(),
+                      size.heightSpace(10),
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                            return AlertDialog(
+                              backgroundColor: AppColor.whiteColor,
+                              surfaceTintColor: AppColor.whiteColor,
+                              actions: [
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 15),
+                                      child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: IconButton(
+                                              onPressed: () {
+                                                Get.back();
+                                      }, icon: const Icon(Icons.close, size: 35))),
+                                    ),
+                                    Image.asset("assets/images/bin.png", height: size.height(100), width: size.width(100)),
+                                    Text("Delete Asset", style: AppTextStyle.appbarTitleText.copyWith(fontWeight: FontWeight.w700),),
+                                    Text("Are you sure that you want to delete this asset?", textAlign: TextAlign.center,style: AppTextStyle.regularSubTitleText),
+                                    size.heightSpace(12),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Get.back();
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(vertical: size.height(15)),
+                                              decoration: BoxDecoration(
+                                                color: AppColor.primaryColor,
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child: Text("No", textAlign: TextAlign.center,style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),),
+                                            ),
+                                          ),
+                                        ),
+                                        size.widthSpace(25),
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              Get.back();
+                                              await controller.deleteAssetData(assetId: data.id ?? "");
+                                              Get.back();
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(vertical: size.height(15)),
+                                              decoration: BoxDecoration(
+                                                color: AppColor.secondPrimaryColor,
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child: Text("Yes", textAlign: TextAlign.center,style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ],
+                            );
+                          },);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: size.height(15)),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: AppColor.primaryColor,
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: Text("Delete Assets", textAlign: TextAlign.center,style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),),
+                        ),
+                      )
                     ],
                   ).paddingAll(20),
                 ),
               ),
-              Get.find<SettingController>().isLoading
+              Get.find<SettingController>().isLoading || controller.isLoading
                   ? appLoader()
                   : const SizedBox()
             ],

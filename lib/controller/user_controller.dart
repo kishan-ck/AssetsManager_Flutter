@@ -1,10 +1,14 @@
+import 'dart:convert';
+import 'package:assetsmanagement/config/api_end_point.dart';
+import 'package:assetsmanagement/config/network_handler.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/setting_controller.dart';
+import 'package:assetsmanagement/models/auth/error_model.dart';
 import 'package:flutter/material.dart';
 import 'package:assetsmanagement/utils/widgets/custometile.dart' as c;
 import 'package:get/get.dart';
-
+import '../constants/custom_snackbar.dart';
 import '../models/asset/asset_model.dart' as a;
 
 class UserController extends GetxController {
@@ -19,14 +23,15 @@ class UserController extends GetxController {
   c.ExpansionTileController mainPartnerExpansionTileController =
       c.ExpansionTileController();
 
-  String subTitle = "Partner - 1";
   String title = "My Partners";
 
   bool isExpanseChange = false;
   bool isSubExpanseChange = false;
   bool isNoDataFound = false;
+  bool isLoading = false;
 
   List<a.Data> searchAssetsList = [];
+  List<a.Partner> showPartnerList = [];
 
   List userCategoryData = [
     {
@@ -105,5 +110,27 @@ class UserController extends GetxController {
       update();
       // printData("search list :: ${searchAssetsList[0].name}");
     }
+  }
+
+
+  Future<void> deleteAssetData({required String assetId}) async {
+    isLoading = true;
+    update();
+    await HttpHandler.deleteHttpMethod(url: APIEndPoints.deleteAssetUrl(assetId: assetId))
+        .then((value) async {
+      if (value['error'] == null) {
+        printData("Delete Assets Api ==> ${value['body']}");
+        await Get.find<SettingController>().getAssetData();
+        commonSnackBar(message: "Asset Delete Successfully", isError: false);
+        Get.find<SettingController>().update();
+      } else {
+        printData("categoryData Api Error==> ${value['error']}");
+        ErrorModel error = ErrorModel.fromJson(json.decode(value['body']));
+        commonSnackBar(message: "${error.message}");
+        return null;
+      }
+    });
+    isLoading = false;
+    update();
   }
 }

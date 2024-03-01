@@ -150,7 +150,9 @@ class GlobalScreen extends StatelessWidget {
                         ),
                       ),
                       size.heightSpace(16),
-                      controller.isNoDataFound ? controller.searchAssetsList.isEmpty ? const Text("Search Data Not Found") :
+                      controller.isNoDataFound ?
+                      controller.searchAssetsList.isEmpty ?
+                      const Text("Search Data Not Found") :
                       ListView.builder(
                         itemCount:
                             controller.searchAssetsList.length,
@@ -159,6 +161,7 @@ class GlobalScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
+                              controller.searchAssetsList[index].subcategory[index].name ?
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -175,6 +178,9 @@ class GlobalScreen extends StatelessWidget {
                                   const Spacer(),
                                   GestureDetector(
                                       onTap: () {
+                                        controller.passIndex = index;
+                                        controller.update();
+                                        printData("Index ===> ${controller.passIndex}");
                                         Get.to(() => ViewAllCategoryScreen(
                                             categoryData: controller.searchAssetsList[index]));
                                       },
@@ -184,11 +190,18 @@ class GlobalScreen extends StatelessWidget {
                                             color: AppColor.primaryColor),
                                       )),
                                 ],
-                              ),
+                              ) :
+                                  const SizedBox(),
                               size.heightSpace(15),
+                              controller.searchAssetsList[index].subcategory != null ?
                               SizedBox(
                                   height: 100,
-                                  child: controller.horizontalList(controller.searchAssetsList[index])),
+                                  child: controller.horizontalList(controller.searchAssetsList[index])) :
+                          Container(
+                          height: 100,
+                          alignment: Alignment.center,
+                          child: const Text("Sub Category Not Found"),
+                          ),
                               size.heightSpace(15),
                             ],
                           );
@@ -202,6 +215,7 @@ class GlobalScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
+                              controller.homeDataModel!.data!.category?[0].subcategory?[0].name != null ?
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -219,6 +233,9 @@ class GlobalScreen extends StatelessWidget {
                                   const Spacer(),
                                   GestureDetector(
                                       onTap: () {
+                                        controller.passIndex = index;
+                                        controller.update();
+                                        printData("Index ===> ${controller.passIndex}");
                                         Get.to(() => ViewAllCategoryScreen(
                                             categoryData: controller.homeDataModel
                                                 ?.data?.category?[index]));
@@ -229,12 +246,18 @@ class GlobalScreen extends StatelessWidget {
                                             color: AppColor.primaryColor),
                                       )),
                                 ],
-                              ),
+                              ) : const SizedBox(),
                               size.heightSpace(15),
-                              SizedBox(
+                              controller.homeDataModel!.data!.category![index].subcategory!.isNotEmpty ?
+                              Container(
                                   height: 100,
                                   child: controller.horizontalList(controller
-                                      .homeDataModel!.data!.category![index])),
+                                      .homeDataModel!.data!.category![index])) :
+                              Container(
+                                height: 100,
+                                alignment: Alignment.center,
+                                child: const Text("Sub Category Not Found"),
+                              ),
                               size.heightSpace(15),
                             ],
                           );

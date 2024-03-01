@@ -185,6 +185,7 @@ class AddAssetsController extends GetxController {
         .then((value) async {
       if (value['error'] == null) {
         uploadedImageString = json.decode(value['body'])["data"];
+        printData("uploadedImageString ===> $uploadedImageString");
         update();
         printData("uploadImages Api ==> ${value['body']}");
         printData(
@@ -288,7 +289,7 @@ class AddAssetsController extends GetxController {
     }).toList();
 
     print("partner Edit List:: $list");
-    print("subCatId Edit:: ${subCatId}");
+    print("subCatId Edit:: $subCatId");
 
     final userId = await getDataFromLocalStorage(
         dataType: StorageKey.stringType, prefKey: StorageKey.userId);

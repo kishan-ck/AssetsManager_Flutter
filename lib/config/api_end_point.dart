@@ -36,4 +36,8 @@ class APIEndPoints {
   static String getUserUrl({required String userId}) {
     return "/getUser?id=$userId";
   }
+
+  static String deleteAssetUrl({required String assetId}) {
+    return "/asset?id=$assetId";
+  }
 }

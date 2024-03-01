@@ -16,12 +16,12 @@ class SplashController extends GetxController{
     dataType: StorageKey.boolType,
     prefKey: StorageKey.isLogin) ??
         false;
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () async {
       if(isLogin == true){
         Get.find<BottomNavigationBarController>().selectedIndex = 0;
         Get.find<BottomNavigationBarController>().update();
-        Get.find<GlobalController>().homeData();
-        Get.find<SettingController>().getUserAPI();
+        await Get.find<GlobalController>().homeData();
+        await Get.find<SettingController>().getUserAPI();
         Get.offAll(() => const BottomNavigationBarScreen());
       } else{
         Get.offAll(() => LoginScreen());

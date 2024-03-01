@@ -1,5 +1,4 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
-import 'package:assetsmanagement/constants/app_string.dart';
 import 'package:flutter/cupertino.dart';
 
 class AppTextStyle {

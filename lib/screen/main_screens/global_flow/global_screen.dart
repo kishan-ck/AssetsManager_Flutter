@@ -93,7 +93,11 @@ class GlobalScreen extends StatelessWidget {
                           ),
                         ),
                         onChange: (value) {
-                          controller.isNoDataFound = true;
+                          if(value.toString().isNotEmpty) {
+                            controller.isNoDataFound = true;
+                          } else {
+                            controller.isNoDataFound = false;
+                          }
                           controller.searchData(value: value.toString());
                         },
                       ),
@@ -161,7 +165,6 @@ class GlobalScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
-                              controller.searchAssetsList[index].subcategory[index].name ?
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -190,10 +193,8 @@ class GlobalScreen extends StatelessWidget {
                                             color: AppColor.primaryColor),
                                       )),
                                 ],
-                              ) :
-                                  const SizedBox(),
-                              size.heightSpace(15),
-                              controller.searchAssetsList[index].subcategory != null ?
+                              ),
+                              controller.searchAssetsList[index].subcategory.isNotEmpty ?
                               SizedBox(
                                   height: 100,
                                   child: controller.horizontalList(controller.searchAssetsList[index])) :
@@ -247,7 +248,6 @@ class GlobalScreen extends StatelessWidget {
                                       )),
                                 ],
                               ) : const SizedBox(),
-                              size.heightSpace(15),
                               controller.homeDataModel!.data!.category![index].subcategory!.isNotEmpty ?
                               Container(
                                   height: 100,

@@ -51,4 +51,9 @@ class AppTextStyle {
       fontWeight: FontWeight.bold,
       fontSize: size.height(12),
       color: AppColor.k9B9BA3);
+
+  static TextStyle largeSemiBoldText = TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: size.height(48),
+      color: AppColor.k242424);
 }

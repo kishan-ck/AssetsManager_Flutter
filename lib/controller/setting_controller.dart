@@ -55,11 +55,14 @@ class SettingController extends GetxController {
     isLoading = true;
     Get.find<AddAssetsController>().update();
     update();
-    await HttpHandler.getHttpMethod(url: APIEndPoints.assetUrl)
+    String userId = await getDataFromLocalStorage(
+        dataType: StorageKey.stringType, prefKey: StorageKey.userId);
+    await HttpHandler.getHttpMethod(url: "${APIEndPoints.assetUrl}?userId=$userId")
         .then((value) async {
       if (value['error'] == null) {
         printData("getAssetData Api ==> ${value['body']}");
         assetModel = AssetModel.fromJson(json.decode(value['body']));
+        await getUserAPI();
         isLoading = false;
         update();
       } else {

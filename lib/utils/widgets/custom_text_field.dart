@@ -92,13 +92,13 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width ?? Get.width,
-      height: height ?? 50,
+      // height: height ?? 50,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         boxShadow: [
           isShadow == true
               ? BoxShadow(
-                  color: AppColor.blackColor.withOpacity(0.05),
+                  color: AppColor.blackColor.withOpacity(0.02),
                   blurRadius: 10.0,
                   spreadRadius: 0,
                   offset: const Offset(0, 1))

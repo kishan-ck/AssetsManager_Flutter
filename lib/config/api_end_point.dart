@@ -37,6 +37,10 @@ class APIEndPoints {
     return "/getUser?id=$userId";
   }
 
+  static String chartUrl({String? assetId}) {
+    return "/chart?id=$assetId";
+  }
+
   static String deleteAssetUrl({required String assetId}) {
     return "/asset?id=$assetId";
   }

@@ -21,6 +21,7 @@ class LoginController extends GetxController {
 
   bool isLoading = false;
   bool isValidate = true;
+  bool isMailValidate = true;
   bool isShadow = true;
   bool passwordVisible = true;
 
@@ -74,7 +75,6 @@ class LoginController extends GetxController {
         return null;
       }
     });
-
     isLoading = false;
     update();
   }

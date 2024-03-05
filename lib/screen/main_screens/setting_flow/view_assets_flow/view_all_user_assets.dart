@@ -85,7 +85,11 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                       ),
                     ),
                     onChange: (value) {
-                      controller.isNoDataFound = true;
+                      if(value.toString().isNotEmpty) {
+                        controller.isNoDataFound = true;
+                      } else {
+                        controller.isNoDataFound = false;
+                      }
                       controller.searchData(value: value.toString());
                     },
                   ),
@@ -185,12 +189,73 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                            controller.deleteAssetData(
-                                              assetId: controller.searchAssetsList[index].id ?? "");
-                                            controller.searchAssetsList.clear();
-                                            controller.searchUserAssetsTextController.clear();
-                                            controller.isNoDataFound = false;
-                                            controller.update();
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      backgroundColor: AppColor.whiteColor,
+                                                      surfaceTintColor: AppColor.whiteColor,
+                                                      actions: [
+                                                        Column(
+                                                          children: [
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(top: 15),
+                                                              child: Align(
+                                                                  alignment: Alignment.centerRight,
+                                                                  child: IconButton(
+                                                                      onPressed: () {
+                                                                        Get.back();
+                                                                      }, icon: const Icon(Icons.close, size: 35))),
+                                                            ),
+                                                            Image.asset("assets/images/bin.png", height: size.height(100), width: size.width(100)),
+                                                            Text("Delete Asset", style: AppTextStyle.appbarTitleText.copyWith(fontWeight: FontWeight.w700),),
+                                                            Text("Are you sure that you want to delete this asset?", textAlign: TextAlign.center,style: AppTextStyle.regularSubTitleText),
+                                                            size.heightSpace(12),
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child: GestureDetector(
+                                                                    onTap: () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child: Container(
+                                                                      padding: EdgeInsets.symmetric(vertical: size.height(15)),
+                                                                      decoration: BoxDecoration(
+                                                                        color: AppColor.primaryColor,
+                                                                        borderRadius: BorderRadius.circular(10),
+                                                                      ),
+                                                                      child: Text("No", textAlign: TextAlign.center,style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                size.widthSpace(25),
+                                                                Expanded(
+                                                                  child: GestureDetector(
+                                                                    onTap: () async {
+                                                                      Get.back();
+                                                                      await controller.deleteAssetData(assetId: controller.searchAssetsList[index].id ?? "");
+                                                                      controller.searchAssetsList.clear();
+                                                                      controller.searchUserAssetsTextController.clear();
+                                                                      controller.isNoDataFound = false;
+                                                                      controller.update();
+                                                                    },
+                                                                    child: Container(
+                                                                      padding: EdgeInsets.symmetric(vertical: size.height(15)),
+                                                                      decoration: BoxDecoration(
+                                                                        color: AppColor.secondPrimaryColor,
+                                                                        borderRadius: BorderRadius.circular(10),
+                                                                      ),
+                                                                      child: Text("Yes", textAlign: TextAlign.center,style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    );
+                                                  },);
                                           },child: const Icon(Icons.delete_rounded, color: AppColor.whiteColor,)),
                                         ],
                                       ),
@@ -365,13 +430,75 @@ class ViewAllUserAssetsScreen extends StatelessWidget {
                                               .copyWith(
                                               color: AppColor.whiteColor),
                                         ),
-                                        GestureDetector(onTap: () {
-                                          controller.deleteAssetData(
-                                            assetId: Get.find<SettingController>()
-                                              .assetModel
-                                              ?.data?[index]
-                                              .id ??
-                                              "",);
+                                        GestureDetector(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    backgroundColor: AppColor.whiteColor,
+                                                    surfaceTintColor: AppColor.whiteColor,
+                                                    actions: [
+                                                      Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 15),
+                                                            child: Align(
+                                                                alignment: Alignment.centerRight,
+                                                                child: IconButton(
+                                                                    onPressed: () {
+                                                                      Get.back();
+                                                                    }, icon: const Icon(Icons.close, size: 35))),
+                                                          ),
+                                                          Image.asset("assets/images/bin.png", height: size.height(100), width: size.width(100)),
+                                                          Text("Delete Asset", style: AppTextStyle.appbarTitleText.copyWith(fontWeight: FontWeight.w700),),
+                                                          Text("Are you sure that you want to delete this asset?", textAlign: TextAlign.center,style: AppTextStyle.regularSubTitleText),
+                                                          size.heightSpace(12),
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: GestureDetector(
+                                                                  onTap: () {
+                                                                    Get.back();
+                                                                  },
+                                                                  child: Container(
+                                                                    padding: EdgeInsets.symmetric(vertical: size.height(15)),
+                                                                    decoration: BoxDecoration(
+                                                                      color: AppColor.primaryColor,
+                                                                      borderRadius: BorderRadius.circular(10),
+                                                                    ),
+                                                                    child: Text("No", textAlign: TextAlign.center,style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              size.widthSpace(25),
+                                                              Expanded(
+                                                                child: GestureDetector(
+                                                                  onTap: () async {
+                                                                    Get.back();
+                                                                    await controller.deleteAssetData(assetId: Get.find<SettingController>().assetModel?.data?[index].id ?? "");
+                                                                    // controller.searchAssetsList.clear();
+                                                                    // controller.searchUserAssetsTextController.clear();
+                                                                    // controller.isNoDataFound = false;
+                                                                    controller.update();
+                                                                  },
+                                                                  child: Container(
+                                                                    padding: EdgeInsets.symmetric(vertical: size.height(15)),
+                                                                    decoration: BoxDecoration(
+                                                                      color: AppColor.secondPrimaryColor,
+                                                                      borderRadius: BorderRadius.circular(10),
+                                                                    ),
+                                                                    child: Text("Yes", textAlign: TextAlign.center,style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  );
+                                                },);
                                         },child: const Icon(Icons.delete_rounded, color: AppColor.whiteColor,)),
                                       ],
                                     ),

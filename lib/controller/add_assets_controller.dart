@@ -6,6 +6,7 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/constants/local_storage.dart';
+import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:assetsmanagement/models/asset/add_assets_model.dart';
 import 'package:assetsmanagement/models/asset/asset_model.dart';
 import 'package:assetsmanagement/models/auth/error_model.dart';
@@ -243,7 +244,7 @@ class AddAssetsController extends GetxController {
           "subCategoryId": subCatId.toString(),
           "partner": isSolelyOwned == "Yes" ? [] : list,
           "images": uploadedImageString
-        }).then((value) {
+        }).then((value) async {
       if (value['error'] == null) {
         addAssetsModel = AddAssetsModel.fromJson(json.decode(value['body']));
         assetNameTextController.clear();
@@ -259,6 +260,7 @@ class AddAssetsController extends GetxController {
         subCatId = "";
         uploadedImageString.clear();
         update();
+        await Get.find<SettingController>().getUserAPI();
         commonSnackBar(message: "Assets Added Successfully", isError: false);
         Get.offAll(() => const BottomNavigationBarScreen());
         printData("addAssets Api ==> ${value['body']}");

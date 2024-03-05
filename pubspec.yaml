@@ -52,6 +52,7 @@ dependencies:
   syncfusion_flutter_charts: ^24.2.5
   fl_chart: ^0.66.2
   intl: ^0.19.0
+  numeral: ^3.0.0
 
 dev_dependencies:
   flutter_test:

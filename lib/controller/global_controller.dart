@@ -7,8 +7,10 @@ import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/custom_snackbar.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/constants/local_storage.dart';
+import 'package:assetsmanagement/controller/chat_controller.dart';
 import 'package:assetsmanagement/models/auth/error_model.dart';
 import 'package:assetsmanagement/models/global/home_data_model.dart';
+import 'package:assetsmanagement/screen/chart/chart_screen.dart';
 import 'package:assetsmanagement/utils/storage/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -118,14 +120,17 @@ class GlobalController extends GetxController {
   ListView horizontalList(Category category) {
     return ListView(
       scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.only(top: 5, left: 5),
       children: List.generate(
         category.subcategory?.length ?? 0,
         (i) => GestureDetector(
           onTap: () {
+            Get.find<ChartController>().getChartData();
+            Get.to(()=> const ChartScreen());
             selectedIndex = i;
             update();
           },
-          child: Container(
+          child: category.subcategory!.isEmpty ? Text("Sub Category Not Found") : Container(
             padding: const EdgeInsets.symmetric(vertical: 15),
             margin: EdgeInsets.only(right: size.width(21), top: 5, bottom: 10),
             width: 120,

@@ -16,6 +16,8 @@ class AppColor {
   static const Color k9B9BA3 = Color(0XFF9B9BA3);
   static const Color indicatorBlackColor = Colors.black38;
   static const Color k242424 = Color(0XFF242424);
+  static const Color k7A7A7A = Color(0XFF7A7A7A);
+  static const Color k377E36 = Color(0XFF377E36);
 }
 
 String emailValidationRegExp =

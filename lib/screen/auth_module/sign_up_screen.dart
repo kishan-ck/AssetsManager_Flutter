@@ -64,22 +64,22 @@ class SignUpScreen extends StatelessWidget {
                               Text('email'.tr, style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
                               CustomTextField(
                                 controller: controller.emailSignUpTextController,
-                                height: controller.isValidate ? 50 : 75,
+                                height: controller.isMailValidate ? 50 : 75,
                                 isShadow: controller.isShadow,
                                 hintText: "enter_your_email".tr,
                                 maxLines: 1,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
-                                    controller.isValidate = false;
+                                    controller.isMailValidate = false;
                                     controller.update();
                                     return 'please_enter_your_email'.tr;
                                   } else if (!RegExp(emailValidationRegExp)
                                       .hasMatch(value)) {
-                                    controller.isValidate = false;
+                                    controller.isMailValidate = false;
                                     controller.update();
                                     return 'please_enter_valid_email'.tr;
                                   }else{}
-                                  controller.isValidate = true;
+                                  controller.isMailValidate = true;
                                   controller.update();
                                   return null;
                                 },

@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
         return Stack(
           children: [
             Scaffold(
-              // resizeToAvoidBottomInset: false,
+              resizeToAvoidBottomInset: false,
                 body: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
                       height: double.infinity,
                       width: double.infinity,
                       alignment: Alignment.topCenter,
-                      margin: EdgeInsets.symmetric(horizontal: size.width(25)),
+                      padding: EdgeInsets.symmetric(horizontal: size.width(25)),
                       decoration: BoxDecoration(
                         gradient:  RadialGradient(
                           radius: 1.5,
@@ -66,22 +66,22 @@ class LoginScreen extends StatelessWidget {
                               Text('email'.tr, style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
                               CustomTextField(
                               controller: controller.emailTextController,
-                                // height: controller.isValidate ? 75 : 75,
+                                height: controller.isMailValidate ? 50 : 75,
                                 isShadow: controller.isShadow,
                                 maxLines: 1,
                                 hintText: "enter_your_email".tr,
                                 validator: (value) {
                                 if (value!.trim().isEmpty) {
-                                  controller.isValidate = false;
+                                  controller.isMailValidate = false;
                                   controller.update();
                                   return 'please_enter_your_email'.tr;
                                 } else if (!RegExp(emailValidationRegExp)
                                     .hasMatch(value)) {
-                                  controller.isValidate = false;
+                                  controller.isMailValidate = false;
                                   controller.update();
                                   return 'please_enter_valid_email'.tr;
                                 }
-                                controller.isValidate = true;
+                                controller.isMailValidate = true;
                                 controller.update();
                                 return null;
                               },
@@ -118,6 +118,7 @@ class LoginScreen extends StatelessWidget {
                               AppButton(
                                   buttonText: "login".tr,
                                   onPressed: (){
+                                    FocusScope.of(context).requestFocus(FocusNode());
                                     if (formKey.currentState!.validate()) {
                                       controller.login();
                                     }

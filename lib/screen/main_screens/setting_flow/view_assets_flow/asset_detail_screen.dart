@@ -12,6 +12,7 @@ import 'package:assetsmanagement/utils/widgets/home_expansiontile.dart';
 import 'package:assetsmanagement/utils/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:numeral/numeral.dart';
 
 class AssetDetailScreen extends StatelessWidget {
   final Data data;
@@ -235,11 +236,9 @@ class AssetDetailScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    // "${num.parse("${data.numberOfMeasurement ?? 0}") * num.parse(data.priceperunit ?? "")}",
-                                    "50",
+                                    (double.parse(data.numberOfMeasurement.toString()) * double.parse(data.priceperunit.toString())).numeral(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
                                         color: AppColor.whiteColor,
                                         fontSize: size.height(40),
                                         fontWeight: FontWeight.bold),
@@ -247,7 +246,7 @@ class AssetDetailScreen extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "100",
+                                    data.currentprice.toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: AppColor.whiteColor,
@@ -272,7 +271,7 @@ class AssetDetailScreen extends StatelessWidget {
                             //               .copyWith(color: AppColor.whiteColor),
                             //         ),
                             //         Text(
-                            //           "${num.parse(data.numberOfMeasurement.toString()) * num.parse(data.priceperunit.toString())}",
+                            //           (double.parse(data.numberOfMeasurement.toString()) * double.parse(data.priceperunit.toString())).numeral(),
                             //           style: TextStyle(
                             //               color: AppColor.whiteColor,
                             //               fontSize: size.height(50),

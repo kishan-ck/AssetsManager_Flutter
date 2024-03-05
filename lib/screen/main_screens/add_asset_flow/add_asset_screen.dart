@@ -58,6 +58,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                       ? const SizedBox()
                       : ListView.separated(
                           shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: Get.find<GlobalController>()
                                   .homeDataModel
                                   ?.data

@@ -179,14 +179,15 @@ class SettingController extends GetxController {
                           child: getUserModelData?.data?.image != null
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(105),
-                                  child: Image.memory(
-                                    const Base64Decoder().convert(
-                                        getUserModelData?.data?.image
-                                                ?.split(',')
-                                                .elementAt(1) ??
-                                            ""),
-                                    fit: BoxFit.cover,
-                                  ),
+                              child : Icon(Icons.camera_alt)
+                                  // child: Image.memory(
+                                  //   const Base64Decoder().convert(
+                                  //       getUserModelData?.data?.image
+                                  //               ?.split(',')
+                                  //               .elementAt(1) ??
+                                  //           ""),
+                                  //   fit: BoxFit.cover,
+                                  // ),
                                 )
                               : const Center(
                                   child: Icon(Icons.camera_alt),

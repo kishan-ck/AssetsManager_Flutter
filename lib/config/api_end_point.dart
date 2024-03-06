@@ -40,6 +40,9 @@ class APIEndPoints {
   static String chartUrl({String? assetId}) {
     return "/chart?id=$assetId";
   }
+  static String getSubCatByCatIdUrl({String? catId}) {
+    return "/subcategory?cat_id$catId";
+  }
 
   static String deleteAssetUrl({required String assetId}) {
     return "/asset?id=$assetId";

@@ -3,8 +3,11 @@ import 'package:assetsmanagement/config/api_end_point.dart';
 import 'package:assetsmanagement/config/network_handler.dart';
 import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/custom_snackbar.dart';
+import 'package:assetsmanagement/controller/global_controller.dart';
+import 'package:assetsmanagement/controller/user_controller.dart';
 import 'package:assetsmanagement/models/auth/error_model.dart';
 import 'package:assetsmanagement/models/global/chart_model.dart';
+import 'package:assetsmanagement/screen/chart/chart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,22 +21,38 @@ class ChartController extends GetxController
   ChartModel? chartModel;
 
   final List<ChartData> chartData = [
-    ChartData(2010, 1),
+    ChartData(2010, 5),
     ChartData(2011, 13),
     ChartData(2012, 34),
     ChartData(2013, 27),
     ChartData(2014, 40)
   ];
 
+  List<ChartData> chartData1 = [];
+
+  showChartData() {
+    chartData1.clear();
+    for (int i = 0; i < chartModel!.data!.year!.length; i++) {
+      chartData1.add(ChartData(chartModel!.data!.year![i], double.parse(chartModel!.data!.number![i].toString())));
+    }
+    printData("Chart Data 1 ===> ${chartData[0].x} ${chartData[0].y}");
+  }
+
   Future<void> getChartData() async {
     isLoading = true;
     update();
-    await HttpHandler.getHttpMethod(url: APIEndPoints.chartUrl())
+    Get.find<GlobalController>().update();
+    Get.find<UserController>().update();
+    await HttpHandler.getHttpMethod(url: APIEndPoints.chartUrl(assetId: ""))
         .then((value) async {
       if (value['error'] == null) {
         printData("Chart Data Api ==> ${value['body']}");
         chartModel = ChartModel.fromJson(json.decode(value['body']));
+        await showChartData();
+        Get.to(()=> const ChartScreen());
         isLoading = false;
+        Get.find<GlobalController>().update();
+        Get.find<UserController>().update();
         update();
       } else {
         printData("Chart Data Error==> ${value['error']}");
@@ -43,9 +62,10 @@ class ChartController extends GetxController
       }
     });
     isLoading = false;
+    Get.find<GlobalController>().update();
+    Get.find<UserController>().update();
     update();
   }
-
 }
 
 class ChartData {

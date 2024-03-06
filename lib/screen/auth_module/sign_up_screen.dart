@@ -89,16 +89,16 @@ class SignUpScreen extends StatelessWidget {
                               CustomTextField(
                                 controller: controller.nameSignUpTextController,
                                 hintText: "enter_your_full_name".tr,
-                                height: controller.isValidate ? 50 : 75,
+                                height: controller.isFullNameValidate ? 50 : 75,
                                 isShadow: controller.isShadow,
                                 maxLines: 1,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
-                                    controller.isValidate = false;
+                                    controller.isFullNameValidate = false;
                                     controller.update();
                                     return 'please_enter_your_full_name'.tr;
                                   } else{}
-                                  controller.isValidate = true;
+                                  controller.isFullNameValidate = true;
                                   controller.update();
                                   return null;
                                 },
@@ -109,16 +109,16 @@ class SignUpScreen extends StatelessWidget {
                                 textInputType: TextInputType.number,
                                 controller: controller.phoneSignUpTextController,
                                 hintText: "enter_your_phone_no".tr,
-                                height: controller.isValidate ? 50 : 75,
+                                height: controller.isPhoneValidate ? 50 : 75,
                                 isShadow: controller.isShadow,
                                 maxLines: 1,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
-                                    controller.isValidate = false;
+                                    controller.isPhoneValidate = false;
                                     controller.update();
                                     return 'please_enter_your_phone_number'.tr;
                                   } else{}
-                                  controller.isValidate = true;
+                                  controller.isPhoneValidate = true;
                                   controller.update();
                                   return null;
                                 },
@@ -126,7 +126,7 @@ class SignUpScreen extends StatelessWidget {
                               size.heightSpace(15),
                               Text('password'.tr, style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
                               CustomTextField(
-                                height: controller.isValidate ? 50 : 117,
+                                height: controller.isPasswordValidate ? 50 : 117,
                                 isShadow: controller.isShadow,
                                 controller: controller.passwordSignUpTextController,
                                 hintText: "enter_your_password".tr,
@@ -142,16 +142,16 @@ class SignUpScreen extends StatelessWidget {
                                 obscureText: controller.passwordVisible,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
-                                    controller.isValidate = false;
+                                    controller.isPasswordValidate = false;
                                     controller.update();
                                     return 'please_enter_password'.tr;
                                   } else if (!RegExp(passwordValidationRegExp)
                                       .hasMatch(value)) {
-                                    controller.isValidate = false;
+                                    controller.isPasswordValidate = false;
                                     controller.update();
                                     return 'strong_password'.tr;
                                   }else{}
-                                  controller.isValidate = true;
+                                  controller.isPasswordValidate = true;
                                   controller.update();
                                   return null;
                                 },
@@ -159,7 +159,7 @@ class SignUpScreen extends StatelessWidget {
                               size.heightSpace(15),
                               Text('confirm_password'.tr, style: AppTextStyle.regularSubTitleText,textAlign: TextAlign.center),
                               CustomTextField(
-                                height: controller.isValidate ? 50 : 117,
+                                height: controller.isConfirmPasswordValidate ? 50 : 117,
                                 isShadow: controller.isShadow,
                                 controller: controller.confirmPasswordSignUpTextController,
                                 hintText: "confirm_your_password".tr,
@@ -175,15 +175,15 @@ class SignUpScreen extends StatelessWidget {
                                 obscureText: controller.confirmPasswordVisible,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
-                                    controller.isValidate = false;
+                                    controller.isConfirmPasswordValidate = false;
                                     controller.update();
                                     return 'please_confirm_your_password'.tr;
                                   } else if(controller.confirmPasswordSignUpTextController.text != controller.passwordSignUpTextController.text) {
-                                    controller.isValidate = false;
+                                    controller.isConfirmPasswordValidate = false;
                                     controller.update();
                                     return 'ⓘ_password_incorrect._please_re-check_your_password.'.tr;
                                   }
-                                  controller.isValidate = true;
+                                  controller.isConfirmPasswordValidate = true;
                                   controller.update();
                                   return null;
                                 },

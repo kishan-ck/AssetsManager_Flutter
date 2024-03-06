@@ -21,8 +21,11 @@ class SignUpController extends GetxController {
       TextEditingController();
 
   bool isLoading = false;
-  bool isValidate = true;
+  bool isFullNameValidate = true;
   bool isMailValidate = true;
+  bool isPhoneValidate = true;
+  bool isPasswordValidate = true;
+  bool isConfirmPasswordValidate = true;
   bool isShadow = true;
   bool passwordVisible = true;
   bool confirmPasswordVisible = true;

@@ -1,6 +1,7 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
+import 'package:assetsmanagement/controller/chart_controller.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
 import 'package:assetsmanagement/models/global/home_data_model.dart';
 import 'package:assetsmanagement/screen/chart/chart_screen.dart';
@@ -119,7 +120,14 @@ class ViewAllCategoryScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 20),
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
-                          onTap: () => Get.to(()=> ChartScreen()),
+                          onTap: () async {
+                            await Get.find<ChartController>().getChartData();
+                            Get.to(() => const ChartScreen());
+                            controller.searchSubCategoryList.clear();
+                            controller.searchSubCategoryTextController.clear();
+                            controller.isSubCategoryNoDataFound = false;
+                            controller.update();
+                            },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           decoration: BoxDecoration(
@@ -155,7 +163,10 @@ class ViewAllCategoryScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 20),
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
-                        onTap: () => Get.to(()=> ChartScreen()),
+                        onTap: () async {
+                          await Get.find<ChartController>().getChartData();
+                          Get.to(() => const ChartScreen());
+                          },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           decoration: BoxDecoration(

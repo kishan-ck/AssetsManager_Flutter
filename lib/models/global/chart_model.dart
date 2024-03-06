@@ -25,26 +25,30 @@ class Data {
   final List<int>? number;
   final List<Category>? category;
   final List<Subcategory>? subcategory;
-  final Asset? asset;
+  final dynamic asset;
+  final List<int>? year;
 
   Data({
     this.number,
     this.category,
     this.subcategory,
     this.asset,
+    this.year,
   });
 
   Data.fromJson(Map<String, dynamic> json)
       : number = (json['Number'] as List?)?.map((dynamic e) => e as int).toList(),
         category = (json['Category'] as List?)?.map((dynamic e) => Category.fromJson(e as Map<String,dynamic>)).toList(),
         subcategory = (json['Subcategory'] as List?)?.map((dynamic e) => Subcategory.fromJson(e as Map<String,dynamic>)).toList(),
-        asset = (json['Asset'] as Map<String,dynamic>?) != null ? Asset.fromJson(json['Asset'] as Map<String,dynamic>) : null;
+        asset = json['Asset'],
+        year = (json['Year'] as List?)?.map((dynamic e) => e as int).toList();
 
   Map<String, dynamic> toJson() => {
     'Number' : number,
     'Category' : category?.map((e) => e.toJson()).toList(),
     'Subcategory' : subcategory?.map((e) => e.toJson()).toList(),
-    'Asset' : asset?.toJson()
+    'Asset' : asset,
+    'Year' : year
   };
 }
 
@@ -138,84 +142,5 @@ class Subcategory {
     '__v' : v,
     'currentval' : currentval,
     'profitval' : profitval
-  };
-}
-
-class Asset {
-  final String? id;
-  final String? name;
-  final String? description;
-  final String? assetId;
-  final int? numberOfMeasurement;
-  final String? measurementType;
-  final bool? isAssetSolelyOwned;
-  final int? percentOwned;
-  final String? userId;
-  final String? subCategoryId;
-  final String? priceperunit;
-  final String? location;
-  final String? icon;
-  final List<String>? partner;
-  final List<dynamic>? images;
-  final int? currentprice;
-  final int? v;
-
-  Asset({
-    this.id,
-    this.name,
-    this.description,
-    this.assetId,
-    this.numberOfMeasurement,
-    this.measurementType,
-    this.isAssetSolelyOwned,
-    this.percentOwned,
-    this.userId,
-    this.subCategoryId,
-    this.priceperunit,
-    this.location,
-    this.icon,
-    this.partner,
-    this.images,
-    this.currentprice,
-    this.v,
-  });
-
-  Asset.fromJson(Map<String, dynamic> json)
-      : id = json['_id'] as String?,
-        name = json['name'] as String?,
-        description = json['description'] as String?,
-        assetId = json['assetId'] as String?,
-        numberOfMeasurement = json['numberOfMeasurement'] as int?,
-        measurementType = json['measurementType'] as String?,
-        isAssetSolelyOwned = json['isAssetSolelyOwned'] as bool?,
-        percentOwned = json['percentOwned'] as int?,
-        userId = json['userId'] as String?,
-        subCategoryId = json['subCategoryId'] as String?,
-        priceperunit = json['priceperunit'] as String?,
-        location = json['location'] as String?,
-        icon = json['icon'] as String?,
-        partner = (json['partner'] as List?)?.map((dynamic e) => e as String).toList(),
-        images = json['images'] as List?,
-        currentprice = json['currentprice'] as int?,
-        v = json['__v'] as int?;
-
-  Map<String, dynamic> toJson() => {
-    '_id' : id,
-    'name' : name,
-    'description' : description,
-    'assetId' : assetId,
-    'numberOfMeasurement' : numberOfMeasurement,
-    'measurementType' : measurementType,
-    'isAssetSolelyOwned' : isAssetSolelyOwned,
-    'percentOwned' : percentOwned,
-    'userId' : userId,
-    'subCategoryId' : subCategoryId,
-    'priceperunit' : priceperunit,
-    'location' : location,
-    'icon' : icon,
-    'partner' : partner,
-    'images' : images,
-    'currentprice' : currentprice,
-    '__v' : v
   };
 }

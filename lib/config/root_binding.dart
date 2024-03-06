@@ -1,6 +1,6 @@
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
 import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
-import 'package:assetsmanagement/controller/chat_controller.dart';
+import 'package:assetsmanagement/controller/chart_controller.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
 import 'package:assetsmanagement/controller/home_controller.dart';
 import 'package:assetsmanagement/controller/login_controller.dart';

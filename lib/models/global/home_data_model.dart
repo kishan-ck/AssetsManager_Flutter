@@ -159,20 +159,26 @@ class Subcategory {
   final String? name;
   final String? catId;
   final int? v;
+  final int? currentVal;
+  final int? profitVal;
 
   Subcategory({
     this.id,
     this.name,
     this.catId,
     this.v,
+    this.currentVal,
+    this.profitVal,
   });
 
   Subcategory.fromJson(Map<String, dynamic> json)
       : id = json['_id'] as String?,
         name = json['name'] as String?,
         catId = json['cat_id'] as String?,
-        v = json['__v'] as int?;
+        v = json['__v'] as int?,
+        currentVal = json['currentval'] as int?,
+        profitVal = json['profitval'] as int?;
 
   Map<String, dynamic> toJson() =>
-      {'_id': id, 'name': name, 'cat_id': catId, '__v': v};
+      {'_id': id, 'name': name, 'cat_id': catId, '__v': v, 'currentval': currentVal, 'profitval': profitVal};
 }

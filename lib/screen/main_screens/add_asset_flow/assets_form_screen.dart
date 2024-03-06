@@ -6,7 +6,6 @@ import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
 import 'package:assetsmanagement/controller/bottom_nav_bar_controller.dart';
 import 'package:assetsmanagement/models/global/home_data_model.dart';
-import 'package:assetsmanagement/screen/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:assetsmanagement/utils/widgets/app_loader.dart';
 import 'package:assetsmanagement/utils/widgets/common_dropdown_button.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
@@ -224,6 +223,7 @@ class AssetFormScreen extends StatelessWidget {
                             fillColor: AppColor.greyColor.withOpacity(0.1),
                             isUnderLineBorderRadius: BorderRadius.circular(100),
                             isShadow: false,
+                            height: 50,
                             hintText: "price_per_unit".tr,
                             underLineFocusColor: AppColor.primaryColor,
                           ),

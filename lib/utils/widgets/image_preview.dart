@@ -7,7 +7,7 @@ class FullScreenImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Restaurant"),),
+      appBar: AppBar(title: const Text("Land"),),
       body: PageView.builder(
         itemCount: imageUrls.length,
         itemBuilder: (context, index) {

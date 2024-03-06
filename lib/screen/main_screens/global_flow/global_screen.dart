@@ -1,10 +1,12 @@
 import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
+import 'package:assetsmanagement/controller/chart_controller.dart';
 import 'package:assetsmanagement/controller/global_controller.dart';
 import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:assetsmanagement/screen/main_screens/global_flow/current_news.dart';
 import 'package:assetsmanagement/screen/main_screens/global_flow/view_all_category_screen.dart';
+import 'package:assetsmanagement/utils/widgets/app_loader.dart';
 import 'package:assetsmanagement/utils/widgets/custom_text_field.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -16,13 +18,15 @@ class GlobalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.whiteColor,
-      body: SafeArea(
-        child: GetBuilder(
-            init: Get.find<GlobalController>(),
-            builder: (controller) {
-              return SingleChildScrollView(
+    return GetBuilder(
+        init: Get.find<GlobalController>(),
+        builder: (controller) {
+      return Stack(
+        children: [
+          Scaffold(
+            backgroundColor: AppColor.whiteColor,
+            body: SafeArea(
+              child:SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width(20)),
                   child: Column(
@@ -41,12 +45,12 @@ class GlobalScreen extends StatelessWidget {
                                   children: <TextSpan>[
                                     TextSpan(
                                         text:
-                                            "${Get.find<SettingController>().getUserModelData?.data?.fullname?.split(" ")[0] ?? ""}!",
+                                        "${Get.find<SettingController>().getUserModelData?.data?.fullname?.split(" ")[0] ?? ""}!",
                                         style: AppTextStyle.regularHeadingText
                                             .copyWith(
-                                                color:
-                                                    AppColor.secondPrimaryColor,
-                                                fontWeight: FontWeight.bold))
+                                            color:
+                                            AppColor.secondPrimaryColor,
+                                            fontWeight: FontWeight.bold))
                                   ],
                                 ),
                               ),
@@ -159,7 +163,7 @@ class GlobalScreen extends StatelessWidget {
                       const Text("Search Data Not Found") :
                       ListView.builder(
                         itemCount:
-                            controller.searchAssetsList.length,
+                        controller.searchAssetsList.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
@@ -198,11 +202,11 @@ class GlobalScreen extends StatelessWidget {
                               SizedBox(
                                   height: 100,
                                   child: controller.horizontalList(controller.searchAssetsList[index])) :
-                          Container(
-                          height: 100,
-                          alignment: Alignment.center,
-                          child: const Text("Sub Category Not Found"),
-                          ),
+                              Container(
+                                height: 100,
+                                alignment: Alignment.center,
+                                child: const Text("Sub Category Not Found"),
+                              ),
                               size.heightSpace(15),
                             ],
                           );
@@ -262,13 +266,20 @@ class GlobalScreen extends StatelessWidget {
                             ],
                           );
                         },
-                      )
+                      ),
                     ],
                   ),
                 ),
-              );
-            }),
-      ),
-    );
+              ),
+            ),
+          ),
+          Get
+              .find<ChartController>()
+              .isLoading
+              ? appLoader()
+              : const SizedBox()
+        ],
+      );
+    });
   }
 }

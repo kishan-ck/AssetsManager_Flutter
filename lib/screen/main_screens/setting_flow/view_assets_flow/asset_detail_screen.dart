@@ -2,6 +2,7 @@ import 'package:assetsmanagement/constants/app_colors.dart';
 import 'package:assetsmanagement/constants/app_text_style.dart';
 import 'package:assetsmanagement/constants/image_path.dart';
 import 'package:assetsmanagement/controller/add_assets_controller.dart';
+import 'package:assetsmanagement/controller/chart_controller.dart';
 import 'package:assetsmanagement/controller/setting_controller.dart';
 import 'package:assetsmanagement/controller/user_controller.dart';
 import 'package:assetsmanagement/models/asset/asset_model.dart';
@@ -201,139 +202,218 @@ class AssetDetailScreen extends StatelessWidget {
                                   offset: const Offset(3, 5))
                             ]),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Text(
-                                  "purchased".tr,
-                                  style: AppTextStyle.largeText
-                                      .copyWith(color: AppColor.whiteColor),
-                                ),
-                                Row(
+                                Column(
                                   children: [
                                     Text(
-                                      "current_market".tr,
+                                      "purchased".tr,
                                       style: AppTextStyle.largeText
                                           .copyWith(color: AppColor.whiteColor),
                                     ),
-                                    size.widthSpace(7.5),
-                                    Image.asset(
-                                      AppImagePath.growthIcon,
-                                      color: AppColor.whiteColor,
-                                      height: size.height(15),
-                                      width: size.width(15),
-                                    )
+                                    Text(
+                                      (double.parse(data.numberOfMeasurement
+                                                  .toString()) *
+                                              double.parse(data.priceperunit == ""
+                                                  ? "0"
+                                                  : data.priceperunit.toString()))
+                                          .numeral(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: AppColor.whiteColor,
+                                          fontSize: size.height(40),
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ],
                                 ),
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "current_market".tr,
+                                          style: AppTextStyle.largeText
+                                              .copyWith(color: AppColor.whiteColor),
+                                        ),
+                                        size.widthSpace(7.5),
+                                        Image.asset(
+                                          AppImagePath.growthIcon,
+                                          color: AppColor.whiteColor,
+                                          height: size.height(15),
+                                          width: size.width(15),
+                                        )
+                                      ],
+                                    ),
+                                    Text(
+                                      data.currentprice.toString(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: AppColor.whiteColor,
+                                          fontSize: size.height(40),
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Expanded(
+                        GestureDetector(
+                                onTap: () async {
+                                  await Get.find<ChartController>().getChartData();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: size.height(5),
+                                      horizontal: size.width(15)),
+                                  decoration: BoxDecoration(
+                                      color: AppColor.blackColor,
+                                      borderRadius: BorderRadius.circular(30)),
                                   child: Text(
-                                    (double.parse(data.numberOfMeasurement.toString()) * double.parse(data.priceperunit.toString())).numeral(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    "analyse".tr,
+                                    style: AppTextStyle.largeText.copyWith(
                                         color: AppColor.whiteColor,
-                                        fontSize: size.height(40),
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
                                   ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    data.currentprice.toString(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: AppColor.whiteColor,
-                                        fontSize: size.height(40),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            //   crossAxisAlignment: CrossAxisAlignment.center,
-                            //   children: [
-                            //     Column(
-                            //       crossAxisAlignment: CrossAxisAlignment.center,
-                            //       mainAxisAlignment: MainAxisAlignment.center,
-                            //       mainAxisSize: MainAxisSize.min,
-                            //       children: [
-                            //         Text(
-                            //           "purchased".tr,
-                            //           style: AppTextStyle.largeText
-                            //               .copyWith(color: AppColor.whiteColor),
-                            //         ),
-                            //         Text(
-                            //           (double.parse(data.numberOfMeasurement.toString()) * double.parse(data.priceperunit.toString())).numeral(),
-                            //           style: TextStyle(
-                            //               color: AppColor.whiteColor,
-                            //               fontSize: size.height(50),
-                            //               fontWeight: FontWeight.bold),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //     Expanded(
-                            //       child: Column(
-                            //         crossAxisAlignment: CrossAxisAlignment.center,
-                            //         mainAxisAlignment: MainAxisAlignment.center,
-                            //         mainAxisSize: MainAxisSize.min,
-                            //         children: [
-                            //           Row(
-                            //             children: [
-                            //               Text(
-                            //                 "current_market".tr,
-                            //                 style: AppTextStyle.largeText
-                            //                     .copyWith(
-                            //                         color: AppColor.whiteColor),
-                            //               ),
-                            //               size.widthSpace(7.5),
-                            //               Image.asset(
-                            //                 AppImagePath.growthIcon,
-                            //                 color: AppColor.whiteColor,
-                            //                 height: size.height(15),
-                            //                 width: size.width(15),
-                            //               )
-                            //             ],
-                            //           ),
-                            //           Text(
-                            //             "100",
-                            //             style: TextStyle(
-                            //                 color: AppColor.whiteColor,
-                            //                 fontSize: size.height(50),
-                            //                 fontWeight: FontWeight.bold),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: size.height(5),
-                                    horizontal: size.width(15)),
-                                decoration: BoxDecoration(
-                                    color: AppColor.blackColor,
-                                    borderRadius: BorderRadius.circular(30)),
-                                child: Text(
-                                  "analyse".tr,
-                                  style: AppTextStyle.largeText.copyWith(
-                                      color: AppColor.whiteColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
                                 ),
                               ),
-                            ),
                           ],
                         ),
+                        // child: Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.center,
+                        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //   mainAxisSize: MainAxisSize.min,
+                        //   children: [
+                        //     Row(
+                        //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //       children: [
+                        //         Text(
+                        //           "purchased".tr,
+                        //           style: AppTextStyle.largeText
+                        //               .copyWith(color: AppColor.whiteColor),
+                        //         ),
+                        //         Row(
+                        //           children: [
+                        //             Text(
+                        //               "current_market".tr,
+                        //               style: AppTextStyle.largeText
+                        //                   .copyWith(color: AppColor.whiteColor),
+                        //             ),
+                        //             size.widthSpace(7.5),
+                        //             Image.asset(
+                        //               AppImagePath.growthIcon,
+                        //               color: AppColor.whiteColor,
+                        //               height: size.height(15),
+                        //               width: size.width(15),
+                        //             )
+                        //           ],
+                        //         ),
+                        //       ],
+                        //     ),
+                        //     Row(
+                        //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //       children: [
+                        //         Expanded(
+                        //           child: Text(
+                        //             (double.parse(data.numberOfMeasurement.toString()) * double.parse(data.priceperunit == "" ? "0" :data.priceperunit.toString())).numeral(),
+                        //             textAlign: TextAlign.center,
+                        //             style: TextStyle(
+                        //                 color: AppColor.whiteColor,
+                        //                 fontSize: size.height(40),
+                        //                 fontWeight: FontWeight.bold),
+                        //           ),
+                        //         ),
+                        //         Expanded(
+                        //           child: Text(
+                        //             data.currentprice.toString(),
+                        //             textAlign: TextAlign.center,
+                        //             style: TextStyle(
+                        //                 color: AppColor.whiteColor,
+                        //                 fontSize: size.height(40),
+                        //                 fontWeight: FontWeight.bold),
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //     // Row(
+                        //     //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //     //   crossAxisAlignment: CrossAxisAlignment.center,
+                        //     //   children: [
+                        //     //     Column(
+                        //     //       crossAxisAlignment: CrossAxisAlignment.center,
+                        //     //       mainAxisAlignment: MainAxisAlignment.center,
+                        //     //       mainAxisSize: MainAxisSize.min,
+                        //     //       children: [
+                        //     //         Text(
+                        //     //           "purchased".tr,
+                        //     //           style: AppTextStyle.largeText
+                        //     //               .copyWith(color: AppColor.whiteColor),
+                        //     //         ),
+                        //     //         Text(
+                        //     //           (double.parse(data.numberOfMeasurement.toString()) * double.parse(data.priceperunit.toString())).numeral(),
+                        //     //           style: TextStyle(
+                        //     //               color: AppColor.whiteColor,
+                        //     //               fontSize: size.height(50),
+                        //     //               fontWeight: FontWeight.bold),
+                        //     //         ),
+                        //     //       ],
+                        //     //     ),
+                        //     //     Expanded(
+                        //     //       child: Column(
+                        //     //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //     //         mainAxisAlignment: MainAxisAlignment.center,
+                        //     //         mainAxisSize: MainAxisSize.min,
+                        //     //         children: [
+                        //     //           Row(
+                        //     //             children: [
+                        //     //               Text(
+                        //     //                 "current_market".tr,
+                        //     //                 style: AppTextStyle.largeText
+                        //     //                     .copyWith(
+                        //     //                         color: AppColor.whiteColor),
+                        //     //               ),
+                        //     //               size.widthSpace(7.5),
+                        //     //               Image.asset(
+                        //     //                 AppImagePath.growthIcon,
+                        //     //                 color: AppColor.whiteColor,
+                        //     //                 height: size.height(15),
+                        //     //                 width: size.width(15),
+                        //     //               )
+                        //     //             ],
+                        //     //           ),
+                        //     //           Text(
+                        //     //             "100",
+                        //     //             style: TextStyle(
+                        //     //                 color: AppColor.whiteColor,
+                        //     //                 fontSize: size.height(50),
+                        //     //                 fontWeight: FontWeight.bold),
+                        //     //           ),
+                        //     //         ],
+                        //     //       ),
+                        //     //     ),
+                        //     //   ],
+                        //     // ),
+                        //     GestureDetector(
+                        //       onTap: () {},
+                        //       child: Container(
+                        //         padding: EdgeInsets.symmetric(
+                        //             vertical: size.height(5),
+                        //             horizontal: size.width(15)),
+                        //         decoration: BoxDecoration(
+                        //             color: AppColor.blackColor,
+                        //             borderRadius: BorderRadius.circular(30)),
+                        //         child: Text(
+                        //           "analyse".tr,
+                        //           style: AppTextStyle.largeText.copyWith(
+                        //               color: AppColor.whiteColor,
+                        //               fontWeight: FontWeight.bold,
+                        //               fontSize: 14),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ),
                       size.heightSpace(15),
                       Row(
@@ -537,192 +617,241 @@ class AssetDetailScreen extends StatelessWidget {
                         ],
                       ),
                       size.heightSpace(15),
-                      data.partner!.isNotEmpty ?
-                      HomeExpansionTile(
-                        tileController:
-                            controller.mainPartnerExpansionTileController,
-                        isShadow: controller.isExpanseChange ? true : false,
-                        childrenPadding: const EdgeInsets.only(bottom: 10),
-                        title: controller.title,
-                        mainBGColor: AppColor.whiteColor,
-                        subBGColor: AppColor.whiteColor,
-                        bGColor: AppColor.whiteColor,
-                        dropDownIconColor: AppColor.primaryColor,
-                        outerBorderColor: controller.isExpanseChange
-                            ? AppColor.whiteColor.withOpacity(0.50)
-                            : AppColor.greyColor.withOpacity(0.50),
-                        titleTextStyle: AppTextStyle.regularText
-                            .copyWith(fontWeight: FontWeight.bold),
-                        tileMargin: 0,
-                        initialExpand: false,
-                        onExpansionChange: (p0) {
-                          printData("onExpansionChange------$p0");
-                          controller.isExpanseChange = p0;
-                        },
-                        outerBorderRadius: BorderRadius.circular(10),
-                        children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: controller.showPartnerList.length,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return HomeExpansionTile(
-                                  tileController: controller
-                                      .showPartnerList[index]
-                                      .nameExpansionTileController,
-                                  isShadow: false,
-                                  title: "Partner - ${index + 1}",
-                                  tileMargin: 0,
-                                  initialExpand: false,
-                                  onExpansionChange: (p0) {
-                                    printData("onExpansionChange------$p0");
-                                    controller.isSubExpanseChange = p0;
-                                    controller.update();
-                                  },
-                                  outerBorderRadius:
-                                      controller.isSubExpanseChange
-                                          ? BorderRadius.circular(20)
-                                          : BorderRadius.circular(100),
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Flexible(
-                                          child: CustomTextField(
-                                            controller: controller
-                                                .showPartnerList[index]
-                                                .nameController,
-                                            fillColor: AppColor.whiteColor,
-                                            isUnderLineBorderRadius:
-                                                BorderRadius.circular(100),
-                                            isShadow: false,
-                                            hintText: "Name",
-                                            underLineFocusColor:
-                                                AppColor.secondPrimaryColor,
-                                          ),
-                                        ),
-                                        size.widthSpace(15),
-                                        Flexible(
-                                          child: CustomTextField(
-                                            controller: controller
-                                                .showPartnerList[index]
-                                                .ownController,
-                                            fillColor: AppColor.whiteColor,
-                                            isUnderLineBorderRadius:
-                                                BorderRadius.circular(100),
-                                            isShadow: false,
-                                            hintText: "% Owned",
-                                            underLineFocusColor:
-                                                AppColor.secondPrimaryColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    size.heightSpace(15),
-                                    CustomTextField(
-                                      controller: controller
-                                          .showPartnerList[index]
-                                          .phoneController,
-                                      fillColor: AppColor.whiteColor,
-                                      isUnderLineBorderRadius:
-                                          BorderRadius.circular(100),
-                                      isShadow: false,
-                                      hintText: "Phone Number",
-                                      underLineFocusColor:
-                                          AppColor.secondPrimaryColor,
-                                    ),
-                                    size.heightSpace(15),
-                                  ],
-                                );
+                      data.partner!.isNotEmpty
+                          ? HomeExpansionTile(
+                              tileController:
+                                  controller.mainPartnerExpansionTileController,
+                              isShadow:
+                                  controller.isExpanseChange ? true : false,
+                              childrenPadding:
+                                  const EdgeInsets.only(bottom: 10),
+                              title: controller.title,
+                              mainBGColor: AppColor.whiteColor,
+                              subBGColor: AppColor.whiteColor,
+                              bGColor: AppColor.whiteColor,
+                              dropDownIconColor: AppColor.primaryColor,
+                              outerBorderColor: controller.isExpanseChange
+                                  ? AppColor.whiteColor.withOpacity(0.50)
+                                  : AppColor.greyColor.withOpacity(0.50),
+                              titleTextStyle: AppTextStyle.regularText
+                                  .copyWith(fontWeight: FontWeight.bold),
+                              tileMargin: 0,
+                              initialExpand: false,
+                              onExpansionChange: (p0) {
+                                printData("onExpansionChange------$p0");
+                                controller.isExpanseChange = p0;
                               },
-                              separatorBuilder: (context, index) {
-                                return size.heightSpace(10);
-                              })
-                        ],
-                      ) :
-                      const SizedBox(),
+                              outerBorderRadius: BorderRadius.circular(10),
+                              children: [
+                                ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        controller.showPartnerList.length,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return HomeExpansionTile(
+                                        tileController: controller
+                                            .showPartnerList[index]
+                                            .nameExpansionTileController,
+                                        isShadow: false,
+                                        title: "Partner - ${index + 1}",
+                                        tileMargin: 0,
+                                        initialExpand: false,
+                                        onExpansionChange: (p0) {
+                                          printData(
+                                              "onExpansionChange------$p0");
+                                          controller.isSubExpanseChange = p0;
+                                          controller.update();
+                                        },
+                                        outerBorderRadius:
+                                            controller.isSubExpanseChange
+                                                ? BorderRadius.circular(20)
+                                                : BorderRadius.circular(100),
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Flexible(
+                                                child: CustomTextField(
+                                                  controller: controller
+                                                      .showPartnerList[index]
+                                                      .nameController,
+                                                  fillColor:
+                                                      AppColor.whiteColor,
+                                                  isUnderLineBorderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  isShadow: false,
+                                                  hintText: "Name",
+                                                  underLineFocusColor: AppColor
+                                                      .secondPrimaryColor,
+                                                ),
+                                              ),
+                                              size.widthSpace(15),
+                                              Flexible(
+                                                child: CustomTextField(
+                                                  controller: controller
+                                                      .showPartnerList[index]
+                                                      .ownController,
+                                                  fillColor:
+                                                      AppColor.whiteColor,
+                                                  isUnderLineBorderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  isShadow: false,
+                                                  hintText: "% Owned",
+                                                  underLineFocusColor: AppColor
+                                                      .secondPrimaryColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          size.heightSpace(15),
+                                          CustomTextField(
+                                            controller: controller
+                                                .showPartnerList[index]
+                                                .phoneController,
+                                            fillColor: AppColor.whiteColor,
+                                            isUnderLineBorderRadius:
+                                                BorderRadius.circular(100),
+                                            isShadow: false,
+                                            hintText: "Phone Number",
+                                            underLineFocusColor:
+                                                AppColor.secondPrimaryColor,
+                                          ),
+                                          size.heightSpace(15),
+                                        ],
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return size.heightSpace(10);
+                                    })
+                              ],
+                            )
+                          : const SizedBox(),
                       size.heightSpace(10),
                       GestureDetector(
                         onTap: () {
                           showDialog(
                             context: context,
                             builder: (context) {
-                            return AlertDialog(
-                              backgroundColor: AppColor.whiteColor,
-                              surfaceTintColor: AppColor.whiteColor,
-                              actions: [
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 15),
-                                      child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: IconButton(
-                                              onPressed: () {
+                              return AlertDialog(
+                                backgroundColor: AppColor.whiteColor,
+                                surfaceTintColor: AppColor.whiteColor,
+                                actions: [
+                                  Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 15),
+                                        child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: IconButton(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                icon: const Icon(Icons.close,
+                                                    size: 35))),
+                                      ),
+                                      Image.asset("assets/images/bin.png",
+                                          height: size.height(100),
+                                          width: size.width(100)),
+                                      Text(
+                                        "Delete Asset",
+                                        style: AppTextStyle.appbarTitleText
+                                            .copyWith(
+                                                fontWeight: FontWeight.w700),
+                                      ),
+                                      Text(
+                                          "Are you sure that you want to delete this asset?",
+                                          textAlign: TextAlign.center,
+                                          style:
+                                              AppTextStyle.regularSubTitleText),
+                                      size.heightSpace(12),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: GestureDetector(
+                                              onTap: () {
                                                 Get.back();
-                                      }, icon: const Icon(Icons.close, size: 35))),
-                                    ),
-                                    Image.asset("assets/images/bin.png", height: size.height(100), width: size.width(100)),
-                                    Text("Delete Asset", style: AppTextStyle.appbarTitleText.copyWith(fontWeight: FontWeight.w700),),
-                                    Text("Are you sure that you want to delete this asset?", textAlign: TextAlign.center,style: AppTextStyle.regularSubTitleText),
-                                    size.heightSpace(12),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Get.back();
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(vertical: size.height(15)),
-                                              decoration: BoxDecoration(
-                                                color: AppColor.primaryColor,
-                                                borderRadius: BorderRadius.circular(10),
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: size.height(15)),
+                                                decoration: BoxDecoration(
+                                                  color: AppColor.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: Text(
+                                                  "No",
+                                                  textAlign: TextAlign.center,
+                                                  style: AppTextStyle.largeText
+                                                      .copyWith(
+                                                          color: AppColor
+                                                              .whiteColor),
+                                                ),
                                               ),
-                                              child: Text("No", textAlign: TextAlign.center,style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),),
                                             ),
                                           ),
-                                        ),
-                                        size.widthSpace(25),
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              Get.back();
-                                              await controller.deleteAssetData(assetId: data.id ?? "");
-                                              Get.back();
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(vertical: size.height(15)),
-                                              decoration: BoxDecoration(
-                                                color: AppColor.secondPrimaryColor,
-                                                borderRadius: BorderRadius.circular(10),
+                                          size.widthSpace(25),
+                                          Expanded(
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                Get.back();
+                                                await controller
+                                                    .deleteAssetData(
+                                                        assetId: data.id ?? "");
+                                                Get.back();
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: size.height(15)),
+                                                decoration: BoxDecoration(
+                                                  color: AppColor
+                                                      .secondPrimaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: Text(
+                                                  "Yes",
+                                                  textAlign: TextAlign.center,
+                                                  style: AppTextStyle.largeText
+                                                      .copyWith(
+                                                          color: AppColor
+                                                              .whiteColor),
+                                                ),
                                               ),
-                                              child: Text("Yes", textAlign: TextAlign.center,style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )
-                              ],
-                            );
-                          },);
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              );
+                            },
+                          );
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: size.height(15)),
+                          padding:
+                              EdgeInsets.symmetric(vertical: size.height(15)),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: AppColor.primaryColor,
-                            borderRadius: BorderRadius.circular(10)
+                              color: AppColor.primaryColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text(
+                            "Delete Assets",
+                            textAlign: TextAlign.center,
+                            style: AppTextStyle.largeText
+                                .copyWith(color: AppColor.whiteColor),
                           ),
-                          child: Text("Delete Assets", textAlign: TextAlign.center,style: AppTextStyle.largeText.copyWith(color: AppColor.whiteColor),),
                         ),
                       )
                     ],
                   ).paddingAll(20),
                 ),
               ),
-              Get.find<SettingController>().isLoading || controller.isLoading
+              Get.find<SettingController>().isLoading || controller.isLoading || Get.find<ChartController>().isLoading
                   ? appLoader()
                   : const SizedBox()
             ],

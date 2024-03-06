@@ -38,10 +38,11 @@ class SettingScreen extends StatelessWidget {
                             child: controller.getUserModelData?.data?.image != null ?
                             ClipRRect(
                               borderRadius: BorderRadius.circular(105),
-                              child: Image.memory(
-                                const Base64Decoder().convert(controller.getUserModelData?.data?.image?.split(',').elementAt(1) ?? ""),
-                                fit: BoxFit.cover,
-                              ),
+                              child: const Icon(Icons.camera_alt),
+                              // child: Image.memory(
+                              //   const Base64Decoder().convert(controller.getUserModelData?.data?.image?.split(',').elementAt(1) ?? ""),
+                              //   fit: BoxFit.cover,
+                              // ),
                             )
                                 : const Center(
                               child: Icon(Icons.camera_alt),

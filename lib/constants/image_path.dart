@@ -37,4 +37,6 @@ class AppImagePath {
   static const infoIcon = "assets/icon/setting_info.png";
   static const shieldIcon = "assets/icon/setting_shield.png";
   static const logoutIcon = "assets/icon/setting_logout.png";
+  static const loseChartIcon = "assets/icon/lose_graph.png";
+  static const profitChartIcon = "assets/icon/profit_graph.png";
 }

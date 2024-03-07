@@ -24,7 +24,7 @@ class LoginModel {
 class Data {
   final String? id;
   final String? fullname;
-  final int? phoneNo;
+  final String? phoneNo;
   final String? email;
   final String? password;
   final String? socialId;
@@ -45,7 +45,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json)
       : id = json['_id'] as String?,
         fullname = json['fullname'] as String?,
-        phoneNo = json['phone_no'] as int?,
+        phoneNo = json['phone_no'] as String?,
         email = json['email'] as String?,
         password = json['password'] as String?,
         socialId = json['social_id'] as String?,
